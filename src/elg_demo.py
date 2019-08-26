@@ -8,14 +8,13 @@ import time
 
 import coloredlogs
 import cv2 as cv
-import cv2 as cv2
 import numpy as np
 import tensorflow as tf
 
-# from util.calibration import *
 from datasources import Video, Webcam
 from models import ELG
 import util.gaze
+
 
 
 
@@ -110,7 +109,8 @@ def move_figure(img, start_point, end_point, current_point, duration, background
     count = count +1 
 
     if (count == (duration * Const_Unit_Time)):
-        resize_figure(img, end_point, Const_Cali_Radius, Const_Cali_Caputure_Duration, background )
+        resize_figure(img, end_point, Const_Cali_Radius, C
+                      onst_Cali_Caputure_Duration, background )
         return
 
     # threading.Timer(1 / Const_Unit_Time, move_figure, [img, start_point, end_point, updated_current_point, duration, background, count]).start()
@@ -230,13 +230,10 @@ if __name__ == '__main__':
     from tensorflow.python.client import device_lib
     session_config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))
     gpu_available = False
-
-
     try:
         gpus = [d for d in device_lib.list_local_devices(session_config)
                 if d.device_type == 'GPU']
         gpu_available = len(gpus) > 0
-
     except:
         pass
 
@@ -261,10 +258,7 @@ if __name__ == '__main__':
                                  data_format='NCHW' if gpu_available else 'NHWC',
                                  eye_image_shape=(36, 60))
 
-
-
         # Define model
-
         if args.from_video:
             model = ELG(
                 session, train_data={'videostream': data_source},
@@ -331,35 +325,31 @@ if __name__ == '__main__':
         # Begin visualization thread
         inferred_stuff_queue = queue.Queue()
 
-
-
         def _visualize_output():
-
             last_frame_index = 0
             last_frame_time = time.time()
             fps_history = []
             all_gaze_histories = []
 
+            # 패턴
 
-            
+            pattern = [1, 3, 9, 7]
+            before_history = 0
+            after_history = 0
+            pattern_compare = []
+            match = 0
+
             if args.fullscreen:
                 cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
                 cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
 
             while True:
-                global is_detect
                 # If no output to visualize, show unannotated frame
                 if inferred_stuff_queue.empty():
                     next_frame_index = last_frame_index + 1
                     if next_frame_index in data_source._frames:
-
                         next_frame = data_source._frames[next_frame_index]
-                        # print( 'len : %d  //// faces in : %d ',len(next_frame['faces']), 'faces' in next_frame )
                         if 'faces' in next_frame and len(next_frame['faces']) == 0:
-
-
-                            is_detect = False
-
                             if not args.headless:
                                 if is_finish_calibration == True:
                                     cv.imshow('vis', next_frame['bgr'])
@@ -388,6 +378,9 @@ if __name__ == '__main__':
                 # Get output from neural network and visualize
                 output = inferred_stuff_queue.get()
                 bgr = None
+
+
+
                 for j in range(batch_size):
                     frame_index = output['frame_index'][j]
                     if frame_index not in data_source._frames:
@@ -424,19 +417,19 @@ if __name__ == '__main__':
                                                                      .reshape(-1, 1, 2)],
                             isClosed=True, color=(255, 255, 0), thickness=1, lineType=cv.LINE_AA,
                         )
-                    # if can_use_iris:
-                    #     cv.polylines(
-                    #         eye_image_annotated,
-                    #         [np.round(eye_upscale*eye_landmarks[8:16]).astype(np.int32)
-                    #                                                   .reshape(-1, 1, 2)],
-                    #         isClosed=True, color=(0, 255, 255), thickness=1, lineType=cv.LINE_AA,
-                    #     )
-                        # cv.drawMarker(
-                        #     eye_image_annotated,
-                        #     tuple(np.round(eye_upscale*eye_landmarks[16, :]).astype(np.int32)),
-                        #     color=(0, 255, 255), markerType=cv.MARKER_CROSS, markerSize=4,
-                        #     thickness=1, line_type=cv.LINE_AA,
-                        # )
+                    if can_use_iris:
+                        cv.polylines(
+                            eye_image_annotated,
+                            [np.round(eye_upscale*eye_landmarks[8:16]).astype(np.int32)
+                                                                      .reshape(-1, 1, 2)],
+                            isClosed=True, color=(0, 255, 255), thickness=1, lineType=cv.LINE_AA,
+                        )
+                        cv.drawMarker(
+                            eye_image_annotated,
+                            tuple(np.round(eye_upscale*eye_landmarks[16, :]).astype(np.int32)),
+                            color=(0, 255, 255), markerType=cv.MARKER_CROSS, markerSize=4,
+                            thickness=1, line_type=cv.LINE_AA,
+                        )
                     face_index = int(eye_index / 2)
                     eh, ew, _ = eye_image_raw.shape
                     v0 = face_index * 2 * eh
@@ -451,8 +444,6 @@ if __name__ == '__main__':
                     frame_landmarks = (frame['smoothed_landmarks']
                                        if 'smoothed_landmarks' in frame
                                        else frame['landmarks'])
-
-
                     for f, face in enumerate(frame['faces']):
                         for landmark in frame_landmarks[f][:-1]:
                             cv.drawMarker(bgr, tuple(np.round(landmark).astype(np.int32)),
@@ -464,16 +455,21 @@ if __name__ == '__main__':
                             color=(0, 255, 255), thickness=1, lineType=cv.LINE_AA,
                         )
 
-
                     # Transform predictions
-                    eye_landmarks = np.concatenate([eye_landmarks, [[eye_landmarks[-1, 0] + eye_radius, eye_landmarks[-1, 1]]]])
-                    eye_landmarks = np.asmatrix(np.pad(eye_landmarks, ((0, 0), (0, 1)), 'constant', constant_values=1.0))
-                    eye_landmarks = (eye_landmarks * eye['inv_landmarks_transform_mat'].T)[:, :2]
+                    # 눈 중심 변경
+
+                    eye_landmarks = np.concatenate([eye_landmarks,
+                                                    [[eye_landmarks[-1, 0] + eye_radius,
+                                                      eye_landmarks[-1, 1]]]])
+                    eye_landmarks = np.asmatrix(np.pad(eye_landmarks, ((0, 0), (0, 1)),
+                                                       'constant', constant_values=1.0))
+                    eye_landmarks = (eye_landmarks *
+                                     eye['inv_landmarks_transform_mat'].T)[:, :2]
                     eye_landmarks = np.asarray(eye_landmarks)
                     eyelid_landmarks = eye_landmarks[0:8, :]
                     iris_landmarks = eye_landmarks[8:16, :]
-                    iris_centre = eye_landmarks[16, :]
-                    eyeball_centre = eye_landmarks[17, :]
+                    iris_centre = sum(iris_landmarks) / len(iris_landmarks)
+                    eyeball_centre = sum(eye_landmarks) / len(eye_landmarks)
                     eyeball_radius = np.linalg.norm(eye_landmarks[18, :] -
                                                     eye_landmarks[17, :])
 
@@ -499,19 +495,67 @@ if __name__ == '__main__':
                         # from models.elg import estimate_gaze_from_landmarks
                         # current_gaze = estimate_gaze_from_landmarks(
                         #     iris_landmarks, iris_centre, eyeball_centre, eyeball_radius)
+                        # 눈 좌표 변경
+
                         i_x0, i_y0 = iris_centre
                         e_x0, e_y0 = eyeball_centre
-                        theta = -np.arcsin(np.clip((i_y0 - e_y0) / eyeball_radius, -1.0, 1.0))
-                        phi = np.arcsin(np.clip((i_x0 - e_x0) / (eyeball_radius * -np.cos(theta)),
-                                                -1.0, 1.0))
-                        current_gaze = np.array([theta, phi])
+                        Cx = 2
+                        Cy = -0.5
+                        x_middle = 0.025
+                        y_middle = 0.025
+                        gaze_x = i_x0 - e_x0 + Cx
+                        gaze_y = i_y0 - e_y0 + Cy
+                        eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
+                        eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
+                        if abs(gaze_x) < x_middle * eye_size_x and abs(gaze_y) < y_middle * eye_size_y :
+                            dx = 5
+                            dy = 5
+                            point = 5
+                        elif gaze_x <= -1 * x_middle * eye_size_x and gaze_y <= -1 * y_middle * eye_size_y :
+                            dx = 42
+                            dy = 68
+                            point = 1
+                        elif abs(gaze_x) < x_middle * eye_size_x and gaze_y <= -1 * y_middle * eye_size_y :
+                            dx = 5
+                            dy = 68
+                            point = 2
+                        elif gaze_x >= x_middle * eye_size_x and gaze_y <= -1 * y_middle * eye_size_y :
+                            dx = 42
+                            dy = 68
+                            point = 3
+                        elif gaze_x <= -1 * x_middle * eye_size_x and abs(gaze_y) < y_middle * eye_size_y :
+                            dx = 42
+                            dy = 5
+                            point = 4
+                        elif gaze_x >= x_middle * eye_size_x and abs(gaze_y) < y_middle * eye_size_y :
+                            dx = 42
+                            dy = 5
+                            point = 6
+                        elif gaze_x <= -1 * x_middle * eye_size_x and gaze_y >= y_middle * eye_size_y :
+                            dx = 42
+                            dy = 68
+                            point = 7
+                        elif abs(gaze_x) < x_middle * eye_size_x and gaze_y >= y_middle * eye_size_y :
+                            dx = 5
+                            dy = 68
+                            point = 8
+                        elif gaze_x >= x_middle * eye_size_x and gaze_y >= y_middle * eye_size_y :
+                            dx = 42
+                            dy = 68
+                            point = 9
+                        current_gaze = np.array([i_x0 + gaze_x * abs(gaze_x) * dx, i_y0 + 3 * gaze_y * abs(3 * gaze_y) * dy])
+
                         gaze_history.append(current_gaze)
                         gaze_history_max_len = 10
-                        
                         if len(gaze_history) > gaze_history_max_len:
                             gaze_history = gaze_history[-gaze_history_max_len:]
-                        util.gaze.draw_gaze(bgr, iris_centre, np.mean(gaze_history, axis=0),
-                                            length=120.0, thickness=1)
+
+                        # 시선 좌표 변경
+
+                        gaze_mean = np.mean(gaze_history, axis=0)
+                        util.gaze.draw_gaze(bgr, iris_centre, gaze_mean,
+                                            thickness=1)
+
                     else:
                         gaze_history.clear()
 
@@ -561,7 +605,6 @@ if __name__ == '__main__':
                                    fontFace=cv.FONT_HERSHEY_DUPLEX, fontScale=0.79,
                                    color=(255, 255, 255), thickness=1, lineType=cv.LINE_AA)
                         if not args.headless:
-
                             if is_finish_calibration == True:
                                 cv.imshow('vis', bgr)
                             None
@@ -571,17 +614,17 @@ if __name__ == '__main__':
                         if args.record_video:
                             video_out_queue.put_nowait(frame_index)
 
+
                         if is_finish_calibration == True:
-                            # Quit?
-                            if cv.waitKey(1) & 0xFF == ord('q'):
+                            # Quit? # 패턴 매치되면 종료
+                            if cv.waitKey(1) & 0xFF == ord('q') | match == len(pattern) :
                                 return
 
                         # Print timings
-                        if frame_index % 60 == 0:
+                        if frame_index % 10 == 0:
                             latency = _dtime('before_frame_read', 'after_visualization')
                             processing = _dtime('after_frame_read', 'after_visualization')
                             timing_string = ', '.join([
-
                                 _dstr('read', 'before_frame_read', 'after_frame_read'),
                                 _dstr('preproc', 'after_frame_read', 'after_preprocessing'),
                                 'infer: %dms' % int(frame['time']['inference']),
@@ -590,37 +633,52 @@ if __name__ == '__main__':
                                 'latency: %dms' % latency,
                             ])
                             print('%08d [%s] %s' % (frame_index, fps_str, timing_string))
-        
+
         ## End visualize_output ##
 
+                            # 결과값 출력
 
+                            print("current gaze : ", gaze_mean)
+                            print("point : ", point)
+                            before_history = after_history
+                            after_history = point
+                            match = 0
+                            if before_history == after_history : 
+                                if after_history in pattern_compare :
+                                    print("xxxxx", pattern_compare)
+                                else :
+                                    pattern_compare.append(after_history)
+                                    print("pattern_compare : ", pattern_compare)
 
+                            # 매치 알고리즘
+
+                            i = 0
+                            while i < len(pattern_compare) :
+                                if pattern_compare[i] == pattern[i] :
+                                    match = match + 1
+                                else :
+                                    match = 0
+                                    pattern_compare = []
+                                    break
+                                i = i + 1
 
         visualize_thread = threading.Thread(target=_visualize_output, name='visualization')
         visualize_thread.daemon = True
         visualize_thread.start()
 
-
-
         # Do inference forever
         infer = model.inference_generator()
-
-
         while True:
-
             output = next(infer)
-
             for frame_index in np.unique(output['frame_index']):
                 if frame_index not in data_source._frames:
                     continue
                 frame = data_source._frames[frame_index]
-
                 if 'inference' in frame['time']:
                     frame['time']['inference'] += output['inference_time']
                 else:
                     frame['time']['inference'] = output['inference_time']
             inferred_stuff_queue.put_nowait(output)
-
 
             if not visualize_thread.isAlive():
                 break
@@ -628,12 +686,9 @@ if __name__ == '__main__':
             if not data_source._open:
                 break
 
-
-
         # Close video recording
         if args.record_video and video_out is not None:
             video_out_should_stop = True
             video_out_queue.put_nowait(None)
             with video_out_done:
                 video_out_done.wait()
-
