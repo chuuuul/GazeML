@@ -15,7 +15,197 @@ from datasources import Video, Webcam
 from models import ELG
 import util.gaze
 
+
+
+
+
+is_detect = False
+is_start_calibration = False
+is_finish_calibration = False
+
+###################################### Start Cali #############################################
+Const_Cali_Window_name = 'canvas'
+# Const_Display_X = 1680
+# Const_Display_Y = 1050
+
+Const_Display_X = 400
+Const_Display_Y = 300
+
+Const_Cali_Num_X = 3
+Const_Cali_Num_Y = 3
+Const_Cali_Radius = 30
+Const_Cali_Resize_Radius = 7
+
+
+Const_Cali_Move_Duration = 0.5          # 캘리브레이션 원 이동 속도
+Const_Cali_Caputure_Duration = 0.8      # 캘리브레이션 원 줄어드는 속도
+
+Const_Cali_Margin_X = 50
+Const_Cali_Margin_Y = 50
+
+Const_Cali_Cross_Size = 16
+
+
+Cali_Center_Points = []
+
+
+sequence = queue.Queue()
+
+
+
+
+def start_cali():
+    global is_start_calibration
+    is_start_calibration = True
+
+    print("Start Calibration!")
+    # 큐에 캘리브레이션 순서 인덱스를 찾례로 넣는다
+    for i in range(0, Const_Cali_Num_X * 1):
+        sequence.put_nowait(i)
+
+    img = init_canvas()
+    background = img.copy()
+    init_cali()
+
+    draw_circle(img, Cali_Center_Points[0], Const_Cali_Radius)
+    draw_cross(img, Cali_Center_Points[0])
+
+    for point in Cali_Center_Points:
+        draw_circle(img, point, Const_Cali_Radius)
+        draw_cross(img, point)
+    # 큐의 순서대로 캘리브레이션 시작
+    index = sequence.get_nowait()
+
+
+    resize_figure(img, Cali_Center_Points[index], Const_Cali_Radius, Const_Cali_Caputure_Duration, background)
+
+    cv2.waitKey(0)
+    print("pressed key!! End calibration!")
+    close_window(Const_Cali_Window_name)
+    return
+
+
+def move_figure(img, start_point, end_point, current_point, duration, background, count = 0):
+
+    global is_detect
+    while( is_detect == False):
+        continue
+
+    img = background.copy()
+
+    Const_Unit_Time = 60        # 0.01초마다 실행
+    to_move_x = (end_point[0] - start_point[0])
+    to_move_y = (end_point[1] - start_point[1])
+
+    move_once_x = to_move_x / (duration * Const_Unit_Time)
+    move_once_y = to_move_y / (duration * Const_Unit_Time)
+
+    updated_current_point = (current_point[0] + move_once_x , current_point[1] + move_once_y)
+
+    draw_circle(img, current_point, Const_Cali_Radius)
+    draw_cross(img, current_point)
+
+    display_canvas(Const_Cali_Window_name,img)
+    count = count +1 
+
+    if (count == (duration * Const_Unit_Time)):
+        resize_figure(img, end_point, Const_Cali_Radius, C
+                      onst_Cali_Caputure_Duration, background )
+        return
+
+    # threading.Timer(1 / Const_Unit_Time, move_figure, [img, start_point, end_point, updated_current_point, duration, background, count]).start()
+    th = threading.Timer(1 / Const_Unit_Time, move_figure, [img, start_point, end_point, updated_current_point, Const_Cali_Move_Duration, background, count])
+    th.daemon = True
+    th.start()
+
+
+def resize_figure(img, point, current_radius, duration, background, count = 0):
+
+    img = background.copy()
+
+    Const_Unit_Time = 60        # 0.01초마다 실행
+
+    to_resize_radius = Const_Cali_Radius - Const_Cali_Resize_Radius
+    resize_once_radius = to_resize_radius    / (duration * Const_Unit_Time)
+
+    updated_current_radius = current_radius - resize_once_radius
+    draw_circle(img, point, updated_current_radius)
+    draw_cross(img, point)
+
+    display_canvas(Const_Cali_Window_name,img)
+    count = count + 1
+
+    global is_detect
+    while( is_detect == False):
+        continue
+
+    # 캘리브레이션 순간!
+    if(count == (duration * Const_Unit_Time)):
+        # 다음 캘리브레이션 경로가 없다면 창 종료
+        if (sequence.empty() == True):
+
+            global is_finish_calibration
+            is_finish_calibration = True                # 종료플레그
+            print("Complete Calibration!!")
+            close_window(Const_Cali_Window_name)
+            return
+        ##########################################
+        # to-do : 눈의 좌표 저장 
+
+        ##########################################
+
+        # 큐에 다음 캘리브레이션 포인트가 있다면 원을 이동하여 캘리브레이션 작업
+        index = sequence.get_nowait()
+        move_figure(img, point, Cali_Center_Points[index], point, Const_Cali_Move_Duration, background )
+        return
+
+    th = threading.Timer(1 / Const_Unit_Time, resize_figure, [img, point, updated_current_radius, duration, background, count])
+    th.daemon = True
+    th.start()
+
+def init_cali():
+    cali_unit_distance_x = (Const_Display_X - Const_Cali_Margin_X * 2) / (Const_Cali_Num_X - 1)
+    cali_unit_distance_y = (Const_Display_Y - Const_Cali_Margin_Y * 2) / (Const_Cali_Num_Y - 1)
+
+
+    for y in range(0, Const_Cali_Num_Y):
+        for x in range(0, Const_Cali_Num_X):
+            Cali_Center_Points.append(((int)(Const_Cali_Margin_X + cali_unit_distance_x * x) 
+                                     , (int)(Const_Cali_Margin_Y + cali_unit_distance_y * y) ))
+
+
+
+def init_canvas():
+    img = np.zeros((Const_Display_Y, Const_Display_X, 3), np.uint8)
+    return img
+
+def draw_circle(img , point, radius):
+    img = cv2.circle(img, ((int)(point[0]),(int)(point[1])), (int)(radius), (0,0,255), -1)
+
+def draw_cross(img , point):
+    half_size = (int)(Const_Cali_Cross_Size / 2)
+    img = cv2.line(img, ((int)(point[0] - half_size), (int)(point[1])) , ((int)(point[0] + half_size), (int)(point[1])) , (255,255,255),1)
+    img = cv2.line(img, ((int)(point[0]) , (int)(point[1] - half_size)) , ((int)(point[0]) , (int)(point[1] + half_size)) , (255,255,255),1)
+
+
+def display_canvas(canvas_name , img):
+    # Display On Canvas
+    # cv2.namedWindow(canvas_name, cv2.WINDOW_NORMAL);  # auto resized
+    # cv2.setWindowProperty(canvas_name, cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
+    cv2.imshow(canvas_name, img)
+    None
+
+def close_window(canvas_name):
+    # cv2.destroyWindow(canvas_name)
+    cv2.destroyAllWindows()
+
+
+###################################### End Cali #############################################3
+
+
 if __name__ == '__main__':
+
+
 
     # Set global log level
     parser = argparse.ArgumentParser(description='Demonstration of landmarks localization.')
@@ -161,12 +351,28 @@ if __name__ == '__main__':
                         next_frame = data_source._frames[next_frame_index]
                         if 'faces' in next_frame and len(next_frame['faces']) == 0:
                             if not args.headless:
-                                cv.imshow('vis', next_frame['bgr'])
+                                if is_finish_calibration == True:
+                                    cv.imshow('vis', next_frame['bgr'])
+                                None
+
                             if args.record_video:
                                 video_out_queue.put_nowait(next_frame_index)
                             last_frame_index = next_frame_index
-                    if cv.waitKey(1) & 0xFF == ord('q'):
-                        return
+
+                        elif not 'faces' in next_frame :
+                            is_detect = True                    ## Detecting Face
+
+                            global is_start_calibration
+                            if is_start_calibration == False:   ## Only play once Calibration
+                                calibration_thread = threading.Thread(target=start_cali, name='calibration_th2')
+                                calibration_thread.daemon = True
+                                calibration_thread.start()
+
+                    #/////////////////////////////////////////////////////
+                    if is_finish_calibration == True:
+                        if cv.waitKey(1) & 0xFF == ord('q'):
+                            return
+                    #/////////////////////////////////////////////////////
                     continue
 
                 # Get output from neural network and visualize
@@ -399,18 +605,20 @@ if __name__ == '__main__':
                                    fontFace=cv.FONT_HERSHEY_DUPLEX, fontScale=0.79,
                                    color=(255, 255, 255), thickness=1, lineType=cv.LINE_AA)
                         if not args.headless:
-                            cv.imshow('vis', bgr)
+                            if is_finish_calibration == True:
+                                cv.imshow('vis', bgr)
+                            None
                         last_frame_index = frame_index
 
                         # Record frame?
                         if args.record_video:
                             video_out_queue.put_nowait(frame_index)
 
-                        # Quit?
-                        # 패턴 매치
 
-                        if (cv.waitKey(1) & 0xFF == ord('q')) | match == len(pattern):
-                            return
+                        if is_finish_calibration == True:
+                            # Quit? # 패턴 매치되면 종료
+                            if cv.waitKey(1) & 0xFF == ord('q') | match == len(pattern) :
+                                return
 
                         # Print timings
                         if frame_index % 10 == 0:
@@ -425,6 +633,8 @@ if __name__ == '__main__':
                                 'latency: %dms' % latency,
                             ])
                             print('%08d [%s] %s' % (frame_index, fps_str, timing_string))
+
+        ## End visualize_output ##
 
                             # 결과값 출력
 
