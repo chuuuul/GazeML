@@ -17,11 +17,12 @@ import util.gaze
 
 
 
+debug_excute_calibaration = False
 
 
 is_detect = False
 is_start_calibration = False
-is_finish_calibration = False
+is_finish_calibration = True
 
 ###################################### Start Cali #############################################
 Const_Cali_Window_name = 'canvas'
@@ -109,8 +110,7 @@ def move_figure(img, start_point, end_point, current_point, duration, background
     count = count +1 
 
     if (count == (duration * Const_Unit_Time)):
-        resize_figure(img, end_point, Const_Cali_Radius, C
-                      onst_Cali_Caputure_Duration, background )
+        resize_figure(img, end_point, Const_Cali_Radius, Const_Cali_Caputure_Duration, background )
         return
 
     # threading.Timer(1 / Const_Unit_Time, move_figure, [img, start_point, end_point, updated_current_point, duration, background, count]).start()
@@ -151,6 +151,8 @@ def resize_figure(img, point, current_radius, duration, background, count = 0):
             return
         ##########################################
         # to-do : 눈의 좌표 저장 
+        # idea : 개선점? : 캘리브레이션 중간에 값 저장해서 보정하는건 어떤가?
+        #
 
         ##########################################
 
@@ -333,9 +335,9 @@ if __name__ == '__main__':
 
             # 패턴
 
-            pattern = [1, 3, 9, 7]
-            before_history = 0
-            after_history = 0
+            pattern = [1, 3, 9, 7]                      
+            before_history = 0              # 처음에 처다보는 포인트
+            after_history = 0               # 일정시간 응시 후 저장되는 포인트
             pattern_compare = []
             match = 0
 
@@ -362,11 +364,12 @@ if __name__ == '__main__':
                         elif not 'faces' in next_frame :
                             is_detect = True                    ## Detecting Face
 
-                            global is_start_calibration
-                            if is_start_calibration == False:   ## Only play once Calibration
-                                calibration_thread = threading.Thread(target=start_cali, name='calibration_th2')
-                                calibration_thread.daemon = True
-                                calibration_thread.start()
+                            if debug_excute_calibaration == False:
+                                global is_start_calibration
+                                if is_start_calibration == False:   ## Only play once Calibration
+                                    calibration_thread = threading.Thread(target=start_cali, name='calibration_th2')
+                                    calibration_thread.daemon = True
+                                    calibration_thread.start()
 
                     #/////////////////////////////////////////////////////
                     if is_finish_calibration == True:
@@ -456,7 +459,7 @@ if __name__ == '__main__':
                         )
 
                     # Transform predictions
-                    # 눈 중심 변경
+                    # 눈 중심 개선
 
                     eye_landmarks = np.concatenate([eye_landmarks,
                                                     [[eye_landmarks[-1, 0] + eye_radius,
@@ -495,8 +498,8 @@ if __name__ == '__main__':
                         # from models.elg import estimate_gaze_from_landmarks
                         # current_gaze = estimate_gaze_from_landmarks(
                         #     iris_landmarks, iris_centre, eyeball_centre, eyeball_radius)
+                        
                         # 눈 좌표 변경
-
                         i_x0, i_y0 = iris_centre
                         e_x0, e_y0 = eyeball_centre
                         Cx = 2
@@ -507,6 +510,7 @@ if __name__ == '__main__':
                         gaze_y = i_y0 - e_y0 + Cy
                         eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
                         eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
+
                         if abs(gaze_x) < x_middle * eye_size_x and abs(gaze_y) < y_middle * eye_size_y :
                             dx = 5
                             dy = 5
@@ -543,6 +547,7 @@ if __name__ == '__main__':
                             dx = 42
                             dy = 68
                             point = 9
+
                         current_gaze = np.array([i_x0 + gaze_x * abs(gaze_x) * dx, i_y0 + 3 * gaze_y * abs(3 * gaze_y) * dy])
 
                         gaze_history.append(current_gaze)
@@ -553,6 +558,7 @@ if __name__ == '__main__':
                         # 시선 좌표 변경
 
                         gaze_mean = np.mean(gaze_history, axis=0)
+                        
                         util.gaze.draw_gaze(bgr, iris_centre, gaze_mean,
                                             thickness=1)
 
@@ -617,7 +623,7 @@ if __name__ == '__main__':
 
                         if is_finish_calibration == True:
                             # Quit? # 패턴 매치되면 종료
-                            if cv.waitKey(1) & 0xFF == ord('q') | match == len(pattern) :
+                            if (cv.waitKey(1) & 0xFF == ord('q')) or (match == len(pattern)) :
                                 return
 
                         # Print timings
@@ -637,7 +643,7 @@ if __name__ == '__main__':
         ## End visualize_output ##
 
                             # 결과값 출력
-
+                            global gaze_mean
                             print("current gaze : ", gaze_mean)
                             print("point : ", point)
                             before_history = after_history

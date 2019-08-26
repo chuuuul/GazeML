@@ -106,6 +106,6 @@ def draw_gaze(image_in, eye_pos, pitchyaw, thickness=2, color=(0, 0, 255)):
         image_out = cv.cvtColor(image_out, cv.COLOR_GRAY2BGR)
 
     cv.arrowedLine(image_out, tuple(np.round(eye_pos).astype(np.int32)),
-                   tuple(np.round([pitchyaw[0], pitchyaw[1]]).astype(int)), color,
+                   tuple(np.round([pitchyaw[0], pitchyaw[1]]).astype(np.int32)), color,
                    thickness, cv.LINE_AA, tipLength=0.1)
     return image_out
