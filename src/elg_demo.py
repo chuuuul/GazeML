@@ -53,8 +53,17 @@ Cali_Center_Points = []
 
 save_iris = []
 save_eyeball = []
+
+# 눈 크기 전역 변수
+
+save_eye_size_x = []
+save_eye_size_y = []
+
+iris_centre = 0
+eyeball_centre = 0
 eye_size_x = 0
 eye_size_y = 0
+
 
 sequence = queue.Queue()
 
@@ -159,9 +168,6 @@ def resize_figure(img, point, current_radius, duration, background, count = 0):
         # to-do : 눈의 좌표 저장 
         # idea : 개선점? : 캘리브레이션 중간에 값 저장해서 보정하는건 어떤가?
         #
-
-        global iris_centre
-        global eyeball_centre
 
         save_iris.append(iris_centre)
         save_eyeball.append(eyeball_centre)
@@ -360,21 +366,37 @@ if __name__ == '__main__':
             pattern_compare = []
             match = 0
 
+            # 눈 크기 평균
+
+            eye_size_x_average = 0
+            eye_size_y_average = 0
+
             # 경계선 알고리즘 변경
 
-            eye_size_x_average = sum(save_eye_size_x) / len(save_eye_size_x)
-            eye_size_y_average = sum(save_eye_size_y) / len(save_eye_size_y)
+            if eye_size_x_average != 0 :
+                eye_size_x_average = sum(save_eye_size_x) / 16
+            else :
+                eye_size_x_average = 30
+            if eye_size_y_average != 0 :
+                eye_size_y_average = sum(save_eye_size_y) / 16
+            else :
+                eye_size_y_average = 10
 
-            x_middle_average = ((save_iris[2][0] - save_eyeball[2][0] - (save_iris[1][0] - save_eyeball[1][0]) + 
-				 save_iris[6][0] - save_eyeball[6][0] - (save_iris[5][0] - save_eyeball[5][0]) + 
-				 save_iris[10][0] - save_eyeball[10][0] - (save_iris[9][0] - save_eyeball[9][0]) + 
-				 save_iris[14][0] - save_eyeball[14][0] - (save_iris[13][0] - save_eyeball[13][0]))
-				 / 8 / eye_size_x_average)
-            y_middle_average = ((save_iris[2][1] - save_eyeball[2][1] - (save_iris[1][1] - save_eyeball[1][1]) + 
-				 save_iris[6][1] - save_eyeball[6][1] - (save_iris[5][1] - save_eyeball[5][1]) + 
-				 save_iris[10][1] - save_eyeball[10][1] - (save_iris[9][1] - save_eyeball[9][1]) + 
-				 save_iris[14][1] - save_eyeball[14][1] - (save_iris[13][1] - save_eyeball[13][1]))
-				 / 8 / eye_size_y_average)
+            if len(save_iris) != 0 :
+                x_middle = ((save_iris[2][0] - save_eyeball[2][0] - (save_iris[1][0] - save_eyeball[1][0]) + 
+			     save_iris[6][0] - save_eyeball[6][0] - (save_iris[5][0] - save_eyeball[5][0]) + 
+			     save_iris[10][0] - save_eyeball[10][0] - (save_iris[9][0] - save_eyeball[9][0]) + 
+			     save_iris[14][0] - save_eyeball[14][0] - (save_iris[13][0] - save_eyeball[13][0]))
+			     / 8 / eye_size_x_average)
+                y_middle = ((save_iris[2][1] - save_eyeball[2][1] - (save_iris[1][1] - save_eyeball[1][1]) + 
+			     save_iris[6][1] - save_eyeball[6][1] - (save_iris[5][1] - save_eyeball[5][1]) + 
+			     save_iris[10][1] - save_eyeball[10][1] - (save_iris[9][1] - save_eyeball[9][1]) + 
+			     save_iris[14][1] - save_eyeball[14][1] - (save_iris[13][1] - save_eyeball[13][1]))
+			     / 8 / eye_size_y_average)
+            else :
+                x_middle = 0.03
+                y_middle = 0.03
+
 
             if args.fullscreen:
                 cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
@@ -538,18 +560,18 @@ if __name__ == '__main__':
                         #     iris_landmarks, iris_centre, eyeball_centre, eyeball_radius)
                         
                         # 눈 좌표 변경
+
                         i_x0, i_y0 = iris_centre
                         e_x0, e_y0 = eyeball_centre
                         Cx = 2
                         Cy = -0.5
+                        gaze_x = i_x0 - e_x0 + Cx
+                        gaze_y = i_y0 - e_y0 + Cy
 
                         # 경계선 알고리즘 변경
 
                         now_eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
                         now_eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
-
-                        x_middle = x_middle_average
-                        y_middle = y_middle_average
 
                         if abs(gaze_x) < x_middle * now_eye_size_x and abs(gaze_y) < y_middle * now_eye_size_y :
                             dx = 5
