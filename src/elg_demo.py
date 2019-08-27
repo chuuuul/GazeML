@@ -16,6 +16,7 @@ from datasources import Video, Webcam
 from models import ELG
 import util.gaze
 
+
 debug_execute_calibration = True
 debug_draw_gaze_arrow = True
 
@@ -35,17 +36,17 @@ Const_Cali_Window_name = 'canvas'
 # Const_Display_X = 1680
 # Const_Display_Y = 1050
 
-Const_Display_X = 400  # 캘리브레이션 창 넓이
-Const_Display_Y = 300  # 캘리브레이션 창 높이
+Const_Display_X = 400             # 캘리브레이션 창 넓이
+Const_Display_Y = 300             # 캘리브레이션 창 높이
 
-Const_Cali_Num_X = 3  # 캘리브레이션 포인트 x 갯수
-Const_Cali_Num_Y = 2  # 캘리브레이션 포인트 y 갯수
-Const_Cali_Radius = 30  # 캘리브레이션 포인트 원 크기
-Const_Cali_Resize_Radius = 7  # 캘리브레이션 포인트가 가장 작을 때 원 크기
+Const_Cali_Num_X = 3              # 캘리브레이션 포인트 x 갯수
+Const_Cali_Num_Y = 2              # 캘리브레이션 포인트 y 갯수
+Const_Cali_Radius = 30            # 캘리브레이션 포인트 원 크기
+Const_Cali_Resize_Radius = 7      # 캘리브레이션 포인트가 가장 작을 때 원 크기
 
-Const_Cali_Unit_Time = 60  # 캘리브레이션 한 번 표현 소요 시간 (쓰레드 반복 시간, 프레임) # 1/60 초마다 실행 # 50 일 때 문제발생
-Const_Cali_Move_Duration = 0.35  # 캘리브레이션 원 이동 횟수       # 이동 할 때 (Unit_Time * Move_Duration)만큼 소요
-Const_Cali_Capture_Duration = 0.4  # 캘리브레이션 원 줄어드는 횟수    # 줄어들 때 (Unit_Time * Move_Duration)만큼 소요
+Const_Cali_Unit_Time = 60         # 캘리브레이션 한 번 표현 소요 시간 (쓰레드 반복 시간, 프레임) # 1/60 초마다 실행 # 50 일 때 문제발생
+Const_Cali_Move_Duration = 0.35   # 캘리브레이션 원 이동 횟수       # 이동 할 때 (Unit_Time * Move_Duration)만큼 소요
+Const_Cali_Capture_Duration = 0.4 # 캘리브레이션 원 줄어드는 횟수    # 줄어들 때 (Unit_Time * Move_Duration)만큼 소요
 
 Const_Cali_Margin_X = 50  # 모니터 모서리에서 떨어질 X 거리
 Const_Cali_Margin_Y = 50  # 모니터 모서리에서 떨어질 Y 거리
@@ -54,10 +55,29 @@ Const_Cali_Cross_Size = 16  # 캘리브레이션 포인트에 십자가 표시 �
 
 Cali_Center_Points = []
 
-sequence = queue.Queue()
 
+
+save_iris = []
+save_eyeball = []
+
+# 눈 크기 전역 변수
+
+save_eye_size_x = []
+save_eye_size_y = []
+
+iris_centre = 0
+eyeball_centre = 0
+eye_size_x = 0
+eye_size_y = 0
+
+# 시선 좌표 전역 변수
 left_gaze_coordinate = None
 right_gaze_coordinate = None
+
+
+sequence = queue.Queue()
+
+
 
 
 def start_cali():
@@ -120,6 +140,7 @@ def move_figure(img, start_point, end_point, current_point, duration, background
     display_canvas(Const_Cali_Window_name, img)
     count = count + 1
 
+
     if (count == (duration * Const_Cali_Unit_Time)):
         resize_figure(img, end_point, Const_Cali_Radius, Const_Cali_Capture_Duration, background)
         return
@@ -164,7 +185,16 @@ def resize_figure(img, point, current_radius, duration, background, count=0):
         ##########################################
         # to-do : 눈의 좌표 저장 
         # idea : 개선점? : 캘리브레이션 중간에 값 저장해서 보정하는건 어떤가?
-        #
+        
+        save_iris.append(iris_centre)
+        save_eyeball.append(eyeball_centre)
+
+        eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
+        eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
+
+        save_eye_size_x.append(eye_size_x)
+        save_eye_size_y.append(eye_size_y)
+
 
         ##########################################
 
@@ -373,11 +403,45 @@ if __name__ == '__main__':
 
             # 패턴
 
-            pattern = [1, 3, 9, 7]
-            before_history = 0  # 처음에 처다보는 포인트
-            after_history = 0  # 일정시간 응시 후 저장되는 포인트
+
+            pattern = [1, 3, 9, 7]                      
+            before_history = 0              # 처음에 처다보는 포인트
+            after_history = 0               # 일정시간 응시 후 저장되는 포인트
+
             pattern_compare = []
             match = 0
+
+            # 눈 크기 평균
+
+            eye_size_x_average = 0
+            eye_size_y_average = 0
+
+            # 경계선 알고리즘 변경
+
+            if eye_size_x_average != 0 :
+                eye_size_x_average = sum(save_eye_size_x) / 16
+            else :
+                eye_size_x_average = 30
+            if eye_size_y_average != 0 :
+                eye_size_y_average = sum(save_eye_size_y) / 16
+            else :
+                eye_size_y_average = 10
+
+            if len(save_iris) != 0 :
+                x_middle = ((save_iris[2][0] - save_eyeball[2][0] - (save_iris[1][0] - save_eyeball[1][0]) + 
+			     save_iris[6][0] - save_eyeball[6][0] - (save_iris[5][0] - save_eyeball[5][0]) + 
+			     save_iris[10][0] - save_eyeball[10][0] - (save_iris[9][0] - save_eyeball[9][0]) + 
+			     save_iris[14][0] - save_eyeball[14][0] - (save_iris[13][0] - save_eyeball[13][0]))
+			     / 8 / eye_size_x_average)
+                y_middle = ((save_iris[8][1] - save_eyeball[8][1] - (save_iris[4][1] - save_eyeball[4][1]) + 
+			     save_iris[9][1] - save_eyeball[9][1] - (save_iris[5][1] - save_eyeball[5][1]) + 
+			     save_iris[10][1] - save_eyeball[10][1] - (save_iris[6][1] - save_eyeball[6][1]) + 
+			     save_iris[11][1] - save_eyeball[11][1] - (save_iris[7][1] - save_eyeball[7][1]))
+			     / 8 / eye_size_y_average)
+            else :
+                x_middle = 0.03
+                y_middle = 0.03
+
 
             if args.fullscreen:
                 cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
@@ -399,8 +463,7 @@ if __name__ == '__main__':
                                 video_out_queue.put_nowait(next_frame_index)
                             last_frame_index = next_frame_index
 
-                        elif not 'faces' in next_frame:
-
+                        elif not 'faces' in next_frame
                             is_detect = True  ## Detecting Face
 
                             if debug_execute_calibration:
@@ -519,6 +582,9 @@ if __name__ == '__main__':
                     gaze_mean = None
                     point = None
 
+                    gaze_mean = 0
+                    point = 0
+
                     # Smooth and visualize gaze direction
                     num_total_eyes_in_frame = len(frame['eyes'])
                     if len(all_gaze_histories) != num_total_eyes_in_frame:
@@ -542,57 +608,60 @@ if __name__ == '__main__':
                         # current_gaze = estimate_gaze_from_landmarks(
                         #     iris_landmarks, iris_centre, eyeball_centre, eyeball_radius)
 
+
                         # 눈 좌표 변경
                         i_x0, i_y0 = iris_centre
                         e_x0, e_y0 = eyeball_centre
                         Cx = 2
                         Cy = -0.5
-                        x_middle = 0.025
-                        y_middle = 0.025
                         gaze_x = i_x0 - e_x0 + Cx
                         gaze_y = i_y0 - e_y0 + Cy
-                        eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
-                        eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
 
-                        if abs(gaze_x) < x_middle * eye_size_x and abs(gaze_y) < y_middle * eye_size_y:
+
+                        # 경계선 알고리즘 변경
+
+                        now_eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
+                        now_eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
+
+                        if abs(gaze_x) < x_middle * now_eye_size_x and abs(gaze_y) < y_middle * now_eye_size_y :
                             dx = 5
                             dy = 5
                             point = 5
-                        elif gaze_x <= -1 * x_middle * eye_size_x and gaze_y <= -1 * y_middle * eye_size_y:
+                        elif gaze_x <= -1 * x_middle * now_eye_size_x and gaze_y <= -1 * y_middle * now_eye_size_y :
                             dx = 42
                             dy = 68
                             point = 1
-                        elif abs(gaze_x) < x_middle * eye_size_x and gaze_y <= -1 * y_middle * eye_size_y:
+                        elif abs(gaze_x) < x_middle * now_eye_size_x and gaze_y <= -1 * y_middle * now_eye_size_y :
                             dx = 5
                             dy = 68
                             point = 2
-                        elif gaze_x >= x_middle * eye_size_x and gaze_y <= -1 * y_middle * eye_size_y:
+                        elif gaze_x >= x_middle * now_eye_size_x and gaze_y <= -1 * y_middle * now_eye_size_y :
                             dx = 42
                             dy = 68
                             point = 3
-                        elif gaze_x <= -1 * x_middle * eye_size_x and abs(gaze_y) < y_middle * eye_size_y:
+                        elif gaze_x <= -1 * x_middle * now_eye_size_x and abs(gaze_y) < y_middle * now_eye_size_y :
                             dx = 42
                             dy = 5
                             point = 4
-                        elif gaze_x >= x_middle * eye_size_x and abs(gaze_y) < y_middle * eye_size_y:
+                        elif gaze_x >= x_middle * now_eye_size_x and abs(gaze_y) < y_middle * now_eye_size_y :
                             dx = 42
                             dy = 5
                             point = 6
-                        elif gaze_x <= -1 * x_middle * eye_size_x and gaze_y >= y_middle * eye_size_y:
+                        elif gaze_x <= -1 * x_middle * now_eye_size_x and gaze_y >= y_middle * now_eye_size_y :
                             dx = 42
                             dy = 68
                             point = 7
-                        elif abs(gaze_x) < x_middle * eye_size_x and gaze_y >= y_middle * eye_size_y:
+                        elif abs(gaze_x) < x_middle * now_eye_size_x and gaze_y >= y_middle * now_eye_size_y :
                             dx = 5
                             dy = 68
                             point = 8
-                        elif gaze_x >= x_middle * eye_size_x and gaze_y >= y_middle * eye_size_y:
+                        elif gaze_x >= x_middle * now_eye_size_x and gaze_y >= y_middle * now_eye_size_y :
+
                             dx = 42
                             dy = 68
                             point = 9
 
-                        current_gaze = np.array(
-                            [i_x0 + gaze_x * abs(gaze_x) * dx, i_y0 + 3 * gaze_y * abs(3 * gaze_y) * dy])
+                        current_gaze = np.array([i_x0 + gaze_x * abs(gaze_x) * dx, i_y0 + 3 * gaze_y * abs(3 * gaze_y) * dy])
 
                         gaze_history.append(current_gaze)
                         gaze_history_max_len = 10
@@ -686,6 +755,7 @@ if __name__ == '__main__':
 
                         if is_finish_calibration == True:
                             # Quit? # 패턴 매치되면 종료
+
                             if is_fail_calibration:
                                 print("Failed Calibration! Exit Program.")
                                 return
@@ -711,7 +781,6 @@ if __name__ == '__main__':
                             ## End visualize_output ##
 
                             # 결과값 출력
-
                             print("current gaze : ", gaze_mean)
                             print("point : ", point)
                             before_history = after_history
