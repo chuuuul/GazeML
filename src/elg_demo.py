@@ -463,7 +463,7 @@ if __name__ == '__main__':
                                 video_out_queue.put_nowait(next_frame_index)
                             last_frame_index = next_frame_index
 
-                        elif not 'faces' in next_frame
+                        elif not 'faces' in next_frame:
                             is_detect = True  ## Detecting Face
 
                             if debug_execute_calibration:
