@@ -8,6 +8,7 @@ import time
 
 import coloredlogs
 import cv2 as cv
+import cv2
 import numpy as np
 import tensorflow as tf
 
@@ -15,53 +16,61 @@ from datasources import Video, Webcam
 from models import ELG
 import util.gaze
 
-
-
-debug_excute_calibaration = False
-
+debug_execute_calibration = True
+debug_draw_gaze_arrow = True
 
 is_detect = False
 is_start_calibration = False
-is_finish_calibration = True
+is_finish_calibration = False
+is_fail_calibration = False
+
+if not debug_execute_calibration:
+    is_finish_calibration = True
 
 ###################################### Start Cali #############################################
 Const_Cali_Window_name = 'canvas'
+
+# To-Do : fullscreen을 적용할수있나??
+
 # Const_Display_X = 1680
 # Const_Display_Y = 1050
 
-Const_Display_X = 400
-Const_Display_Y = 300
+Const_Display_X = 400  # 캘리브레이션 창 넓이
+Const_Display_Y = 300  # 캘리브레이션 창 높이
 
-Const_Cali_Num_X = 3
-Const_Cali_Num_Y = 3
-Const_Cali_Radius = 30
-Const_Cali_Resize_Radius = 7
+Const_Cali_Num_X = 3  # 캘리브레이션 포인트 x 갯수
+Const_Cali_Num_Y = 2  # 캘리브레이션 포인트 y 갯수
+Const_Cali_Radius = 30  # 캘리브레이션 포인트 원 크기
+Const_Cali_Resize_Radius = 7  # 캘리브레이션 포인트가 가장 작을 때 원 크기
 
+Const_Cali_Unit_Time = 60  # 캘리브레이션 한 번 표현 소요 시간 (쓰레드 반복 시간, 프레임) # 1/60 초마다 실행 # 50 일 때 문제발생
+Const_Cali_Move_Duration = 0.35  # 캘리브레이션 원 이동 횟수       # 이동 할 때 (Unit_Time * Move_Duration)만큼 소요
+Const_Cali_Capture_Duration = 0.4  # 캘리브레이션 원 줄어드는 횟수    # 줄어들 때 (Unit_Time * Move_Duration)만큼 소요
 
-Const_Cali_Move_Duration = 0.5          # 캘리브레이션 원 이동 속도
-Const_Cali_Caputure_Duration = 0.8      # 캘리브레이션 원 줄어드는 속도
+Const_Cali_Margin_X = 50  # 모니터 모서리에서 떨어질 X 거리
+Const_Cali_Margin_Y = 50  # 모니터 모서리에서 떨어질 Y 거리
 
-Const_Cali_Margin_X = 50
-Const_Cali_Margin_Y = 50
-
-Const_Cali_Cross_Size = 16
-
+Const_Cali_Cross_Size = 16  # 캘리브레이션 포인트에 십자가 표시 크기
 
 Cali_Center_Points = []
 
-
 sequence = queue.Queue()
 
-
+left_gaze_coordinate = None
+right_gaze_coordinate = None
 
 
 def start_cali():
     global is_start_calibration
+    global is_finish_calibration
+    global is_fail_calibration
+
+
     is_start_calibration = True
 
     print("Start Calibration!")
     # 큐에 캘리브레이션 순서 인덱스를 찾례로 넣는다
-    for i in range(0, Const_Cali_Num_X * 1):
+    for i in range(0, Const_Cali_Num_X * Const_Cali_Num_Y):
         sequence.put_nowait(i)
 
     img = init_canvas()
@@ -77,75 +86,78 @@ def start_cali():
     # 큐의 순서대로 캘리브레이션 시작
     index = sequence.get_nowait()
 
+    resize_figure(img, Cali_Center_Points[index], Const_Cali_Radius, Const_Cali_Capture_Duration, background)
 
-    resize_figure(img, Cali_Center_Points[index], Const_Cali_Radius, Const_Cali_Caputure_Duration, background)
-
+    # 문제점 : waitkey로 키 입력 받으려고 변수 저장 후 비교해서 다르면 waitkey를 다시 하게 되는데 그 순간 먹통(쓰레드랑관련?)
     cv2.waitKey(0)
-    print("pressed key!! End calibration!")
+    print("pressed key!! Exit calibration!")
+    is_finish_calibration = True
+    is_fail_calibration = True
     close_window(Const_Cali_Window_name)
     return
 
 
-def move_figure(img, start_point, end_point, current_point, duration, background, count = 0):
-
+def move_figure(img, start_point, end_point, current_point, duration, background, count=0):
     global is_detect
-    while( is_detect == False):
+    global Const_Cali_Unit_Time
+
+    while (is_detect == False):
         continue
 
     img = background.copy()
 
-    Const_Unit_Time = 60        # 0.01초마다 실행
     to_move_x = (end_point[0] - start_point[0])
     to_move_y = (end_point[1] - start_point[1])
 
-    move_once_x = to_move_x / (duration * Const_Unit_Time)
-    move_once_y = to_move_y / (duration * Const_Unit_Time)
+    move_once_x = to_move_x / (duration * Const_Cali_Unit_Time)
+    move_once_y = to_move_y / (duration * Const_Cali_Unit_Time)
 
-    updated_current_point = (current_point[0] + move_once_x , current_point[1] + move_once_y)
+    updated_current_point = (current_point[0] + move_once_x, current_point[1] + move_once_y)
 
     draw_circle(img, current_point, Const_Cali_Radius)
     draw_cross(img, current_point)
 
-    display_canvas(Const_Cali_Window_name,img)
-    count = count +1 
+    display_canvas(Const_Cali_Window_name, img)
+    count = count + 1
 
-    if (count == (duration * Const_Unit_Time)):
-        resize_figure(img, end_point, Const_Cali_Radius, Const_Cali_Caputure_Duration, background )
+    if (count == (duration * Const_Cali_Unit_Time)):
+        resize_figure(img, end_point, Const_Cali_Radius, Const_Cali_Capture_Duration, background)
         return
 
-    # threading.Timer(1 / Const_Unit_Time, move_figure, [img, start_point, end_point, updated_current_point, duration, background, count]).start()
-    th = threading.Timer(1 / Const_Unit_Time, move_figure, [img, start_point, end_point, updated_current_point, Const_Cali_Move_Duration, background, count])
+    # threading.Timer(1 / Const_Cali_Unit_Time, move_figure, [img, start_point, end_point, updated_current_point, duration, background, count]).start()
+    th = threading.Timer(1 / Const_Cali_Unit_Time, move_figure,
+                         [img, start_point, end_point, updated_current_point, Const_Cali_Move_Duration, background,
+                          count])
     th.daemon = True
     th.start()
 
 
-def resize_figure(img, point, current_radius, duration, background, count = 0):
+def resize_figure(img, point, current_radius, duration, background, count=0):
+    global is_detect
+    global Const_Cali_Unit_Time
+    global is_finish_calibration
 
     img = background.copy()
 
-    Const_Unit_Time = 60        # 0.01초마다 실행
 
     to_resize_radius = Const_Cali_Radius - Const_Cali_Resize_Radius
-    resize_once_radius = to_resize_radius    / (duration * Const_Unit_Time)
+    resize_once_radius = to_resize_radius / (duration * Const_Cali_Unit_Time)
 
     updated_current_radius = current_radius - resize_once_radius
     draw_circle(img, point, updated_current_radius)
     draw_cross(img, point)
 
-    display_canvas(Const_Cali_Window_name,img)
+    display_canvas(Const_Cali_Window_name, img)
     count = count + 1
 
-    global is_detect
-    while( is_detect == False):
+    while (is_detect == False):
         continue
 
     # 캘리브레이션 순간!
-    if(count == (duration * Const_Unit_Time)):
+    if (count == (duration * Const_Cali_Unit_Time)):
         # 다음 캘리브레이션 경로가 없다면 창 종료
         if (sequence.empty() == True):
-
-            global is_finish_calibration
-            is_finish_calibration = True                # 종료플레그
+            is_finish_calibration = True  # 종료플레그
             print("Complete Calibration!!")
             close_window(Const_Cali_Window_name)
             return
@@ -158,44 +170,58 @@ def resize_figure(img, point, current_radius, duration, background, count = 0):
 
         # 큐에 다음 캘리브레이션 포인트가 있다면 원을 이동하여 캘리브레이션 작업
         index = sequence.get_nowait()
-        move_figure(img, point, Cali_Center_Points[index], point, Const_Cali_Move_Duration, background )
+        move_figure(img, point, Cali_Center_Points[index], point, Const_Cali_Move_Duration, background)
         return
 
-    th = threading.Timer(1 / Const_Unit_Time, resize_figure, [img, point, updated_current_radius, duration, background, count])
+    th = threading.Timer(1 / Const_Cali_Unit_Time, resize_figure,
+                         [img, point, updated_current_radius, duration, background, count])
     th.daemon = True
     th.start()
 
-def init_cali():
-    cali_unit_distance_x = (Const_Display_X - Const_Cali_Margin_X * 2) / (Const_Cali_Num_X - 1)
-    cali_unit_distance_y = (Const_Display_Y - Const_Cali_Margin_Y * 2) / (Const_Cali_Num_Y - 1)
 
+def init_cali():
+    # 캘리브레이션 포인인
+    cali_unit_distance_x = 0
+    cali_unit_distance_y = 0
+
+    # 캘리브레이션이 가로나 세로에 1개라면 계산식에서 나누기 에러 발생
+    # 실제로 캘리브레이션을 1개만 하는 경우는 없고 디버깅 용도이므로 자세하게 코딩하지 않았다.
+    if Const_Cali_Num_X != 1:
+        cali_unit_distance_x = (Const_Display_X - Const_Cali_Margin_X * 2) / (Const_Cali_Num_X - 1)
+
+    if Const_Cali_Num_Y != 1:
+        cali_unit_distance_y = (Const_Display_Y - Const_Cali_Margin_Y * 2) / (Const_Cali_Num_Y - 1)
 
     for y in range(0, Const_Cali_Num_Y):
         for x in range(0, Const_Cali_Num_X):
-            Cali_Center_Points.append(((int)(Const_Cali_Margin_X + cali_unit_distance_x * x) 
-                                     , (int)(Const_Cali_Margin_Y + cali_unit_distance_y * y) ))
-
+            Cali_Center_Points.append(((int)(Const_Cali_Margin_X + cali_unit_distance_x * x)
+                                       , (int)(Const_Cali_Margin_Y + cali_unit_distance_y * y)))
 
 
 def init_canvas():
     img = np.zeros((Const_Display_Y, Const_Display_X, 3), np.uint8)
     return img
 
-def draw_circle(img , point, radius):
-    img = cv2.circle(img, ((int)(point[0]),(int)(point[1])), (int)(radius), (0,0,255), -1)
 
-def draw_cross(img , point):
+def draw_circle(img, point, radius):
+    img = cv2.circle(img, ((int)(point[0]), (int)(point[1])), (int)(radius), (0, 0, 255), -1)
+
+
+def draw_cross(img, point):
     half_size = (int)(Const_Cali_Cross_Size / 2)
-    img = cv2.line(img, ((int)(point[0] - half_size), (int)(point[1])) , ((int)(point[0] + half_size), (int)(point[1])) , (255,255,255),1)
-    img = cv2.line(img, ((int)(point[0]) , (int)(point[1] - half_size)) , ((int)(point[0]) , (int)(point[1] + half_size)) , (255,255,255),1)
+    img = cv2.line(img, ((int)(point[0] - half_size), (int)(point[1])), ((int)(point[0] + half_size), (int)(point[1])),
+                   (255, 255, 255), 1)
+    img = cv2.line(img, ((int)(point[0]), (int)(point[1] - half_size)), ((int)(point[0]), (int)(point[1] + half_size)),
+                   (255, 255, 255), 1)
 
 
-def display_canvas(canvas_name , img):
+def display_canvas(canvas_name, img):
     # Display On Canvas
     # cv2.namedWindow(canvas_name, cv2.WINDOW_NORMAL);  # auto resized
     # cv2.setWindowProperty(canvas_name, cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
     cv2.imshow(canvas_name, img)
     None
+
 
 def close_window(canvas_name):
     # cv2.destroyWindow(canvas_name)
@@ -206,8 +232,6 @@ def close_window(canvas_name):
 
 
 if __name__ == '__main__':
-
-
 
     # Set global log level
     parser = argparse.ArgumentParser(description='Demonstration of landmarks localization.')
@@ -230,6 +254,7 @@ if __name__ == '__main__':
 
     # Check if GPU is available
     from tensorflow.python.client import device_lib
+
     session_config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))
     gpu_available = False
     try:
@@ -293,6 +318,7 @@ if __name__ == '__main__':
             video_out_should_stop = False
             video_out_done = threading.Condition()
 
+
             def _record_frame():
                 global video_out
                 last_frame_time = None
@@ -320,6 +346,8 @@ if __name__ == '__main__':
                 video_out.release()
                 with video_out_done:
                     video_out_done.notify_all()
+
+
             record_thread = threading.Thread(target=_record_frame, name='record')
             record_thread.daemon = True
             record_thread.start()
@@ -328,6 +356,16 @@ if __name__ == '__main__':
         inferred_stuff_queue = queue.Queue()
 
         def _visualize_output():
+            global is_detect
+            global debug_execute_calibration
+            global is_start_calibration
+            global is_finish_calibration
+            global is_fail_calibration
+            global left_gaze_coordinate, right_gaze_coordinate
+            global debug_draw_gaze_arrow
+
+            global sib
+
             last_frame_index = 0
             last_frame_time = time.time()
             fps_history = []
@@ -335,9 +373,9 @@ if __name__ == '__main__':
 
             # 패턴
 
-            pattern = [1, 3, 9, 7]                      
-            before_history = 0              # 처음에 처다보는 포인트
-            after_history = 0               # 일정시간 응시 후 저장되는 포인트
+            pattern = [1, 3, 9, 7]
+            before_history = 0  # 처음에 처다보는 포인트
+            after_history = 0  # 일정시간 응시 후 저장되는 포인트
             pattern_compare = []
             match = 0
 
@@ -361,28 +399,31 @@ if __name__ == '__main__':
                                 video_out_queue.put_nowait(next_frame_index)
                             last_frame_index = next_frame_index
 
-                        elif not 'faces' in next_frame :
-                            is_detect = True                    ## Detecting Face
+                        elif not 'faces' in next_frame:
 
-                            if debug_excute_calibaration == False:
-                                global is_start_calibration
-                                if is_start_calibration == False:   ## Only play once Calibration
+                            is_detect = True  ## Detecting Face
+
+                            if debug_execute_calibration:
+                                if not is_start_calibration:  ## Only play once Calibration
                                     calibration_thread = threading.Thread(target=start_cali, name='calibration_th2')
                                     calibration_thread.daemon = True
                                     calibration_thread.start()
 
-                    #/////////////////////////////////////////////////////
-                    if is_finish_calibration == True:
+                    # /////////////////////////////////////////////////////
+                    # 종료 조건
+                    if is_finish_calibration:
+                        if is_fail_calibration:
+                            print("Failed Calibration!")
+                            return
+                            
                         if cv.waitKey(1) & 0xFF == ord('q'):
                             return
-                    #/////////////////////////////////////////////////////
+                    # /////////////////////////////////////////////////////
                     continue
 
                 # Get output from neural network and visualize
                 output = inferred_stuff_queue.get()
                 bgr = None
-
-
 
                 for j in range(batch_size):
                     frame_index = output['frame_index'][j]
@@ -416,20 +457,20 @@ if __name__ == '__main__':
                     if can_use_eyelid:
                         cv.polylines(
                             eye_image_annotated,
-                            [np.round(eye_upscale*eye_landmarks[0:8]).astype(np.int32)
-                                                                     .reshape(-1, 1, 2)],
+                            [np.round(eye_upscale * eye_landmarks[0:8]).astype(np.int32)
+                                 .reshape(-1, 1, 2)],
                             isClosed=True, color=(255, 255, 0), thickness=1, lineType=cv.LINE_AA,
                         )
                     if can_use_iris:
                         cv.polylines(
                             eye_image_annotated,
-                            [np.round(eye_upscale*eye_landmarks[8:16]).astype(np.int32)
-                                                                      .reshape(-1, 1, 2)],
+                            [np.round(eye_upscale * eye_landmarks[8:16]).astype(np.int32)
+                                 .reshape(-1, 1, 2)],
                             isClosed=True, color=(0, 255, 255), thickness=1, lineType=cv.LINE_AA,
                         )
                         cv.drawMarker(
                             eye_image_annotated,
-                            tuple(np.round(eye_upscale*eye_landmarks[16, :]).astype(np.int32)),
+                            tuple(np.round(eye_upscale * eye_landmarks[16, :]).astype(np.int32)),
                             color=(0, 255, 255), markerType=cv.MARKER_CROSS, markerSize=4,
                             thickness=1, line_type=cv.LINE_AA,
                         )
@@ -475,6 +516,8 @@ if __name__ == '__main__':
                     eyeball_centre = sum(eye_landmarks) / len(eye_landmarks)
                     eyeball_radius = np.linalg.norm(eye_landmarks[18, :] -
                                                     eye_landmarks[17, :])
+                    gaze_mean = None
+                    point = None
 
                     # Smooth and visualize gaze direction
                     num_total_eyes_in_frame = len(frame['eyes'])
@@ -498,7 +541,7 @@ if __name__ == '__main__':
                         # from models.elg import estimate_gaze_from_landmarks
                         # current_gaze = estimate_gaze_from_landmarks(
                         #     iris_landmarks, iris_centre, eyeball_centre, eyeball_radius)
-                        
+
                         # 눈 좌표 변경
                         i_x0, i_y0 = iris_centre
                         e_x0, e_y0 = eyeball_centre
@@ -511,44 +554,45 @@ if __name__ == '__main__':
                         eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
                         eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
 
-                        if abs(gaze_x) < x_middle * eye_size_x and abs(gaze_y) < y_middle * eye_size_y :
+                        if abs(gaze_x) < x_middle * eye_size_x and abs(gaze_y) < y_middle * eye_size_y:
                             dx = 5
                             dy = 5
                             point = 5
-                        elif gaze_x <= -1 * x_middle * eye_size_x and gaze_y <= -1 * y_middle * eye_size_y :
+                        elif gaze_x <= -1 * x_middle * eye_size_x and gaze_y <= -1 * y_middle * eye_size_y:
                             dx = 42
                             dy = 68
                             point = 1
-                        elif abs(gaze_x) < x_middle * eye_size_x and gaze_y <= -1 * y_middle * eye_size_y :
+                        elif abs(gaze_x) < x_middle * eye_size_x and gaze_y <= -1 * y_middle * eye_size_y:
                             dx = 5
                             dy = 68
                             point = 2
-                        elif gaze_x >= x_middle * eye_size_x and gaze_y <= -1 * y_middle * eye_size_y :
+                        elif gaze_x >= x_middle * eye_size_x and gaze_y <= -1 * y_middle * eye_size_y:
                             dx = 42
                             dy = 68
                             point = 3
-                        elif gaze_x <= -1 * x_middle * eye_size_x and abs(gaze_y) < y_middle * eye_size_y :
+                        elif gaze_x <= -1 * x_middle * eye_size_x and abs(gaze_y) < y_middle * eye_size_y:
                             dx = 42
                             dy = 5
                             point = 4
-                        elif gaze_x >= x_middle * eye_size_x and abs(gaze_y) < y_middle * eye_size_y :
+                        elif gaze_x >= x_middle * eye_size_x and abs(gaze_y) < y_middle * eye_size_y:
                             dx = 42
                             dy = 5
                             point = 6
-                        elif gaze_x <= -1 * x_middle * eye_size_x and gaze_y >= y_middle * eye_size_y :
+                        elif gaze_x <= -1 * x_middle * eye_size_x and gaze_y >= y_middle * eye_size_y:
                             dx = 42
                             dy = 68
                             point = 7
-                        elif abs(gaze_x) < x_middle * eye_size_x and gaze_y >= y_middle * eye_size_y :
+                        elif abs(gaze_x) < x_middle * eye_size_x and gaze_y >= y_middle * eye_size_y:
                             dx = 5
                             dy = 68
                             point = 8
-                        elif gaze_x >= x_middle * eye_size_x and gaze_y >= y_middle * eye_size_y :
+                        elif gaze_x >= x_middle * eye_size_x and gaze_y >= y_middle * eye_size_y:
                             dx = 42
                             dy = 68
                             point = 9
 
-                        current_gaze = np.array([i_x0 + gaze_x * abs(gaze_x) * dx, i_y0 + 3 * gaze_y * abs(3 * gaze_y) * dy])
+                        current_gaze = np.array(
+                            [i_x0 + gaze_x * abs(gaze_x) * dx, i_y0 + 3 * gaze_y * abs(3 * gaze_y) * dy])
 
                         gaze_history.append(current_gaze)
                         gaze_history_max_len = 10
@@ -557,10 +601,30 @@ if __name__ == '__main__':
 
                         # 시선 좌표 변경
 
-                        gaze_mean = np.mean(gaze_history, axis=0)
-                        
-                        util.gaze.draw_gaze(bgr, iris_centre, gaze_mean,
-                                            thickness=1)
+                        # gaze_mean = np.mean(gaze_history, axis=0)
+                        # util.gaze.draw_gaze(bgr, iris_centre, gaze_mean,thickness=1)
+
+
+                        if eye_side == 'left':
+                            left_gaze_coordinate = np.mean(gaze_history, axis=0)
+                        else:
+                            right_gaze_coordinate = np.mean(gaze_history, axis=0)
+
+                        if (left_gaze_coordinate is not None) and (right_gaze_coordinate is not None):
+
+                            # 가운데 원으로 표시
+                            util.gaze.draw_gaze_point(bgr, (left_gaze_coordinate + right_gaze_coordinate) / 2.0,
+                                                      thickness=1)
+
+                            if debug_draw_gaze_arrow:
+                                # 왼쪽 화살표로 표시
+                                if eye_side == 'left':
+                                    util.gaze.draw_gaze(bgr, iris_centre, left_gaze_coordinate, thickness=1)
+
+                                # 오른쪽 화살표로 표시
+                                if eye_side == 'right':
+                                    util.gaze.draw_gaze(bgr, iris_centre, right_gaze_coordinate, thickness=1)
+
 
                     else:
                         gaze_history.clear()
@@ -582,7 +646,7 @@ if __name__ == '__main__':
                             thickness=1, line_type=cv.LINE_AA,
                         )
 
-                    dtime = 1e3*(time.time() - start_time)
+                    dtime = 1e3 * (time.time() - start_time)
                     if 'visualization' not in frame['time']:
                         frame['time']['visualization'] = dtime
                     else:
@@ -620,11 +684,15 @@ if __name__ == '__main__':
                         if args.record_video:
                             video_out_queue.put_nowait(frame_index)
 
-
                         if is_finish_calibration == True:
                             # Quit? # 패턴 매치되면 종료
-                            if (cv.waitKey(1) & 0xFF == ord('q')) or (match == len(pattern)) :
+                            if is_fail_calibration:
+                                print("Failed Calibration! Exit Program.")
                                 return
+
+                            if (cv.waitKey(1) & 0xFF == ord('q')) or (match == len(pattern)):
+                                return
+
 
                         # Print timings
                         if frame_index % 10 == 0:
@@ -640,33 +708,34 @@ if __name__ == '__main__':
                             ])
                             print('%08d [%s] %s' % (frame_index, fps_str, timing_string))
 
-        ## End visualize_output ##
+                            ## End visualize_output ##
 
                             # 결과값 출력
-                            global gaze_mean
+
                             print("current gaze : ", gaze_mean)
                             print("point : ", point)
                             before_history = after_history
                             after_history = point
                             match = 0
-                            if before_history == after_history : 
-                                if after_history in pattern_compare :
+                            if before_history == after_history:
+                                if after_history in pattern_compare:
                                     print("xxxxx", pattern_compare)
-                                else :
+                                else:
                                     pattern_compare.append(after_history)
                                     print("pattern_compare : ", pattern_compare)
 
                             # 매치 알고리즘
 
                             i = 0
-                            while i < len(pattern_compare) :
-                                if pattern_compare[i] == pattern[i] :
+                            while i < len(pattern_compare):
+                                if pattern_compare[i] == pattern[i]:
                                     match = match + 1
-                                else :
+                                else:
                                     match = 0
                                     pattern_compare = []
                                     break
                                 i = i + 1
+
 
         visualize_thread = threading.Thread(target=_visualize_output, name='visualization')
         visualize_thread.daemon = True
