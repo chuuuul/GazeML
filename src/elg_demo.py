@@ -388,10 +388,10 @@ if __name__ == '__main__':
 			     save_iris[10][0] - save_eyeball[10][0] - (save_iris[9][0] - save_eyeball[9][0]) + 
 			     save_iris[14][0] - save_eyeball[14][0] - (save_iris[13][0] - save_eyeball[13][0]))
 			     / 8 / eye_size_x_average)
-                y_middle = ((save_iris[2][1] - save_eyeball[2][1] - (save_iris[1][1] - save_eyeball[1][1]) + 
-			     save_iris[6][1] - save_eyeball[6][1] - (save_iris[5][1] - save_eyeball[5][1]) + 
-			     save_iris[10][1] - save_eyeball[10][1] - (save_iris[9][1] - save_eyeball[9][1]) + 
-			     save_iris[14][1] - save_eyeball[14][1] - (save_iris[13][1] - save_eyeball[13][1]))
+                y_middle = ((save_iris[8][1] - save_eyeball[8][1] - (save_iris[4][1] - save_eyeball[4][1]) + 
+			     save_iris[9][1] - save_eyeball[9][1] - (save_iris[5][1] - save_eyeball[5][1]) + 
+			     save_iris[10][1] - save_eyeball[10][1] - (save_iris[6][1] - save_eyeball[6][1]) + 
+			     save_iris[11][1] - save_eyeball[11][1] - (save_iris[7][1] - save_eyeball[7][1]))
 			     / 8 / eye_size_y_average)
             else :
                 x_middle = 0.03
