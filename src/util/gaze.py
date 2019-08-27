@@ -106,6 +106,19 @@ def draw_gaze(image_in, eye_pos, pitchyaw, thickness=2, color=(0, 0, 255)):
         image_out = cv.cvtColor(image_out, cv.COLOR_GRAY2BGR)
 
     cv.arrowedLine(image_out, tuple(np.round(eye_pos).astype(np.int32)),
-                   tuple(np.round([pitchyaw[0], pitchyaw[1]]).astype(int)), color,
+                   tuple(np.round([pitchyaw[0], pitchyaw[1]]).astype(np.int32)), color,
                    thickness, cv.LINE_AA, tipLength=0.1)
+    return image_out
+
+
+def draw_gaze_point(image_in, gaze_point_coordinate, thickness=2, color=(0, 0, 255)):
+    """Draw gaze angle on given image with a given eye positions."""
+    image_out = image_in
+    if len(image_out.shape) == 2 or image_out.shape[2] == 1:
+        image_out = cv.cvtColor(image_out, cv.COLOR_GRAY2BGR)
+
+    cv.circle(image_out,
+              tuple(np.round([gaze_point_coordinate[0], gaze_point_coordinate[1]]).astype(np.int32)),
+              30,
+              color, thickness=-1)
     return image_out
