@@ -122,3 +122,36 @@ def draw_gaze_point(image_in, gaze_point_coordinate, thickness=2, color=(0, 0, 2
               30,
               color, thickness=-1)
     return image_out
+
+
+def get_monitor_resolution(monitor_index = 0):
+    import subprocess
+    output = subprocess.Popen('xrandr | grep "\*" | cut -d" " -f4',shell=True, stdout=subprocess.PIPE).communicate()[0]
+
+    resolution = output.decode().split('\n')[monitor_index].split('x')
+    resolution = list(map(int, resolution))         # List to Integer
+
+    print('resolution - x : ', resolution[0], ' / y : ', resolution[1])
+    return resolution
+
+
+def draw_monitor_grid(img, resolution_x, resolution_y, total_grid_count, is_horizon):
+
+    if is_horizon:
+        grid_size_unit = int(resolution_y / total_grid_count)
+        for cnt in range(0, total_grid_count):
+            start_coordinate = (0, grid_size_unit * (cnt + 1))
+            end_coordinate = (resolution_x, grid_size_unit * (cnt + 1))
+            cv.line(img, start_coordinate, end_coordinate, color=(100, 100, 100), thickness=1)
+    else:
+        grid_size_unit = int(resolution_x / total_grid_count)
+        for cnt in range(0, total_grid_count):
+            start_coordinate = (grid_size_unit * (cnt + 1), 0)
+            end_coordinate = (grid_size_unit * (cnt + 1), resolution_y)
+            cv.line(img, start_coordinate, end_coordinate, color=(100, 100, 100), thickness=1)
+
+
+
+
+
+    return img
