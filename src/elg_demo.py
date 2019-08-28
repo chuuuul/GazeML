@@ -17,27 +17,39 @@ from models import ELG
 import util.gaze
 
 
+
+##################################### Debug Var #############################################
+
+debug_monitor_index = 1
 debug_execute_calibration = True
 debug_draw_gaze_arrow = True
 
-is_detect = False
+debug_full_screen_calibration = False
+debug_full_screen_gaze_capture = False
+
+#############################################################################################
+
+is_face_detect = False
+
 is_start_calibration = False
 is_finish_calibration = False
 is_fail_calibration = False
 
+is_start_gaze_capture = False
+
 if not debug_execute_calibration:
     is_finish_calibration = True
+
 
 ###################################### Start Cali #############################################
 Const_Cali_Window_name = 'canvas'
 
-# To-Do : fullscreen을 적용할수있나??
+# 1080p = 1920x1080 / 720p = 1280x720
+Const_Display_X = 1280             # 캘리브레이션 창 넓이
+Const_Display_Y = 720             # 캘리브레이션 창 높이
 
-# Const_Display_X = 1680
-# Const_Display_Y = 1050
+# Const_Display_X , Const_Display_Y = util.gaze.get_monitor_resolution(debug_monitor_index)
 
-Const_Display_X = 400             # 캘리브레이션 창 넓이
-Const_Display_Y = 300             # 캘리브레이션 창 높이
 
 Const_Cali_Num_X = 3              # 캘리브레이션 포인트 x 갯수
 Const_Cali_Num_Y = 2              # 캘리브레이션 포인트 y 갯수
@@ -48,12 +60,17 @@ Const_Cali_Unit_Time = 60         # 캘리브레이션 한 번 표현 소요 시
 Const_Cali_Move_Duration = 0.35   # 캘리브레이션 원 이동 횟수       # 이동 할 때 (Unit_Time * Move_Duration)만큼 소요
 Const_Cali_Capture_Duration = 0.4 # 캘리브레이션 원 줄어드는 횟수    # 줄어들 때 (Unit_Time * Move_Duration)만큼 소요
 
-Const_Cali_Margin_X = 50  # 모니터 모서리에서 떨어질 X 거리
-Const_Cali_Margin_Y = 50  # 모니터 모서리에서 떨어질 Y 거리
+Const_Cali_Margin_X = 50            # 모니터 모서리에서 떨어질 X 거리
+Const_Cali_Margin_Y = 50            # 모니터 모서리에서 떨어질 Y 거리
 
-Const_Cali_Cross_Size = 16  # 캘리브레이션 포인트에 십자가 표시 크기
+Const_Cali_Cross_Size = 16          # 캘리브레이션 포인트에 십자가 표시 크기
 
-Cali_Center_Points = []
+
+Const_Grid_Count_X = 3
+Const_Grid_Count_Y = 3
+
+
+Cali_Center_Points = []             # 캘리브레이션 좌표
 
 
 
@@ -118,10 +135,10 @@ def start_cali():
 
 
 def move_figure(img, start_point, end_point, current_point, duration, background, count=0):
-    global is_detect
+    global is_face_detect
     global Const_Cali_Unit_Time
 
-    while (is_detect == False):
+    while (is_face_detect == False):
         continue
 
     img = background.copy()
@@ -154,7 +171,7 @@ def move_figure(img, start_point, end_point, current_point, duration, background
 
 
 def resize_figure(img, point, current_radius, duration, background, count=0):
-    global is_detect
+    global is_face_detect
     global Const_Cali_Unit_Time
     global is_finish_calibration
 
@@ -171,7 +188,7 @@ def resize_figure(img, point, current_radius, duration, background, count=0):
     display_canvas(Const_Cali_Window_name, img)
     count = count + 1
 
-    while (is_detect == False):
+    while (is_face_detect == False):
         continue
 
     # 캘리브레이션 순간!
@@ -183,17 +200,10 @@ def resize_figure(img, point, current_radius, duration, background, count=0):
             close_window(Const_Cali_Window_name)
             return
         ##########################################
-        # to-do : 눈의 좌표 저장 
+        # to-do : 눈의 좌표 저장
         # idea : 개선점? : 캘리브레이션 중간에 값 저장해서 보정하는건 어떤가?
-        
-        save_iris.append(iris_centre)
-        save_eyeball.append(eyeball_centre)
 
-        eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
-        eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
 
-        save_eye_size_x.append(eye_size_x)
-        save_eye_size_y.append(eye_size_y)
 
 
         ##########################################
@@ -247,8 +257,10 @@ def draw_cross(img, point):
 
 def display_canvas(canvas_name, img):
     # Display On Canvas
-    # cv2.namedWindow(canvas_name, cv2.WINDOW_NORMAL);  # auto resized
-    # cv2.setWindowProperty(canvas_name, cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
+    if debug_full_screen_calibration or args.fullscreen:
+        cv2.namedWindow(canvas_name, cv2.WINDOW_NORMAL)  # auto resized
+        cv2.setWindowProperty(canvas_name, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
     cv2.imshow(canvas_name, img)
     None
 
@@ -256,6 +268,7 @@ def display_canvas(canvas_name, img):
 def close_window(canvas_name):
     # cv2.destroyWindow(canvas_name)
     cv2.destroyAllWindows()
+
 
 
 ###################################### End Cali #############################################3
@@ -386,15 +399,16 @@ if __name__ == '__main__':
         inferred_stuff_queue = queue.Queue()
 
         def _visualize_output():
-            global is_detect
-            global debug_execute_calibration
+            global is_face_detect
             global is_start_calibration
             global is_finish_calibration
             global is_fail_calibration
             global left_gaze_coordinate, right_gaze_coordinate
+            global debug_execute_calibration
             global debug_draw_gaze_arrow
-
-            global sib
+            global Const_Display_X, Const_Display_Y
+            global Const_Grid_Count_X, Const_Grid_Count_Y
+            global is_start_gaze_capture
 
             last_frame_index = 0
             last_frame_time = time.time()
@@ -404,7 +418,7 @@ if __name__ == '__main__':
             # 패턴
 
 
-            pattern = [1, 3, 9, 7]                      
+            pattern = [1, 3, 9, 7]
             before_history = 0              # 처음에 처다보는 포인트
             after_history = 0               # 일정시간 응시 후 저장되는 포인트
 
@@ -428,24 +442,23 @@ if __name__ == '__main__':
                 eye_size_y_average = 10
 
             if len(save_iris) != 0 :
-                x_middle = ((save_iris[2][0] - save_eyeball[2][0] - (save_iris[1][0] - save_eyeball[1][0]) + 
-			     save_iris[6][0] - save_eyeball[6][0] - (save_iris[5][0] - save_eyeball[5][0]) + 
-			     save_iris[10][0] - save_eyeball[10][0] - (save_iris[9][0] - save_eyeball[9][0]) + 
-			     save_iris[14][0] - save_eyeball[14][0] - (save_iris[13][0] - save_eyeball[13][0]))
-			     / 8 / eye_size_x_average)
-                y_middle = ((save_iris[8][1] - save_eyeball[8][1] - (save_iris[4][1] - save_eyeball[4][1]) + 
-			     save_iris[9][1] - save_eyeball[9][1] - (save_iris[5][1] - save_eyeball[5][1]) + 
-			     save_iris[10][1] - save_eyeball[10][1] - (save_iris[6][1] - save_eyeball[6][1]) + 
-			     save_iris[11][1] - save_eyeball[11][1] - (save_iris[7][1] - save_eyeball[7][1]))
-			     / 8 / eye_size_y_average)
+                x_middle = ((save_iris[2][0] - save_eyeball[2][0] - (save_iris[1][0] - save_eyeball[1][0]) +
+                             save_iris[6][0] - save_eyeball[6][0] - (save_iris[5][0] - save_eyeball[5][0]) +
+                             save_iris[10][0] - save_eyeball[10][0] - (save_iris[9][0] - save_eyeball[9][0]) +
+                             save_iris[14][0] - save_eyeball[14][0] - (save_iris[13][0] - save_eyeball[13][0]))
+                            / 8 / eye_size_x_average)
+                y_middle = ((save_iris[8][1] - save_eyeball[8][1] - (save_iris[4][1] - save_eyeball[4][1]) +
+                             save_iris[9][1] - save_eyeball[9][1] - (save_iris[5][1] - save_eyeball[5][1]) +
+                             save_iris[10][1] - save_eyeball[10][1] - (save_iris[6][1] - save_eyeball[6][1]) +
+                             save_iris[11][1] - save_eyeball[11][1] - (save_iris[7][1] - save_eyeball[7][1]))
+                            / 8 / eye_size_y_average)
             else :
                 x_middle = 0.03
                 y_middle = 0.03
 
 
-            if args.fullscreen:
-                cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
-                cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
+            # if args.fullscreen :
+
 
             while True:
                 # If no output to visualize, show unannotated frame
@@ -455,16 +468,30 @@ if __name__ == '__main__':
                         next_frame = data_source._frames[next_frame_index]
                         if 'faces' in next_frame and len(next_frame['faces']) == 0:
                             if not args.headless:
-                                if is_finish_calibration == True:
-                                    cv.imshow('vis', next_frame['bgr'])
+                                if is_finish_calibration:
+
+                                    if not is_start_gaze_capture:
+                                        is_start_gaze_capture = True
+
+                                        if debug_full_screen_gaze_capture or args.fullscreen:
+                                            cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
+                                            cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
+
+                                    img = next_frame['bgr']
+
+                                    # 그리드 레이아웃 그리기
+                                    util.gaze.draw_monitor_grid(img, Const_Display_X, Const_Display_Y, Const_Grid_Count_Y, True)
+                                    util.gaze.draw_monitor_grid(img, Const_Display_X, Const_Display_Y, Const_Grid_Count_X, False)
+
+                                    cv.imshow('vis', img)
                                 None
 
                             if args.record_video:
                                 video_out_queue.put_nowait(next_frame_index)
                             last_frame_index = next_frame_index
 
-                        elif not 'faces' in next_frame
-                            is_detect = True  ## Detecting Face
+                        elif not 'faces' in next_frame:
+                            is_face_detect = True  ## Detecting Face
 
                             if debug_execute_calibration:
                                 if not is_start_calibration:  ## Only play once Calibration
@@ -478,7 +505,7 @@ if __name__ == '__main__':
                         if is_fail_calibration:
                             print("Failed Calibration!")
                             return
-                            
+
                         if cv.waitKey(1) & 0xFF == ord('q'):
                             return
                     # /////////////////////////////////////////////////////
@@ -745,6 +772,18 @@ if __name__ == '__main__':
                                    color=(255, 255, 255), thickness=1, lineType=cv.LINE_AA)
                         if not args.headless:
                             if is_finish_calibration == True:
+                                # 그리드 레이아웃 그리기
+
+                                if not is_start_gaze_capture:
+                                    is_start_gaze_capture = True
+
+                                    if debug_full_screen_gaze_capture  or args.fullscreen:
+                                        cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
+                                        cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
+
+
+                                util.gaze.draw_monitor_grid(bgr, Const_Display_X, Const_Display_Y, Const_Grid_Count_Y, True)
+                                util.gaze.draw_monitor_grid(bgr, Const_Display_X, Const_Display_Y, Const_Grid_Count_X, False)
                                 cv.imshow('vis', bgr)
                             None
                         last_frame_index = frame_index
@@ -753,7 +792,7 @@ if __name__ == '__main__':
                         if args.record_video:
                             video_out_queue.put_nowait(frame_index)
 
-                        if is_finish_calibration == True:
+                        if is_finish_calibration:
                             # Quit? # 패턴 매치되면 종료
 
                             if is_fail_calibration:
