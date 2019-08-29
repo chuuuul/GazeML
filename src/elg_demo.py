@@ -42,7 +42,6 @@ if not debug_execute_calibration:
     is_finish_calibration = True
 
 
-
 ###################################### Start Cali #############################################
 Const_Cali_Window_name = 'canvas'
 
@@ -53,12 +52,14 @@ Const_Display_Y = 720             # 캘리브레이션 창 높이
 # Const_Display_X , Const_Display_Y = util.gaze.get_monitor_resolution(debug_monitor_index)
 
 
+Const_Cali_Num_X = 3              # 캘리브레이션 포인트 x 갯수
+Const_Cali_Num_Y = 2              # 캘리브레이션 포인트 y 갯수
+Const_Cali_Radius = 30            # 캘리브레이션 포인트 원 크기
+Const_Cali_Resize_Radius = 7      # 캘리브레이션 포인트가 가장 작을 때 원 크기
 
-Const_Cali_Num_X = 3
-Const_Cali_Num_Y = 3
-Const_Cali_Radius = 30
-Const_Cali_Resize_Radius = 7
-
+Const_Cali_Unit_Time = 60         # 캘리브레이션 한 번 표현 소요 시간 (쓰레드 반복 시간, 프레임) # 1/60 초마다 실행 # 50 일 때 문제발생
+Const_Cali_Move_Duration = 0.35   # 캘리브레이션 원 이동 횟수       # 이동 할 때 (Unit_Time * Move_Duration)만큼 소요
+Const_Cali_Capture_Duration = 0.4 # 캘리브레이션 원 줄어드는 횟수    # 줄어들 때 (Unit_Time * Move_Duration)만큼 소요
 
 Const_Cali_Margin_X = 50            # 모니터 모서리에서 떨어질 X 거리
 Const_Cali_Margin_Y = 50            # 모니터 모서리에서 떨어질 Y 거리
@@ -70,7 +71,7 @@ Const_Grid_Count_X = 3
 Const_Grid_Count_Y = 3
 
 
-Cali_Center_Points = []             # 캘리브레이션 좌표
+Cali_Center_Points = []
 
 
 Cali_Center_Points = []
@@ -421,6 +422,7 @@ if __name__ == '__main__':
             else :
                 x_middle = 1
                 y_middle = 1
+
             while True:
                 # If no output to visualize, show unannotated frame
                 if inferred_stuff_queue.empty():
@@ -453,8 +455,6 @@ if __name__ == '__main__':
 
 
                         elif not 'faces' in next_frame:
-                            is_face_detect = True  ## Detecting Face
-
 
                             if debug_excute_calibaration == False:
                                 global is_start_calibration
