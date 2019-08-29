@@ -51,8 +51,8 @@ Const_Display_Y = 720             # 캘리브레이션 창 높이
 # Const_Display_X , Const_Display_Y = util.gaze.get_monitor_resolution(debug_monitor_index)
 
 
-Const_Cali_Num_X = 3              # 캘리브레이션 포인트 x 갯수
-Const_Cali_Num_Y = 2              # 캘리브레이션 포인트 y 갯수
+Const_Cali_Num_X = 4              # 캘리브레이션 포인트 x 갯수
+Const_Cali_Num_Y = 4              # 캘리브레이션 포인트 y 갯수
 Const_Cali_Radius = 30            # 캘리브레이션 포인트 원 크기
 Const_Cali_Resize_Radius = 7      # 캘리브레이션 포인트가 가장 작을 때 원 크기
 
@@ -175,6 +175,9 @@ def resize_figure(img, point, current_radius, duration, background, count=0):
     global Const_Cali_Unit_Time
     global is_finish_calibration
 
+    global iris_centre
+    global eyeball_centre
+
     img = background.copy()
 
 
@@ -202,7 +205,6 @@ def resize_figure(img, point, current_radius, duration, background, count=0):
         ##########################################
         # to-do : 눈의 좌표 저장
         # idea : 개선점? : 캘리브레이션 중간에 값 저장해서 보정하는건 어떤가?
-        #
 
         save_iris.append(iris_centre)
         save_eyeball.append(eyeball_centre)
@@ -418,6 +420,8 @@ if __name__ == '__main__':
             all_gaze_histories = []
 
             # 패턴
+
+
             pattern = [1, 3, 9, 7]
             before_history = 0              # 처음에 처다보는 포인트
             after_history = 0               # 일정시간 응시 후 저장되는 포인트
@@ -425,26 +429,18 @@ if __name__ == '__main__':
             pattern_compare = []
             match = 0
 
+            # 캘리브레이션 플래그
+
             save_flag = 0
 
             # 눈 크기 평균 (추후)
 
-            eye_size_x_average = 0
-            eye_size_y_average = 0
+            # eye_size_x_average = 0
+            # eye_size_y_average = 0
 
             # 경계선 알고리즘 변경
 
-            if eye_size_x_average != 0 :
-                eye_size_x_average = sum(save_eye_size_x) / 16
-            else :
-                eye_size_x_average = 30
-            if eye_size_y_average != 0 :
-                eye_size_y_average = sum(save_eye_size_y) / 16
-            else :
-                eye_size_y_average = 10
-
             if len(save_iris) != 0 :
-              
                 x_middle = abs((save_iris[2][0] - save_eyeball[2][0] - (save_iris[1][0] - save_eyeball[1][0]) + 
 				save_iris[6][0] - save_eyeball[6][0] - (save_iris[5][0] - save_eyeball[5][0]) + 
 				save_iris[10][0] - save_eyeball[10][0] - (save_iris[9][0] - save_eyeball[9][0]) + 
@@ -456,47 +452,44 @@ if __name__ == '__main__':
 
             # 캘리브레이션 가중치 변경
 
-                dx1 = abs((save_iris[0][0] - Cali_Center_Points[0][0]) / (save_iris[0][0] - save_eyeball[0][0]))
-                dx2 = abs(((save_iris[1][0] - Cali_Center_Points[1][0]) / (save_iris[1][0] - save_eyeball[1][0])) + 
-			  ((save_iris[2][0] - Cali_Center_Points[2][0]) / (save_iris[2][0] - save_eyeball[2][0])) / 2)
-                dx3 = abs((save_iris[3][0] - Cali_Center_Points[3][0]) / (save_iris[3][0] - save_eyeball[3][0]))
-                dx4 = abs(((save_iris[4][0] - Cali_Center_Points[4][0]) / (save_iris[4][0] - save_eyeball[4][0])) + 
-			  ((save_iris[8][0] - Cali_Center_Points[8][0]) / (save_iris[8][0] - save_eyeball[8][0])) / 2)
-                dx5 = abs(((save_iris[5][0] - Cali_Center_Points[5][0]) / (save_iris[5][0] - save_eyeball[5][0])) + 
-			  ((save_iris[6][0] - Cali_Center_Points[6][0]) / (save_iris[6][0] - save_eyeball[6][0])) + 
-			  ((save_iris[9][0] - Cali_Center_Points[9][0]) / (save_iris[9][0] - save_eyeball[9][0])) + 
-			  ((save_iris[10][0] - Cali_Center_Points[10][0]) / (save_iris[10][0] - save_eyeball[10][0])) / 4)
-                dx6 = abs(((save_iris[7][0] - Cali_Center_Points[7][0]) / (save_iris[7][0] - save_eyeball[7][0])) + 
-			  ((save_iris[11][0] - Cali_Center_Points[11][0]) / (save_iris[11][0] - save_eyeball[11][0])) / 2)
-                dx7 = abs((save_iris[12][0] - Cali_Center_Points[12][0]) / (save_iris[12][0] - save_eyeball[12][0]))
-                dx8 = abs(((save_iris[13][0] - Cali_Center_Points[13][0]) / (save_iris[13][0] - save_eyeball[13][0]))
-			  ((save_iris[14][0] - Cali_Center_Points[14][0]) / (save_iris[14][0] - save_eyeball[14][0])) / 2)
-                dx9 = abs((save_iris[15][0] - Cali_Center_Points[15][0]) / (save_iris[15][0] - save_eyeball[15][0]))
+                dx1 = (save_iris[0][0] - Cali_Center_Points[0][0]) / (save_iris[0][0] - save_eyeball[0][0])
+                dx2 = (((save_iris[1][0] - Cali_Center_Points[1][0]) / (save_iris[1][0] - save_eyeball[1][0])) + 
+		       ((save_iris[2][0] - Cali_Center_Points[2][0]) / (save_iris[2][0] - save_eyeball[2][0])) / 2)
+                dx3 = (save_iris[3][0] - Cali_Center_Points[3][0]) / (save_iris[3][0] - save_eyeball[3][0])
+                dx4 = (((save_iris[4][0] - Cali_Center_Points[4][0]) / (save_iris[4][0] - save_eyeball[4][0])) + 
+		       ((save_iris[8][0] - Cali_Center_Points[8][0]) / (save_iris[8][0] - save_eyeball[8][0])) / 2)
+                dx5 = (((save_iris[5][0] - Cali_Center_Points[5][0]) / (save_iris[5][0] - save_eyeball[5][0])) + 
+		       ((save_iris[6][0] - Cali_Center_Points[6][0]) / (save_iris[6][0] - save_eyeball[6][0])) + 
+		       ((save_iris[9][0] - Cali_Center_Points[9][0]) / (save_iris[9][0] - save_eyeball[9][0])) + 
+		       ((save_iris[10][0] - Cali_Center_Points[10][0]) / (save_iris[10][0] - save_eyeball[10][0])) / 4)
+                dx6 = (((save_iris[7][0] - Cali_Center_Points[7][0]) / (save_iris[7][0] - save_eyeball[7][0])) + 
+		       ((save_iris[11][0] - Cali_Center_Points[11][0]) / (save_iris[11][0] - save_eyeball[11][0])) / 2)
+                dx7 = (save_iris[12][0] - Cali_Center_Points[12][0]) / (save_iris[12][0] - save_eyeball[12][0])
+                dx8 = (((save_iris[13][0] - Cali_Center_Points[13][0]) / (save_iris[13][0] - save_eyeball[13][0]))
+		       ((save_iris[14][0] - Cali_Center_Points[14][0]) / (save_iris[14][0] - save_eyeball[14][0])) / 2)
+                dx9 = (save_iris[15][0] - Cali_Center_Points[15][0]) / (save_iris[15][0] - save_eyeball[15][0])
 
-                dy1 = abs((save_iris[0][1] - Cali_Center_Points[0][1]) / (save_iris[0][1] - save_eyeball[0][1]))
-                dy2 = abs(((save_iris[1][1] - Cali_Center_Points[1][1]) / (save_iris[1][1] - save_eyeball[1][1])) + 
-			  ((save_iris[2][1] - Cali_Center_Points[2][1]) / (save_iris[2][1] - save_eyeball[2][1])) / 2)
-                dy3 = abs((save_iris[3][1] - Cali_Center_Points[3][1]) / (save_iris[3][1] - save_eyeball[3][1]))
-                dy4 = abs(((save_iris[4][1] - Cali_Center_Points[4][1]) / (save_iris[4][1] - save_eyeball[4][1])) + 
-			  ((save_iris[8][1] - Cali_Center_Points[8][1]) / (save_iris[8][1] - save_eyeball[8][1])) / 2)
-                dy5 = abs(((save_iris[5][1] - Cali_Center_Points[5][1]) / (save_iris[5][1] - save_eyeball[5][1])) + 
-			  ((save_iris[6][1] - Cali_Center_Points[6][1]) / (save_iris[6][1] - save_eyeball[6][1])) + 
-			  ((save_iris[9][1] - Cali_Center_Points[9][1]) / (save_iris[9][1] - save_eyeball[9][1])) + 
-			  ((save_iris[10][1] - Cali_Center_Points[10][1]) / (save_iris[10][1] - save_eyeball[10][1])) / 4)
-                dy6 = abs(((save_iris[7][1] - Cali_Center_Points[7][1]) / (save_iris[7][1] - save_eyeball[7][1])) + 
-			  ((save_iris[11][1] - Cali_Center_Points[11][1]) / (save_iris[11][1] - save_eyeball[11][1])) / 2)
-                dy7 = abs((save_iris[12][1] - Cali_Center_Points[12][1]) / (save_iris[12][1] - save_eyeball[12][1]))
-                dy8 = abs(((save_iris[13][1] - Cali_Center_Points[13][1]) / (save_iris[13][1] - save_eyeball[13][1]))
-			  ((save_iris[14][1] - Cali_Center_Points[14][1]) / (save_iris[14][1] - save_eyeball[14][1])) / 2)
-                dy9 = abs((save_iris[15][1] - Cali_Center_Points[15][1]) / (save_iris[15][1] - save_eyeball[15][1]))
+                dy1 = (save_iris[0][1] - Cali_Center_Points[0][1]) / (save_iris[0][1] - save_eyeball[0][1])
+                dy2 = (((save_iris[1][1] - Cali_Center_Points[1][1]) / (save_iris[1][1] - save_eyeball[1][1])) + 
+		       ((save_iris[2][1] - Cali_Center_Points[2][1]) / (save_iris[2][1] - save_eyeball[2][1])) / 2)
+                dy3 = (save_iris[3][1] - Cali_Center_Points[3][1]) / (save_iris[3][1] - save_eyeball[3][1])
+                dy4 = (((save_iris[4][1] - Cali_Center_Points[4][1]) / (save_iris[4][1] - save_eyeball[4][1])) + 
+		       ((save_iris[8][1] - Cali_Center_Points[8][1]) / (save_iris[8][1] - save_eyeball[8][1])) / 2)
+                dy5 = (((save_iris[5][1] - Cali_Center_Points[5][1]) / (save_iris[5][1] - save_eyeball[5][1])) + 
+		       ((save_iris[6][1] - Cali_Center_Points[6][1]) / (save_iris[6][1] - save_eyeball[6][1])) + 
+		       ((save_iris[9][1] - Cali_Center_Points[9][1]) / (save_iris[9][1] - save_eyeball[9][1])) + 
+		       ((save_iris[10][1] - Cali_Center_Points[10][1]) / (save_iris[10][1] - save_eyeball[10][1])) / 4)
+                dy6 = (((save_iris[7][1] - Cali_Center_Points[7][1]) / (save_iris[7][1] - save_eyeball[7][1])) + 
+		       ((save_iris[11][1] - Cali_Center_Points[11][1]) / (save_iris[11][1] - save_eyeball[11][1])) / 2)
+                dy7 = (save_iris[12][1] - Cali_Center_Points[12][1]) / (save_iris[12][1] - save_eyeball[12][1])
+                dy8 = (((save_iris[13][1] - Cali_Center_Points[13][1]) / (save_iris[13][1] - save_eyeball[13][1]))
+		       ((save_iris[14][1] - Cali_Center_Points[14][1]) / (save_iris[14][1] - save_eyeball[14][1])) / 2)
+                dy9 = (save_iris[15][1] - Cali_Center_Points[15][1]) / (save_iris[15][1] - save_eyeball[15][1])
 
-
-                # 캘리브레이션 플래그
                 save_flag = 1
-
             else :
-                x_middle = 0.03
-                y_middle = 0.03
+                x_middle = 1
+                y_middle = 1
 
 
             # if args.fullscreen :
@@ -686,12 +679,7 @@ if __name__ == '__main__':
                         gaze_x = i_x0 - e_x0 + Cx
                         gaze_y = i_y0 - e_y0 + Cy
 
-
                         # 경계선 알고리즘 변경
-
-                        now_eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
-                        now_eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
-
                         # 현재 눈 크기 (추후)
 
                         # now_eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
@@ -911,15 +899,17 @@ if __name__ == '__main__':
                             # 결과값 출력
                             print("current gaze : ", gaze_mean)
                             print("point : ", point)
+                            print("save : ", save_iris)
                             before_history = after_history
                             after_history = point
                             match = 0
-                            if before_history == after_history:
-                                if after_history in pattern_compare:
-                                    print("xxxxx", pattern_compare)
-                                else:
-                                    pattern_compare.append(after_history)
-                                    print("pattern_compare : ", pattern_compare)
+                            if point != 0 : 
+                                if before_history == after_history : 
+                                    if after_history in pattern_compare :
+                                        print("xxxxx", pattern_compare)
+                                    else :
+                                        pattern_compare.append(after_history)
+                                        print("pattern_compare : ", pattern_compare)
 
                             # 매치 알고리즘
 
