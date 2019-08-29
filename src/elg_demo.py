@@ -72,10 +72,12 @@ Const_Grid_Count_Y = 3
 
 Cali_Center_Points = []             # 캘리브레이션 좌표
 
+# 캘리브레이션 값 저장 변수
+left_iris_captured_data = []
+right_iris_captured_data = []
 
-
-save_iris = []
-save_eyeball = []
+left_eyeball_captured_data = []
+right_eyeball_captured_data = []
 
 # 눈 크기 전역 변수
 
@@ -86,6 +88,12 @@ iris_centre = 0
 eyeball_centre = 0
 eye_size_x = 0
 eye_size_y = 0
+
+left_iris_centre = 0
+right_iris_centre = 0
+
+left_eyeball_centre = 0
+right_eyeball_centre = 0
 
 # 시선 좌표 전역 변수
 left_gaze_coordinate = None
@@ -175,7 +183,12 @@ def resize_figure(img, point, current_radius, duration, background, count=0):
     global is_face_detect
     global Const_Cali_Unit_Time
     global is_finish_calibration
-    global eyeball_centre, iris_centre, save_eyeball, save_iris
+
+    global left_eyeball_captured_data, right_eyeball_captured_data
+    global left_iris_captured_data, right_iris_captured_data
+
+    global left_iris_centre, right_iris_centre
+    global left_eyeball_centre, right_eyeball_centre
 
     img = background.copy()
 
@@ -205,9 +218,11 @@ def resize_figure(img, point, current_radius, duration, background, count=0):
         # to-do : 눈의 좌표 저장
         # idea : 개선점? : 캘리브레이션 중간에 값 저장해서 보정하는건 어떤가?
 
-        save_iris.append(iris_centre)
-        save_eyeball.append(eyeball_centre)
+        left_eyeball_captured_data.append(left_eyeball_centre)
+        right_eyeball_captured_data.append(right_eyeball_centre)
 
+        left_iris_captured_data.append(left_iris_centre)
+        right_iris_captured_data.append(right_iris_centre)
 
         ##########################################
 
@@ -413,6 +428,9 @@ if __name__ == '__main__':
             global Const_Grid_Count_X, Const_Grid_Count_Y
             global is_start_gaze_capture
             global eyeball_centre, iris_centre, save_eyeball, save_iris
+
+            global left_iris_centre, right_iris_centre
+            global left_eyeball_centre, right_eyeball_centre
 
 
             last_frame_index = 0
@@ -848,8 +866,12 @@ if __name__ == '__main__':
 
 
                         if eye_side == 'left':
+                            left_iris_centre = iris_centre
+                            left_eyeball_centre = eyeball_centre
                             left_gaze_coordinate = np.mean(gaze_history, axis=0)
                         else:
+                            right_iris_centre = iris_centre
+                            right_eyeball_centre = eyeball_centre
                             right_gaze_coordinate = np.mean(gaze_history, axis=0)
 
                         if (left_gaze_coordinate is not None) and (right_gaze_coordinate is not None):
@@ -993,8 +1015,8 @@ if __name__ == '__main__':
                             before_history = after_history
                             after_history = point
                             match = 0
-                            if point != 0 : 
-                                if before_history == after_history : 
+                            if point != 0 :
+                                if before_history == after_history :
                                     if after_history in pattern_compare :
                                         print("xxxxx", pattern_compare)
                                     else :
