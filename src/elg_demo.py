@@ -24,8 +24,8 @@ debug_monitor_index = 1
 debug_execute_calibration = True
 debug_draw_gaze_arrow = True
 
-debug_full_screen_calibration = True
-debug_full_screen_gaze_capture = True
+debug_full_screen_calibration = False
+debug_full_screen_gaze_capture = False
 
 #############################################################################################
 
@@ -57,8 +57,8 @@ Const_Cali_Radius = 30            # 캘리브레이션 포인트 원 크기
 Const_Cali_Resize_Radius = 7      # 캘리브레이션 포인트가 가장 작을 때 원 크기
 
 Const_Cali_Unit_Time = 60         # 캘리브레이션 한 번 표현 소요 시간 (쓰레드 반복 시간, 프레임) # 1/60 초마다 실행 # 50 일 때 문제발생
-Const_Cali_Move_Duration = 0.35   # 캘리브레이션 원 이동 횟수       # 이동 할 때 (Unit_Time * Move_Duration)만큼 소요
-Const_Cali_Capture_Duration = 0.4 # 캘리브레이션 원 줄어드는 횟수    # 줄어들 때 (Unit_Time * Move_Duration)만큼 소요
+Const_Cali_Move_Duration = 0.2   # 캘리브레이션 원 이동 횟수       # 이동 할 때 (Unit_Time * Move_Duration)만큼 소요
+Const_Cali_Capture_Duration = 0.2 # 캘리브레이션 원 줄어드는 횟수    # 줄어들 때 (Unit_Time * Move_Duration)만큼 소요
 
 Const_Cali_Margin_X = 50            # 모니터 모서리에서 떨어질 X 거리
 Const_Cali_Margin_Y = 50            # 모니터 모서리에서 떨어질 Y 거리
@@ -101,6 +101,8 @@ def start_cali():
     global is_start_calibration
     global is_finish_calibration
     global is_fail_calibration
+    global save_iris
+
 
 
     is_start_calibration = True
@@ -174,7 +176,7 @@ def resize_figure(img, point, current_radius, duration, background, count=0):
     global is_face_detect
     global Const_Cali_Unit_Time
     global is_finish_calibration
-
+    global save_iris
     global iris_centre
     global eyeball_centre
 
@@ -413,6 +415,8 @@ if __name__ == '__main__':
             global Const_Display_X, Const_Display_Y
             global Const_Grid_Count_X, Const_Grid_Count_Y
             global is_start_gaze_capture
+            global save_iris, iris_centre
+
 
             last_frame_index = 0
             last_frame_time = time.time()
