@@ -21,7 +21,7 @@ import util.gaze
 ##################################### Debug Var #############################################
 
 debug_monitor_index = 1
-debug_execute_calibration = True
+debug_execute_calibration = False
 debug_draw_gaze_arrow = True
 
 debug_full_screen_calibration = False
@@ -777,7 +777,7 @@ if __name__ == '__main__':
                                 if not is_start_gaze_capture:
                                     is_start_gaze_capture = True
 
-                                    if debug_full_screen_gaze_capture  or args.fullscreen:
+                                    if debug_full_screen_gaze_capture or args.fullscreen:
                                         cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
                                         cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
 
