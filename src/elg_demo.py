@@ -17,7 +17,7 @@ import util.gaze
 
 
 
-debug_excute_calibaration = False
+debug_excute_calibaration = True
 
 
 is_detect = False
@@ -358,6 +358,8 @@ if __name__ == '__main__':
             pattern_compare = []
             match = 0
 
+            save_flag = 0
+
             # 눈 크기 평균 (추후)
 
             # eye_size_x_average = 0
@@ -366,14 +368,54 @@ if __name__ == '__main__':
             # 경계선 알고리즘 변경
 
             if len(save_iris) != 0 :
-                x_middle = ((save_iris[2][0] - save_eyeball[2][0] - (save_iris[1][0] - save_eyeball[1][0]) + 
-			     save_iris[6][0] - save_eyeball[6][0] - (save_iris[5][0] - save_eyeball[5][0]) + 
-			     save_iris[10][0] - save_eyeball[10][0] - (save_iris[9][0] - save_eyeball[9][0]) + 
-			     save_iris[14][0] - save_eyeball[14][0] - (save_iris[13][0] - save_eyeball[13][0])) / 8)
-                y_middle = ((save_iris[8][1] - save_eyeball[8][1] - (save_iris[4][1] - save_eyeball[4][1]) + 
-			     save_iris[9][1] - save_eyeball[9][1] - (save_iris[5][1] - save_eyeball[5][1]) + 
-			     save_iris[10][1] - save_eyeball[10][1] - (save_iris[6][1] - save_eyeball[6][1]) + 
-			     save_iris[11][1] - save_eyeball[11][1] - (save_iris[7][1] - save_eyeball[7][1])) / 8)
+                x_middle = abs((save_iris[2][0] - save_eyeball[2][0] - (save_iris[1][0] - save_eyeball[1][0]) + 
+				save_iris[6][0] - save_eyeball[6][0] - (save_iris[5][0] - save_eyeball[5][0]) + 
+				save_iris[10][0] - save_eyeball[10][0] - (save_iris[9][0] - save_eyeball[9][0]) + 
+				save_iris[14][0] - save_eyeball[14][0] - (save_iris[13][0] - save_eyeball[13][0])) / 8)
+                y_middle = abs((save_iris[8][1] - save_eyeball[8][1] - (save_iris[4][1] - save_eyeball[4][1]) + 
+				save_iris[9][1] - save_eyeball[9][1] - (save_iris[5][1] - save_eyeball[5][1]) + 
+				save_iris[10][1] - save_eyeball[10][1] - (save_iris[6][1] - save_eyeball[6][1]) + 
+				save_iris[11][1] - save_eyeball[11][1] - (save_iris[7][1] - save_eyeball[7][1])) / 8)
+
+            # 캘리브레이션 가중치 변경
+
+                dx1 = abs((save_iris[0][0] - Cali_Center_Points[0][0]) / (save_iris[0][0] - save_eyeball[0][0]))
+                dx2 = abs(((save_iris[1][0] - Cali_Center_Points[1][0]) / (save_iris[1][0] - save_eyeball[1][0])) + 
+			  ((save_iris[2][0] - Cali_Center_Points[2][0]) / (save_iris[2][0] - save_eyeball[2][0])) / 2)
+                dx3 = abs((save_iris[3][0] - Cali_Center_Points[3][0]) / (save_iris[3][0] - save_eyeball[3][0]))
+                dx4 = abs(((save_iris[4][0] - Cali_Center_Points[4][0]) / (save_iris[4][0] - save_eyeball[4][0])) + 
+			  ((save_iris[8][0] - Cali_Center_Points[8][0]) / (save_iris[8][0] - save_eyeball[8][0])) / 2)
+                dx5 = abs(((save_iris[5][0] - Cali_Center_Points[5][0]) / (save_iris[5][0] - save_eyeball[5][0])) + 
+			  ((save_iris[6][0] - Cali_Center_Points[6][0]) / (save_iris[6][0] - save_eyeball[6][0])) + 
+			  ((save_iris[9][0] - Cali_Center_Points[9][0]) / (save_iris[9][0] - save_eyeball[9][0])) + 
+			  ((save_iris[10][0] - Cali_Center_Points[10][0]) / (save_iris[10][0] - save_eyeball[10][0])) / 4)
+                dx6 = abs(((save_iris[7][0] - Cali_Center_Points[7][0]) / (save_iris[7][0] - save_eyeball[7][0])) + 
+			  ((save_iris[11][0] - Cali_Center_Points[11][0]) / (save_iris[11][0] - save_eyeball[11][0])) / 2)
+                dx7 = abs((save_iris[12][0] - Cali_Center_Points[12][0]) / (save_iris[12][0] - save_eyeball[12][0]))
+                dx8 = abs(((save_iris[13][0] - Cali_Center_Points[13][0]) / (save_iris[13][0] - save_eyeball[13][0]))
+			  ((save_iris[14][0] - Cali_Center_Points[14][0]) / (save_iris[14][0] - save_eyeball[14][0])) / 2)
+                dx9 = abs((save_iris[15][0] - Cali_Center_Points[15][0]) / (save_iris[15][0] - save_eyeball[15][0]))
+
+                dy1 = abs((save_iris[0][1] - Cali_Center_Points[0][1]) / (save_iris[0][1] - save_eyeball[0][1]))
+                dy2 = abs(((save_iris[1][1] - Cali_Center_Points[1][1]) / (save_iris[1][1] - save_eyeball[1][1])) + 
+			  ((save_iris[2][1] - Cali_Center_Points[2][1]) / (save_iris[2][1] - save_eyeball[2][1])) / 2)
+                dy3 = abs((save_iris[3][1] - Cali_Center_Points[3][1]) / (save_iris[3][1] - save_eyeball[3][1]))
+                dy4 = abs(((save_iris[4][1] - Cali_Center_Points[4][1]) / (save_iris[4][1] - save_eyeball[4][1])) + 
+			  ((save_iris[8][1] - Cali_Center_Points[8][1]) / (save_iris[8][1] - save_eyeball[8][1])) / 2)
+                dy5 = abs(((save_iris[5][1] - Cali_Center_Points[5][1]) / (save_iris[5][1] - save_eyeball[5][1])) + 
+			  ((save_iris[6][1] - Cali_Center_Points[6][1]) / (save_iris[6][1] - save_eyeball[6][1])) + 
+			  ((save_iris[9][1] - Cali_Center_Points[9][1]) / (save_iris[9][1] - save_eyeball[9][1])) + 
+			  ((save_iris[10][1] - Cali_Center_Points[10][1]) / (save_iris[10][1] - save_eyeball[10][1])) / 4)
+                dy6 = abs(((save_iris[7][1] - Cali_Center_Points[7][1]) / (save_iris[7][1] - save_eyeball[7][1])) + 
+			  ((save_iris[11][1] - Cali_Center_Points[11][1]) / (save_iris[11][1] - save_eyeball[11][1])) / 2)
+                dy7 = abs((save_iris[12][1] - Cali_Center_Points[12][1]) / (save_iris[12][1] - save_eyeball[12][1]))
+                dy8 = abs(((save_iris[13][1] - Cali_Center_Points[13][1]) / (save_iris[13][1] - save_eyeball[13][1]))
+			  ((save_iris[14][1] - Cali_Center_Points[14][1]) / (save_iris[14][1] - save_eyeball[14][1])) / 2)
+                dy9 = abs((save_iris[15][1] - Cali_Center_Points[15][1]) / (save_iris[15][1] - save_eyeball[15][1]))
+
+
+                # 캘리브레이션 플래그
+                save_flag = 1
             else :
                 x_middle = 1
                 y_middle = 1
@@ -555,42 +597,85 @@ if __name__ == '__main__':
                         # now_eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
                         # now_eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
 
-                        if abs(gaze_x) < x_middle and abs(gaze_y) < y_middle :
-                            dx = 5
-                            dy = 5
-                            point = 5
-                        elif gaze_x <= -1 * x_middle and gaze_y <= -1 * y_middle :
-                            dx = 42
-                            dy = 68
-                            point = 1
-                        elif abs(gaze_x) < x_middle and gaze_y <= -1 * y_middle :
-                            dx = 5
-                            dy = 68
-                            point = 2
-                        elif gaze_x >= x_middle and gaze_y <= -1 * y_middle :
-                            dx = 42
-                            dy = 68
-                            point = 3
-                        elif gaze_x <= -1 * x_middle and abs(gaze_y) < y_middle :
-                            dx = 42
-                            dy = 5
-                            point = 4
-                        elif gaze_x >= x_middle and abs(gaze_y) < y_middle :
-                            dx = 42
-                            dy = 5
-                            point = 6
-                        elif gaze_x <= -1 * x_middle and gaze_y >= y_middle :
-                            dx = 42
-                            dy = 68
-                            point = 7
-                        elif abs(gaze_x) < x_middle and gaze_y >= y_middle :
-                            dx = 5
-                            dy = 68
-                            point = 8
-                        elif gaze_x >= x_middle and gaze_y >= y_middle :
-                            dx = 42
-                            dy = 68
-                            point = 9
+                        # 캘리브레이션을 하지 않았을 때 : 
+
+                        if save_flag == 0 :
+                            if abs(gaze_x) < x_middle and abs(gaze_y) < y_middle :
+                                dx = 5
+                                dy = 5
+                                point = 5
+                            elif gaze_x <= -1 * x_middle and gaze_y <= -1 * y_middle :
+                                dx = 42
+                                dy = 68
+                                point = 1
+                            elif abs(gaze_x) < x_middle and gaze_y <= -1 * y_middle :
+                                dx = 5
+                                dy = 68
+                                point = 2
+                            elif gaze_x >= x_middle and gaze_y <= -1 * y_middle :
+                                dx = 42
+                                dy = 68
+                                point = 3
+                            elif gaze_x <= -1 * x_middle and abs(gaze_y) < y_middle :
+                                dx = 42
+                                dy = 5
+                                point = 4
+                            elif gaze_x >= x_middle and abs(gaze_y) < y_middle :
+                                dx = 42
+                                dy = 5
+                                point = 6
+                            elif gaze_x <= -1 * x_middle and gaze_y >= y_middle :
+                                dx = 42
+                                dy = 68
+                                point = 7
+                            elif abs(gaze_x) < x_middle and gaze_y >= y_middle :
+                                dx = 5
+                                dy = 68
+                                point = 8
+                            elif gaze_x >= x_middle and gaze_y >= y_middle :
+                                dx = 42
+                                dy = 68
+                                point = 9
+
+                        # 캘리브레이션을 했을 때 : 
+
+                        else :
+                            if abs(gaze_x) < x_middle and abs(gaze_y) < y_middle :
+                                dx = dx5
+                                dy = dy5
+                                point = 5
+                            elif gaze_x <= -1 * x_middle and gaze_y <= -1 * y_middle :
+                                dx = dx1
+                                dy = dy1
+                                point = 1
+                            elif abs(gaze_x) < x_middle and gaze_y <= -1 * y_middle :
+                                dx = dx2
+                                dy = dy2
+                                point = 2
+                            elif gaze_x >= x_middle and gaze_y <= -1 * y_middle :
+                                dx = dx3
+                                dy = dy3
+                                point = 3
+                            elif gaze_x <= -1 * x_middle and abs(gaze_y) < y_middle :
+                                dx = dx4
+                                dy = dy4
+                                point = 4
+                            elif gaze_x >= x_middle and abs(gaze_y) < y_middle :
+                                dx = dx6
+                                dy = dy6
+                                point = 6
+                            elif gaze_x <= -1 * x_middle and gaze_y >= y_middle :
+                                dx = dx7
+                                dy = dy7
+                                point = 7
+                            elif abs(gaze_x) < x_middle and gaze_y >= y_middle :
+                                dx = dx8
+                                dy = dy8
+                                point = 8
+                            elif gaze_x >= x_middle and gaze_y >= y_middle :
+                                dx = dx9
+                                dy = dy9
+                                point = 9
 
                         current_gaze = np.array([i_x0 + gaze_x * abs(gaze_x) * dx, i_y0 + 3 * gaze_y * abs(3 * gaze_y) * dy])
 
