@@ -8,7 +8,6 @@ import time
 
 import coloredlogs
 import cv2 as cv
-import cv2
 import numpy as np
 import tensorflow as tf
 
@@ -18,11 +17,13 @@ import util.gaze
 
 
 
+
 ##################################### Debug Var #############################################
 
 debug_monitor_index = 1
 debug_execute_calibration = False
 debug_draw_gaze_arrow = True
+
 
 debug_full_screen_calibration = False
 debug_full_screen_gaze_capture = False
@@ -52,13 +53,6 @@ Const_Display_Y = 720             # 캘리브레이션 창 높이
 
 
 Const_Cali_Num_X = 3              # 캘리브레이션 포인트 x 갯수
-
-Const_Cali_Num_X = 3
-Const_Cali_Num_Y = 3
-Const_Cali_Radius = 30
-Const_Cali_Resize_Radius = 7
-
-
 Const_Cali_Num_Y = 2              # 캘리브레이션 포인트 y 갯수
 Const_Cali_Radius = 30            # 캘리브레이션 포인트 원 크기
 Const_Cali_Resize_Radius = 7      # 캘리브레이션 포인트가 가장 작을 때 원 크기
@@ -75,6 +69,9 @@ Const_Cali_Cross_Size = 16          # 캘리브레이션 포인트에 십자가 
 
 Const_Grid_Count_X = 3
 Const_Grid_Count_Y = 3
+
+
+Cali_Center_Points = []
 
 
 Cali_Center_Points = []
@@ -167,6 +164,7 @@ def resize_figure(img, point, current_radius, duration, background, count=0):
     global is_face_detect
     global Const_Cali_Unit_Time
     global is_finish_calibration
+
 
     img = background.copy()
 
@@ -425,10 +423,6 @@ if __name__ == '__main__':
                 x_middle = 1
                 y_middle = 1
 
-
-            # if args.fullscreen :
-
-
             while True:
                 # If no output to visualize, show unannotated frame
                 if inferred_stuff_queue.empty():
@@ -458,6 +452,7 @@ if __name__ == '__main__':
                             if args.record_video:
                                 video_out_queue.put_nowait(next_frame_index)
                             last_frame_index = next_frame_index
+
 
                         elif not 'faces' in next_frame:
 
@@ -739,6 +734,7 @@ if __name__ == '__main__':
                         # Record frame?
                         if args.record_video:
                             video_out_queue.put_nowait(frame_index)
+
 
                         if is_finish_calibration:
                             # Quit? # 패턴 매치되면 종료
