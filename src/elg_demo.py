@@ -24,8 +24,8 @@ debug_monitor_index = 1
 debug_execute_calibration = True
 debug_draw_gaze_arrow = True
 
-debug_full_screen_calibration = False
-debug_full_screen_gaze_capture = False
+debug_full_screen_calibration = True
+debug_full_screen_gaze_capture = True
 
 #############################################################################################
 
@@ -427,7 +427,7 @@ if __name__ == '__main__':
             global Const_Display_X, Const_Display_Y
             global Const_Grid_Count_X, Const_Grid_Count_Y
             global is_start_gaze_capture
-            global eyeball_centre, iris_centre, save_eyeball, save_iris
+            global eyeball_centre, iris_centre, left_eyeball_captured_data, left_iris_captured_data
 
             global left_iris_centre, right_iris_centre
             global left_eyeball_centre, right_eyeball_centre
@@ -490,6 +490,7 @@ if __name__ == '__main__':
                             is_face_detect = True  ## Detecting Face
 
                             if debug_execute_calibration:
+
                                 if not is_start_calibration:  ## Only play once Calibration
                                     calibration_thread = threading.Thread(target=start_cali, name='calibration_th2')
                                     calibration_thread.daemon = True
@@ -642,7 +643,7 @@ if __name__ == '__main__':
 
                         # 경계선 알고리즘 변경
 
-                        if len(save_iris) < 15:
+                        if len(left_iris_captured_data) < 15:
                             x_middle = 1
                             y_middle = 1
                             dx1 = 42
@@ -666,23 +667,23 @@ if __name__ == '__main__':
 
                         else:
                             x_middle = (
-                                (save_iris[2][0] - save_eyeball[2][0] - (save_iris[1][0] - save_eyeball[1][0]) +
-                                 save_iris[6][0] - save_eyeball[6][0] - (save_iris[5][0] - save_eyeball[5][0]) +
-                                 save_iris[10][0] - save_eyeball[10][0] - (save_iris[9][0] - save_eyeball[9][0]) +
-                                 save_iris[14][0] - save_eyeball[14][0] - (save_iris[13][0] - save_eyeball[13][0])) / 8)
+                                (left_iris_captured_data[2][0] - left_eyeball_captured_data[2][0] - (left_iris_captured_data[1][0] - left_eyeball_captured_data[1][0]) +
+                                 left_iris_captured_data[6][0] - left_eyeball_captured_data[6][0] - (left_iris_captured_data[5][0] - left_eyeball_captured_data[5][0]) +
+                                 left_iris_captured_data[10][0] - left_eyeball_captured_data[10][0] - (left_iris_captured_data[9][0] - left_eyeball_captured_data[9][0]) +
+                                 left_iris_captured_data[14][0] - left_eyeball_captured_data[14][0] - (left_iris_captured_data[13][0] - left_eyeball_captured_data[13][0])) / 8)
                             y_middle = (
-                                (save_iris[8][1] - save_eyeball[8][1] - (save_iris[4][1] - save_eyeball[4][1]) +
-                                 save_iris[9][1] - save_eyeball[9][1] - (save_iris[5][1] - save_eyeball[5][1]) +
-                                 save_iris[10][1] - save_eyeball[10][1] - (save_iris[6][1] - save_eyeball[6][1]) +
-                                 save_iris[11][1] - save_eyeball[11][1] - (save_iris[7][1] - save_eyeball[7][1])) / 8)
+                                (left_iris_captured_data[8][1] - left_eyeball_captured_data[8][1] - (left_iris_captured_data[4][1] - left_eyeball_captured_data[4][1]) +
+                                 left_iris_captured_data[9][1] - left_eyeball_captured_data[9][1] - (left_iris_captured_data[5][1] - left_eyeball_captured_data[5][1]) +
+                                 left_iris_captured_data[10][1] - left_eyeball_captured_data[10][1] - (left_iris_captured_data[6][1] - left_eyeball_captured_data[6][1]) +
+                                 left_iris_captured_data[11][1] - left_eyeball_captured_data[11][1] - (left_iris_captured_data[7][1] - left_eyeball_captured_data[7][1])) / 8)
 
                             # 캘리브레이션 가중치 변경
 
                             def calc_cali(a, b) :
                                 for i in range(2) :
                                     for j in range(2) :
-                                        result = abs((Cali_Center_Points[a + i + 4 * j][b] - save_iris[a + i + 4 * j][b]) / 
-                                                     (save_iris[a + i + 4 * j][b] - save_eyeball[a + i + 4 * j][b]))
+                                        result = abs((Cali_Center_Points[a + i + 4 * j][b] - left_iris_captured_data[a + i + 4 * j][b]) / 
+                                                     (left_iris_captured_data[a + i + 4 * j][b] - left_eyeball_captured_data[a + i + 4 * j][b]))
                                 return result
 
                             dx1 = calc_cali(0, 0)
@@ -889,7 +890,7 @@ if __name__ == '__main__':
                             print("current gaze : ", gaze_mean)
                             print("point : ", point)
 
-                            if len(save_iris) > 14 :
+                            if len(left_iris_captured_data) > 14 :
                                 print("x_middle : ", x_middle)
                                 print("y_middle : ", y_middle)
                                 print("dx1 : ", dx1)
@@ -919,7 +920,6 @@ if __name__ == '__main__':
                                         print("pattern_compare : ", pattern_compare)
 
                             # 매치 알고리즘
-
                             i = 0
                             while i < len(pattern_compare):
                                 if pattern_compare[i] == pattern[i]:
