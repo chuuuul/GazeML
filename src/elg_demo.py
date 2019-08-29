@@ -660,135 +660,30 @@ if __name__ == '__main__':
 
                             # 캘리브레이션 가중치 변경
 
-                            dx1 = abs(((Cali_Center_Points[0][0] - save_iris[0][0]) / (
-                                        save_iris[0][0] - save_eyeball[0][0])) +
-                                   ((Cali_Center_Points[1][0] - save_iris[1][0]) / (
-                                               save_iris[1][0] - save_eyeball[1][0])) +
-                                   ((Cali_Center_Points[4][0] - save_iris[4][0]) / (
-                                               save_iris[4][0] - save_eyeball[4][0])) +
-                                   ((Cali_Center_Points[5][0] - save_iris[5][0]) / (
-                                               save_iris[5][0] - save_eyeball[5][0])) / 4)
+                            def calc_cali(a, b) :
+                                for i in range(2) :
+                                    for j in range(2) :
+                                        result = abs((Cali_Center_Points[a + i + 4 * j][b] - save_iris[a + i + 4 * j][b]) / 
+                                                     (save_iris[a + i + 4 * j][b] - save_eyeball[a + i + 4 * j][b]))
+                                return result
 
-                            dx2 = abs(((Cali_Center_Points[1][0] - save_iris[1][0]) / (
-                                        save_iris[1][0] - save_eyeball[1][0])) +
-                                   ((Cali_Center_Points[2][0] - save_iris[2][0]) / (
-                                               save_iris[2][0] - save_eyeball[2][0])) +
-                                   ((Cali_Center_Points[5][0] - save_iris[5][0]) / (
-                                               save_iris[5][0] - save_eyeball[5][0])) +
-                                   ((Cali_Center_Points[6][0] - save_iris[6][0]) / (
-                                               save_iris[6][0] - save_eyeball[6][0])) / 4)
-
-                            dx3 = abs(((Cali_Center_Points[2][0] - save_iris[2][0]) / (
-                                        save_iris[2][0] - save_eyeball[2][0])) +
-                                   ((Cali_Center_Points[3][0] - save_iris[3][0]) / (
-                                               save_iris[3][0] - save_eyeball[3][0])) +
-                                   ((Cali_Center_Points[6][0] - save_iris[6][0]) / (
-                                               save_iris[6][0] - save_eyeball[6][0])) +
-                                   ((Cali_Center_Points[7][0] - save_iris[7][0]) / (
-                                               save_iris[7][0] - save_eyeball[7][0])) / 4)
-
-                            dx4 = abs(((Cali_Center_Points[4][0] - save_iris[4][0]) / (
-                                        save_iris[4][0] - save_eyeball[4][0])) +
-                                   ((Cali_Center_Points[5][0] - save_iris[5][0]) / (
-                                               save_iris[5][0] - save_eyeball[5][0])) +
-                                   ((Cali_Center_Points[8][0] - save_iris[8][0]) / (
-                                               save_iris[8][0] - save_eyeball[8][0])) +
-                                   ((Cali_Center_Points[9][0] - save_iris[9][0]) / (
-                                               save_iris[9][0] - save_eyeball[9][0])) / 4)
-
-                            dx5 = abs(((Cali_Center_Points[5][0] - save_iris[5][0]) / (
-                                        save_iris[5][0] - save_eyeball[5][0])) +
-                                   ((Cali_Center_Points[6][0] - save_iris[6][0]) / (
-                                               save_iris[6][0] - save_eyeball[6][0])) +
-                                   ((Cali_Center_Points[9][0] - save_iris[9][0]) / (
-                                               save_iris[9][0] - save_eyeball[9][0])) +
-                                   ((Cali_Center_Points[10][0] - save_iris[10][0]) / (
-                                               save_iris[10][0] - save_eyeball[10][0])) / 4)
-
-                            dx6 = abs(((Cali_Center_Points[6][0] - save_iris[6][0]) / (
-                                        save_iris[6][0] - save_eyeball[6][0])) +
-                                   ((Cali_Center_Points[7][0] - save_iris[7][0]) / (
-                                               save_iris[7][0] - save_eyeball[7][0])) +
-                                   ((Cali_Center_Points[10][0] - save_iris[10][0]) / (
-                                               save_iris[10][0] - save_eyeball[10][0])) +
-                                   ((Cali_Center_Points[11][0] - save_iris[11][0]) / (
-                                               save_iris[11][0] - save_eyeball[11][0])) / 4)
-
-                            dx7 = abs(((Cali_Center_Points[8][0] - save_iris[8][0]) / (
-                                        save_iris[8][0] - save_eyeball[8][0])) +
-                                   ((Cali_Center_Points[9][0] - save_iris[9][0]) / (
-                                               save_iris[9][0] - save_eyeball[9][0])) +
-                                   ((Cali_Center_Points[12][0] - save_iris[12][0]) / (
-                                               save_iris[12][0] - save_eyeball[12][0])) +
-                                   ((Cali_Center_Points[13][0] - save_iris[13][0]) / (
-                                               save_iris[13][0] - save_eyeball[13][0])) / 4)
-
+                            dx1 = calc_cali(0, 0)
+                            dx2 = calc_cali(1, 0)
+                            dx3 = calc_cali(2, 0)
+                            dx4 = calc_cali(4, 0)
+                            dx5 = calc_cali(5, 0)
+                            dx6 = calc_cali(6, 0)
+                            dx7 = calc_cali(8, 0)
                             dx8 = dx2
                             dx9 = dx1
 
-                            dy1 = abs(((save_iris[0][1] - Cali_Center_Points[0][1]) / (
-                                        save_iris[0][1] - save_eyeball[0][1])) +
-                                   ((save_iris[1][1] - Cali_Center_Points[1][1]) / (
-                                               save_iris[1][1] - save_eyeball[1][1])) +
-                                   ((save_iris[4][1] - Cali_Center_Points[4][1]) / (
-                                               save_iris[4][1] - save_eyeball[4][1])) +
-                                   ((save_iris[5][1] - Cali_Center_Points[5][1]) / (
-                                               save_iris[5][1] - save_eyeball[5][1])) / 4)
-
-                            dy2 = abs(((save_iris[1][1] - Cali_Center_Points[1][1]) / (
-                                        save_iris[1][1] - save_eyeball[1][1])) +
-                                   ((save_iris[2][1] - Cali_Center_Points[2][1]) / (
-                                               save_iris[2][1] - save_eyeball[2][1])) +
-                                   ((save_iris[5][1] - Cali_Center_Points[5][1]) / (
-                                               save_iris[5][1] - save_eyeball[5][1])) +
-                                   ((save_iris[6][1] - Cali_Center_Points[6][1]) / (
-                                               save_iris[6][1] - save_eyeball[6][1])) / 4)
-
-                            dy3 = abs(((save_iris[2][1] - Cali_Center_Points[2][1]) / (
-                                        save_iris[2][1] - save_eyeball[2][1])) +
-                                   ((save_iris[3][1] - Cali_Center_Points[3][1]) / (
-                                               save_iris[3][1] - save_eyeball[3][1])) +
-                                   ((save_iris[6][1] - Cali_Center_Points[6][1]) / (
-                                               save_iris[6][1] - save_eyeball[6][1])) +
-                                   ((save_iris[7][1] - Cali_Center_Points[7][1]) / (
-                                               save_iris[7][1] - save_eyeball[7][1])) / 4)
-
-                            dy4 = abs(((save_iris[4][1] - Cali_Center_Points[4][1]) / (
-                                        save_iris[4][1] - save_eyeball[4][1])) +
-                                   ((save_iris[5][1] - Cali_Center_Points[5][1]) / (
-                                               save_iris[5][1] - save_eyeball[5][1])) +
-                                   ((save_iris[8][1] - Cali_Center_Points[8][1]) / (
-                                               save_iris[8][1] - save_eyeball[8][1])) +
-                                   ((save_iris[9][1] - Cali_Center_Points[9][1]) / (
-                                               save_iris[9][1] - save_eyeball[9][1])) / 4)
-
-                            dy5 = abs(((save_iris[5][1] - Cali_Center_Points[5][1]) / (
-                                        save_iris[5][1] - save_eyeball[5][1])) +
-                                   ((save_iris[6][1] - Cali_Center_Points[6][1]) / (
-                                               save_iris[6][1] - save_eyeball[6][1])) +
-                                   ((save_iris[9][1] - Cali_Center_Points[9][1]) / (
-                                               save_iris[9][1] - save_eyeball[9][1])) +
-                                   ((save_iris[10][1] - Cali_Center_Points[10][1]) / (
-                                               save_iris[10][1] - save_eyeball[10][1])) / 4)
-
-                            dy6 = abs(((save_iris[6][1] - Cali_Center_Points[6][1]) / (
-                                        save_iris[6][1] - save_eyeball[6][1])) +
-                                   ((save_iris[7][1] - Cali_Center_Points[7][1]) / (
-                                               save_iris[7][1] - save_eyeball[7][1])) +
-                                   ((save_iris[10][1] - Cali_Center_Points[10][1]) / (
-                                               save_iris[10][1] - save_eyeball[10][1])) +
-                                   ((save_iris[11][1] - Cali_Center_Points[11][1]) / (
-                                               save_iris[11][1] - save_eyeball[11][1])) / 4)
-
-                            dy7 = abs(((save_iris[8][1] - Cali_Center_Points[8][1]) / (
-                                        save_iris[8][1] - save_eyeball[8][1])) +
-                                   ((save_iris[9][1] - Cali_Center_Points[9][1]) / (
-                                               save_iris[9][1] - save_eyeball[9][1])) +
-                                   ((save_iris[12][1] - Cali_Center_Points[12][1]) / (
-                                               save_iris[12][1] - save_eyeball[12][1])) +
-                                   ((save_iris[13][1] - Cali_Center_Points[13][1]) / (
-                                               save_iris[13][1] - save_eyeball[13][1])) / 4)
-
+                            dy1 = calc_cali(0, 1)
+                            dy2 = calc_cali(1, 1)
+                            dy3 = calc_cali(2, 1)
+                            dy4 = calc_cali(4, 1)
+                            dy5 = calc_cali(5, 1)
+                            dy6 = calc_cali(6, 1)
+                            dy7 = calc_cali(8, 1)
                             dy8 = dy1
                             dy9 = dy1
 
