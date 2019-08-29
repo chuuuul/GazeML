@@ -1,0 +1,1369 @@
+[32m27/08 01:57[0m [1;30mINFO[0m Built model for training.
+[32m27/08 01:57[0m [1;30mINFO[0m ------------------------------
+[32m27/08 01:57[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 01:57[0m [1;30mINFO[0m ------------------------------
+[32m27/08 01:57[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 01:57[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 01:57[0m [1;30mINFO[0m ------------------------------
+[32m27/08 01:58[0m [1;30mINFO[0m Built model for training.
+[32m27/08 01:58[0m [1;30mINFO[0m ------------------------------
+[32m27/08 01:58[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 01:58[0m [1;30mINFO[0m ------------------------------
+[32m27/08 01:58[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 01:58[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 01:58[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:02[0m [1;30mINFO[0m Built model for training.
+[32m27/08 02:02[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:02[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 02:02[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:02[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 02:02[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 02:02[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:03[0m [1;30mINFO[0m Built model for training.
+[32m27/08 02:04[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:04[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 02:04[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:04[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 02:04[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 02:04[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:06[0m [1;30mINFO[0m Built model for training.
+[32m27/08 02:06[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:06[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 02:06[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:06[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 02:06[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 02:06[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:08[0m [1;30mINFO[0m Built model for training.
+[32m27/08 02:08[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:08[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 02:08[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:08[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 02:08[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 02:08[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:08[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m27/08 02:08[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m27/08 02:09[0m [1;30mINFO[0m Built model for training.
+[32m27/08 02:09[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:09[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 02:09[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:09[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 02:09[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 02:09[0m [1;30mINFO[0m ------------------------------
+[32m27/08 02:09[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m27/08 02:09[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m27/08 05:47[0m [1;30mINFO[0m Built model for training.
+[32m27/08 05:47[0m [1;30mINFO[0m ------------------------------
+[32m27/08 05:47[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 05:47[0m [1;30mINFO[0m ------------------------------
+[32m27/08 05:47[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 05:47[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 05:47[0m [1;30mINFO[0m ------------------------------
+[32m27/08 05:47[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m27/08 05:47[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m27/08 06:07[0m [1;30mINFO[0m Built model for training.
+[32m27/08 06:07[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:07[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 06:07[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:07[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 06:07[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 06:07[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:07[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m27/08 06:07[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m27/08 06:08[0m [1;30mINFO[0m Built model for training.
+[32m27/08 06:08[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:08[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 06:08[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:08[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 06:08[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 06:08[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:08[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m27/08 06:08[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 06:25 INFO Built model for training.
+27/08 06:25 INFO ------------------------------
+27/08 06:25 INFO  Approximate Model Statistics 
+27/08 06:25 INFO ------------------------------
+27/08 06:25 INFO FLOPS per input: 205,323,382.0
+27/08 06:25 INFO Trainable Parameters: 150,813
+27/08 06:25 INFO ------------------------------
+27/08 06:25 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 06:25 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m27/08 06:37[0m [1;30mINFO[0m Built model for training.
+[32m27/08 06:37[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:37[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 06:37[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:37[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 06:37[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 06:37[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:37[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m27/08 06:37[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m27/08 06:40[0m [1;30mINFO[0m Built model for training.
+[32m27/08 06:40[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:40[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 06:40[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:40[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 06:40[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 06:40[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:40[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m27/08 06:40[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m27/08 06:40[0m [1;30mINFO[0m Built model for training.
+[32m27/08 06:40[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:40[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 06:40[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:40[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 06:40[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 06:40[0m [1;30mINFO[0m ------------------------------
+[32m27/08 06:40[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m27/08 06:40[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 06:42 INFO Built model for training.
+27/08 06:42 INFO ------------------------------
+27/08 06:42 INFO  Approximate Model Statistics 
+27/08 06:42 INFO ------------------------------
+27/08 06:42 INFO FLOPS per input: 205,323,382.0
+27/08 06:42 INFO Trainable Parameters: 150,813
+27/08 06:42 INFO ------------------------------
+27/08 06:42 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 06:42 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 06:44 INFO Built model for training.
+27/08 06:44 INFO ------------------------------
+27/08 06:44 INFO  Approximate Model Statistics 
+27/08 06:44 INFO ------------------------------
+27/08 06:44 INFO FLOPS per input: 205,323,382.0
+27/08 06:44 INFO Trainable Parameters: 150,813
+27/08 06:44 INFO ------------------------------
+27/08 06:44 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 06:44 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 06:46 INFO Built model for training.
+27/08 06:46 INFO ------------------------------
+27/08 06:46 INFO  Approximate Model Statistics 
+27/08 06:46 INFO ------------------------------
+27/08 06:46 INFO FLOPS per input: 205,323,382.0
+27/08 06:46 INFO Trainable Parameters: 150,813
+27/08 06:46 INFO ------------------------------
+27/08 06:46 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 06:46 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 06:48 INFO Built model for training.
+27/08 06:48 INFO ------------------------------
+27/08 06:48 INFO  Approximate Model Statistics 
+27/08 06:48 INFO ------------------------------
+27/08 06:48 INFO FLOPS per input: 205,323,382.0
+27/08 06:48 INFO Trainable Parameters: 150,813
+27/08 06:48 INFO ------------------------------
+27/08 06:48 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 06:48 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 06:49 INFO Built model for training.
+27/08 06:49 INFO ------------------------------
+27/08 06:49 INFO  Approximate Model Statistics 
+27/08 06:49 INFO ------------------------------
+27/08 06:49 INFO FLOPS per input: 205,323,382.0
+27/08 06:49 INFO Trainable Parameters: 150,813
+27/08 06:49 INFO ------------------------------
+27/08 06:50 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 06:50 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 06:50 INFO Built model for training.
+27/08 06:50 INFO ------------------------------
+27/08 06:50 INFO  Approximate Model Statistics 
+27/08 06:50 INFO ------------------------------
+27/08 06:50 INFO FLOPS per input: 205,323,382.0
+27/08 06:50 INFO Trainable Parameters: 150,813
+27/08 06:50 INFO ------------------------------
+27/08 06:50 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 06:50 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 06:52 INFO Built model for training.
+27/08 06:52 INFO ------------------------------
+27/08 06:52 INFO  Approximate Model Statistics 
+27/08 06:52 INFO ------------------------------
+27/08 06:52 INFO FLOPS per input: 205,323,382.0
+27/08 06:52 INFO Trainable Parameters: 150,813
+27/08 06:52 INFO ------------------------------
+27/08 06:52 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 06:52 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 06:54 INFO Built model for training.
+27/08 06:54 INFO ------------------------------
+27/08 06:54 INFO  Approximate Model Statistics 
+27/08 06:54 INFO ------------------------------
+27/08 06:54 INFO FLOPS per input: 205,323,382.0
+27/08 06:54 INFO Trainable Parameters: 150,813
+27/08 06:54 INFO ------------------------------
+27/08 06:54 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 06:54 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 06:55 INFO Built model for training.
+27/08 06:55 INFO ------------------------------
+27/08 06:55 INFO  Approximate Model Statistics 
+27/08 06:55 INFO ------------------------------
+27/08 06:55 INFO FLOPS per input: 205,323,382.0
+27/08 06:55 INFO Trainable Parameters: 150,813
+27/08 06:55 INFO ------------------------------
+27/08 06:55 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 06:55 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:06 INFO Built model for training.
+27/08 07:06 INFO ------------------------------
+27/08 07:06 INFO  Approximate Model Statistics 
+27/08 07:06 INFO ------------------------------
+27/08 07:06 INFO FLOPS per input: 205,323,382.0
+27/08 07:06 INFO Trainable Parameters: 150,813
+27/08 07:06 INFO ------------------------------
+27/08 07:06 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:06 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:13 INFO Built model for training.
+27/08 07:13 INFO ------------------------------
+27/08 07:13 INFO  Approximate Model Statistics 
+27/08 07:13 INFO ------------------------------
+27/08 07:13 INFO FLOPS per input: 205,323,382.0
+27/08 07:13 INFO Trainable Parameters: 150,813
+27/08 07:13 INFO ------------------------------
+27/08 07:14 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:14 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:16 INFO Built model for training.
+27/08 07:16 INFO ------------------------------
+27/08 07:16 INFO  Approximate Model Statistics 
+27/08 07:16 INFO ------------------------------
+27/08 07:16 INFO FLOPS per input: 205,323,382.0
+27/08 07:16 INFO Trainable Parameters: 150,813
+27/08 07:16 INFO ------------------------------
+27/08 07:16 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:16 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:19 INFO Built model for training.
+27/08 07:19 INFO ------------------------------
+27/08 07:19 INFO  Approximate Model Statistics 
+27/08 07:19 INFO ------------------------------
+27/08 07:19 INFO FLOPS per input: 205,323,382.0
+27/08 07:19 INFO Trainable Parameters: 150,813
+27/08 07:19 INFO ------------------------------
+27/08 07:19 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:19 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:20 INFO Built model for training.
+27/08 07:20 INFO ------------------------------
+27/08 07:20 INFO  Approximate Model Statistics 
+27/08 07:20 INFO ------------------------------
+27/08 07:20 INFO FLOPS per input: 205,323,382.0
+27/08 07:20 INFO Trainable Parameters: 150,813
+27/08 07:20 INFO ------------------------------
+27/08 07:20 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:20 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:21 INFO Built model for training.
+27/08 07:21 INFO ------------------------------
+27/08 07:21 INFO  Approximate Model Statistics 
+27/08 07:21 INFO ------------------------------
+27/08 07:21 INFO FLOPS per input: 205,323,382.0
+27/08 07:21 INFO Trainable Parameters: 150,813
+27/08 07:21 INFO ------------------------------
+27/08 07:22 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:22 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:40 INFO Built model for training.
+27/08 07:40 INFO ------------------------------
+27/08 07:40 INFO  Approximate Model Statistics 
+27/08 07:40 INFO ------------------------------
+27/08 07:40 INFO FLOPS per input: 205,323,382.0
+27/08 07:40 INFO Trainable Parameters: 150,813
+27/08 07:40 INFO ------------------------------
+27/08 07:41 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:41 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:41 INFO Built model for training.
+27/08 07:41 INFO ------------------------------
+27/08 07:41 INFO  Approximate Model Statistics 
+27/08 07:41 INFO ------------------------------
+27/08 07:41 INFO FLOPS per input: 205,323,382.0
+27/08 07:41 INFO Trainable Parameters: 150,813
+27/08 07:41 INFO ------------------------------
+27/08 07:42 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:42 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:43 INFO Built model for training.
+27/08 07:43 INFO ------------------------------
+27/08 07:43 INFO  Approximate Model Statistics 
+27/08 07:43 INFO ------------------------------
+27/08 07:43 INFO FLOPS per input: 205,323,382.0
+27/08 07:43 INFO Trainable Parameters: 150,813
+27/08 07:43 INFO ------------------------------
+27/08 07:44 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:44 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:45 INFO Built model for training.
+27/08 07:45 INFO ------------------------------
+27/08 07:45 INFO  Approximate Model Statistics 
+27/08 07:45 INFO ------------------------------
+27/08 07:45 INFO FLOPS per input: 205,323,382.0
+27/08 07:45 INFO Trainable Parameters: 150,813
+27/08 07:45 INFO ------------------------------
+27/08 07:45 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:45 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:47 INFO Built model for training.
+27/08 07:47 INFO ------------------------------
+27/08 07:47 INFO  Approximate Model Statistics 
+27/08 07:47 INFO ------------------------------
+27/08 07:47 INFO FLOPS per input: 205,323,382.0
+27/08 07:47 INFO Trainable Parameters: 150,813
+27/08 07:47 INFO ------------------------------
+27/08 07:47 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:47 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:49 INFO Built model for training.
+27/08 07:49 INFO ------------------------------
+27/08 07:49 INFO  Approximate Model Statistics 
+27/08 07:49 INFO ------------------------------
+27/08 07:49 INFO FLOPS per input: 205,323,382.0
+27/08 07:49 INFO Trainable Parameters: 150,813
+27/08 07:49 INFO ------------------------------
+27/08 07:50 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:50 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:53 INFO Built model for training.
+27/08 07:53 INFO ------------------------------
+27/08 07:53 INFO  Approximate Model Statistics 
+27/08 07:53 INFO ------------------------------
+27/08 07:53 INFO FLOPS per input: 205,323,382.0
+27/08 07:53 INFO Trainable Parameters: 150,813
+27/08 07:53 INFO ------------------------------
+27/08 07:54 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:54 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 07:56 INFO Built model for training.
+27/08 07:56 INFO ------------------------------
+27/08 07:56 INFO  Approximate Model Statistics 
+27/08 07:56 INFO ------------------------------
+27/08 07:56 INFO FLOPS per input: 205,323,382.0
+27/08 07:56 INFO Trainable Parameters: 150,813
+27/08 07:56 INFO ------------------------------
+27/08 07:56 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 07:57 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:02 INFO Built model for training.
+27/08 08:02 INFO ------------------------------
+27/08 08:02 INFO  Approximate Model Statistics 
+27/08 08:02 INFO ------------------------------
+27/08 08:02 INFO FLOPS per input: 205,323,382.0
+27/08 08:02 INFO Trainable Parameters: 150,813
+27/08 08:02 INFO ------------------------------
+27/08 08:02 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:02 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:03 INFO Built model for training.
+27/08 08:03 INFO ------------------------------
+27/08 08:03 INFO  Approximate Model Statistics 
+27/08 08:03 INFO ------------------------------
+27/08 08:03 INFO FLOPS per input: 205,323,382.0
+27/08 08:03 INFO Trainable Parameters: 150,813
+27/08 08:03 INFO ------------------------------
+27/08 08:04 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:04 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:05 INFO Built model for training.
+27/08 08:05 INFO ------------------------------
+27/08 08:05 INFO  Approximate Model Statistics 
+27/08 08:05 INFO ------------------------------
+27/08 08:05 INFO FLOPS per input: 205,323,382.0
+27/08 08:05 INFO Trainable Parameters: 150,813
+27/08 08:05 INFO ------------------------------
+27/08 08:06 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:06 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:07 INFO Built model for training.
+27/08 08:07 INFO ------------------------------
+27/08 08:07 INFO  Approximate Model Statistics 
+27/08 08:07 INFO ------------------------------
+27/08 08:07 INFO FLOPS per input: 205,323,382.0
+27/08 08:07 INFO Trainable Parameters: 150,813
+27/08 08:07 INFO ------------------------------
+27/08 08:08 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:08 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:09 INFO Built model for training.
+27/08 08:09 INFO ------------------------------
+27/08 08:09 INFO  Approximate Model Statistics 
+27/08 08:09 INFO ------------------------------
+27/08 08:09 INFO FLOPS per input: 205,323,382.0
+27/08 08:09 INFO Trainable Parameters: 150,813
+27/08 08:09 INFO ------------------------------
+27/08 08:10 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:10 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:11 INFO Built model for training.
+27/08 08:11 INFO ------------------------------
+27/08 08:11 INFO  Approximate Model Statistics 
+27/08 08:11 INFO ------------------------------
+27/08 08:11 INFO FLOPS per input: 205,323,382.0
+27/08 08:11 INFO Trainable Parameters: 150,813
+27/08 08:11 INFO ------------------------------
+27/08 08:12 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:12 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:13 INFO Built model for training.
+27/08 08:13 INFO ------------------------------
+27/08 08:13 INFO  Approximate Model Statistics 
+27/08 08:13 INFO ------------------------------
+27/08 08:13 INFO FLOPS per input: 205,323,382.0
+27/08 08:13 INFO Trainable Parameters: 150,813
+27/08 08:13 INFO ------------------------------
+27/08 08:13 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:13 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:15 INFO Built model for training.
+27/08 08:15 INFO ------------------------------
+27/08 08:15 INFO  Approximate Model Statistics 
+27/08 08:15 INFO ------------------------------
+27/08 08:15 INFO FLOPS per input: 205,323,382.0
+27/08 08:15 INFO Trainable Parameters: 150,813
+27/08 08:15 INFO ------------------------------
+27/08 08:16 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:16 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:19 INFO Built model for training.
+27/08 08:19 INFO ------------------------------
+27/08 08:19 INFO  Approximate Model Statistics 
+27/08 08:19 INFO ------------------------------
+27/08 08:19 INFO FLOPS per input: 205,323,382.0
+27/08 08:19 INFO Trainable Parameters: 150,813
+27/08 08:19 INFO ------------------------------
+27/08 08:19 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:19 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:22 INFO Built model for training.
+27/08 08:22 INFO ------------------------------
+27/08 08:22 INFO  Approximate Model Statistics 
+27/08 08:22 INFO ------------------------------
+27/08 08:22 INFO FLOPS per input: 205,323,382.0
+27/08 08:22 INFO Trainable Parameters: 150,813
+27/08 08:22 INFO ------------------------------
+27/08 08:22 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:22 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:30 INFO Built model for training.
+27/08 08:30 INFO ------------------------------
+27/08 08:30 INFO  Approximate Model Statistics 
+27/08 08:30 INFO ------------------------------
+27/08 08:30 INFO FLOPS per input: 205,323,382.0
+27/08 08:30 INFO Trainable Parameters: 150,813
+27/08 08:30 INFO ------------------------------
+27/08 08:30 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:30 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:31 INFO Built model for training.
+27/08 08:31 INFO ------------------------------
+27/08 08:31 INFO  Approximate Model Statistics 
+27/08 08:31 INFO ------------------------------
+27/08 08:31 INFO FLOPS per input: 205,323,382.0
+27/08 08:31 INFO Trainable Parameters: 150,813
+27/08 08:31 INFO ------------------------------
+27/08 08:32 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:32 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:33 INFO Built model for training.
+27/08 08:33 INFO ------------------------------
+27/08 08:33 INFO  Approximate Model Statistics 
+27/08 08:33 INFO ------------------------------
+27/08 08:33 INFO FLOPS per input: 205,323,382.0
+27/08 08:33 INFO Trainable Parameters: 150,813
+27/08 08:33 INFO ------------------------------
+27/08 08:33 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:33 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:35 INFO Built model for training.
+27/08 08:35 INFO ------------------------------
+27/08 08:35 INFO  Approximate Model Statistics 
+27/08 08:35 INFO ------------------------------
+27/08 08:35 INFO FLOPS per input: 205,323,382.0
+27/08 08:35 INFO Trainable Parameters: 150,813
+27/08 08:35 INFO ------------------------------
+27/08 08:35 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:35 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:36 INFO Built model for training.
+27/08 08:36 INFO ------------------------------
+27/08 08:36 INFO  Approximate Model Statistics 
+27/08 08:36 INFO ------------------------------
+27/08 08:36 INFO FLOPS per input: 205,323,382.0
+27/08 08:36 INFO Trainable Parameters: 150,813
+27/08 08:36 INFO ------------------------------
+27/08 08:37 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:37 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:38 INFO Built model for training.
+27/08 08:38 INFO ------------------------------
+27/08 08:38 INFO  Approximate Model Statistics 
+27/08 08:38 INFO ------------------------------
+27/08 08:38 INFO FLOPS per input: 205,323,382.0
+27/08 08:38 INFO Trainable Parameters: 150,813
+27/08 08:38 INFO ------------------------------
+27/08 08:39 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:39 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:41 INFO Built model for training.
+27/08 08:41 INFO ------------------------------
+27/08 08:41 INFO  Approximate Model Statistics 
+27/08 08:41 INFO ------------------------------
+27/08 08:41 INFO FLOPS per input: 205,323,382.0
+27/08 08:41 INFO Trainable Parameters: 150,813
+27/08 08:41 INFO ------------------------------
+27/08 08:42 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:42 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:42 INFO Built model for training.
+27/08 08:42 INFO ------------------------------
+27/08 08:42 INFO  Approximate Model Statistics 
+27/08 08:42 INFO ------------------------------
+27/08 08:42 INFO FLOPS per input: 205,323,382.0
+27/08 08:42 INFO Trainable Parameters: 150,813
+27/08 08:42 INFO ------------------------------
+27/08 08:43 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:43 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:44 INFO Built model for training.
+27/08 08:44 INFO ------------------------------
+27/08 08:44 INFO  Approximate Model Statistics 
+27/08 08:44 INFO ------------------------------
+27/08 08:44 INFO FLOPS per input: 205,323,382.0
+27/08 08:44 INFO Trainable Parameters: 150,813
+27/08 08:44 INFO ------------------------------
+27/08 08:45 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:45 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:46 INFO Built model for training.
+27/08 08:46 INFO ------------------------------
+27/08 08:46 INFO  Approximate Model Statistics 
+27/08 08:46 INFO ------------------------------
+27/08 08:46 INFO FLOPS per input: 205,323,382.0
+27/08 08:46 INFO Trainable Parameters: 150,813
+27/08 08:46 INFO ------------------------------
+27/08 08:47 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:47 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:48 INFO Built model for training.
+27/08 08:48 INFO ------------------------------
+27/08 08:48 INFO  Approximate Model Statistics 
+27/08 08:48 INFO ------------------------------
+27/08 08:48 INFO FLOPS per input: 205,323,382.0
+27/08 08:48 INFO Trainable Parameters: 150,813
+27/08 08:48 INFO ------------------------------
+27/08 08:48 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:48 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:51 INFO Built model for training.
+27/08 08:51 INFO ------------------------------
+27/08 08:51 INFO  Approximate Model Statistics 
+27/08 08:51 INFO ------------------------------
+27/08 08:51 INFO FLOPS per input: 205,323,382.0
+27/08 08:51 INFO Trainable Parameters: 150,813
+27/08 08:51 INFO ------------------------------
+27/08 08:52 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:52 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:52 INFO Built model for training.
+27/08 08:52 INFO ------------------------------
+27/08 08:52 INFO  Approximate Model Statistics 
+27/08 08:52 INFO ------------------------------
+27/08 08:52 INFO FLOPS per input: 205,323,382.0
+27/08 08:52 INFO Trainable Parameters: 150,813
+27/08 08:52 INFO ------------------------------
+27/08 08:53 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:53 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:54 INFO Built model for training.
+27/08 08:54 INFO ------------------------------
+27/08 08:54 INFO  Approximate Model Statistics 
+27/08 08:54 INFO ------------------------------
+27/08 08:54 INFO FLOPS per input: 205,323,382.0
+27/08 08:54 INFO Trainable Parameters: 150,813
+27/08 08:54 INFO ------------------------------
+27/08 08:55 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:55 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 08:58 INFO Built model for training.
+27/08 08:58 INFO ------------------------------
+27/08 08:58 INFO  Approximate Model Statistics 
+27/08 08:58 INFO ------------------------------
+27/08 08:58 INFO FLOPS per input: 205,323,382.0
+27/08 08:58 INFO Trainable Parameters: 150,813
+27/08 08:58 INFO ------------------------------
+27/08 08:58 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 08:58 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 20:15 INFO Built model for training.
+27/08 20:15 INFO ------------------------------
+27/08 20:15 INFO  Approximate Model Statistics 
+27/08 20:15 INFO ------------------------------
+27/08 20:15 INFO FLOPS per input: 205,323,382.0
+27/08 20:15 INFO Trainable Parameters: 150,813
+27/08 20:15 INFO ------------------------------
+27/08 20:16 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 20:16 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 20:20 INFO Built model for training.
+27/08 20:20 INFO ------------------------------
+27/08 20:20 INFO  Approximate Model Statistics 
+27/08 20:20 INFO ------------------------------
+27/08 20:20 INFO FLOPS per input: 205,323,382.0
+27/08 20:20 INFO Trainable Parameters: 150,813
+27/08 20:20 INFO ------------------------------
+27/08 20:21 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 20:21 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 20:25 INFO Built model for training.
+27/08 20:25 INFO ------------------------------
+27/08 20:25 INFO  Approximate Model Statistics 
+27/08 20:25 INFO ------------------------------
+27/08 20:25 INFO FLOPS per input: 205,323,382.0
+27/08 20:25 INFO Trainable Parameters: 150,813
+27/08 20:25 INFO ------------------------------
+27/08 20:25 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 20:25 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 20:26 INFO Built model for training.
+27/08 20:26 INFO ------------------------------
+27/08 20:26 INFO  Approximate Model Statistics 
+27/08 20:26 INFO ------------------------------
+27/08 20:26 INFO FLOPS per input: 205,323,382.0
+27/08 20:26 INFO Trainable Parameters: 150,813
+27/08 20:26 INFO ------------------------------
+27/08 20:27 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 20:27 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 20:36 INFO Built model for training.
+27/08 20:36 INFO ------------------------------
+27/08 20:36 INFO  Approximate Model Statistics 
+27/08 20:36 INFO ------------------------------
+27/08 20:36 INFO FLOPS per input: 205,323,382.0
+27/08 20:36 INFO Trainable Parameters: 150,813
+27/08 20:36 INFO ------------------------------
+27/08 20:36 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 20:36 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 22:18 INFO Built model for training.
+27/08 22:18 INFO ------------------------------
+27/08 22:18 INFO  Approximate Model Statistics 
+27/08 22:18 INFO ------------------------------
+27/08 22:18 INFO FLOPS per input: 205,323,382.0
+27/08 22:18 INFO Trainable Parameters: 150,813
+27/08 22:18 INFO ------------------------------
+27/08 22:18 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 22:18 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 22:19 INFO Built model for training.
+27/08 22:19 INFO ------------------------------
+27/08 22:19 INFO  Approximate Model Statistics 
+27/08 22:19 INFO ------------------------------
+27/08 22:19 INFO FLOPS per input: 205,323,382.0
+27/08 22:19 INFO Trainable Parameters: 150,813
+27/08 22:19 INFO ------------------------------
+27/08 22:20 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 22:20 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 22:20 INFO Built model for training.
+27/08 22:20 INFO ------------------------------
+27/08 22:20 INFO  Approximate Model Statistics 
+27/08 22:20 INFO ------------------------------
+27/08 22:20 INFO FLOPS per input: 205,323,382.0
+27/08 22:20 INFO Trainable Parameters: 150,813
+27/08 22:20 INFO ------------------------------
+27/08 22:21 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 22:21 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 22:29 INFO Built model for training.
+27/08 22:29 INFO ------------------------------
+27/08 22:29 INFO  Approximate Model Statistics 
+27/08 22:29 INFO ------------------------------
+27/08 22:29 INFO FLOPS per input: 205,323,382.0
+27/08 22:29 INFO Trainable Parameters: 150,813
+27/08 22:29 INFO ------------------------------
+27/08 22:30 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 22:30 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 22:36 INFO Built model for training.
+27/08 22:36 INFO ------------------------------
+27/08 22:36 INFO  Approximate Model Statistics 
+27/08 22:36 INFO ------------------------------
+27/08 22:36 INFO FLOPS per input: 205,323,382.0
+27/08 22:36 INFO Trainable Parameters: 150,813
+27/08 22:36 INFO ------------------------------
+27/08 22:36 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 22:36 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 22:43 INFO Built model for training.
+27/08 22:43 INFO ------------------------------
+27/08 22:43 INFO  Approximate Model Statistics 
+27/08 22:43 INFO ------------------------------
+27/08 22:43 INFO FLOPS per input: 205,323,382.0
+27/08 22:43 INFO Trainable Parameters: 150,813
+27/08 22:43 INFO ------------------------------
+27/08 22:44 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 22:44 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 22:48 INFO Built model for training.
+27/08 22:48 INFO ------------------------------
+27/08 22:48 INFO  Approximate Model Statistics 
+27/08 22:48 INFO ------------------------------
+27/08 22:48 INFO FLOPS per input: 205,323,382.0
+27/08 22:48 INFO Trainable Parameters: 150,813
+27/08 22:48 INFO ------------------------------
+27/08 22:48 INFO Built model for training.
+27/08 22:48 INFO ------------------------------
+27/08 22:48 INFO  Approximate Model Statistics 
+27/08 22:48 INFO ------------------------------
+27/08 22:48 INFO FLOPS per input: 205,323,382.0
+27/08 22:48 INFO Trainable Parameters: 150,813
+27/08 22:48 INFO ------------------------------
+27/08 22:49 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 22:49 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 22:50 INFO Built model for training.
+27/08 22:50 INFO ------------------------------
+27/08 22:50 INFO  Approximate Model Statistics 
+27/08 22:50 INFO ------------------------------
+27/08 22:50 INFO FLOPS per input: 205,323,382.0
+27/08 22:50 INFO Trainable Parameters: 150,813
+27/08 22:50 INFO ------------------------------
+27/08 22:51 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 22:51 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 22:52 INFO Built model for training.
+27/08 22:52 INFO ------------------------------
+27/08 22:52 INFO  Approximate Model Statistics 
+27/08 22:52 INFO ------------------------------
+27/08 22:52 INFO FLOPS per input: 205,323,382.0
+27/08 22:52 INFO Trainable Parameters: 150,813
+27/08 22:52 INFO ------------------------------
+27/08 22:53 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 22:53 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 22:56 INFO Built model for training.
+27/08 22:56 INFO ------------------------------
+27/08 22:56 INFO  Approximate Model Statistics 
+27/08 22:56 INFO ------------------------------
+27/08 22:56 INFO FLOPS per input: 205,323,382.0
+27/08 22:56 INFO Trainable Parameters: 150,813
+27/08 22:56 INFO ------------------------------
+27/08 22:57 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 22:57 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 22:58 INFO Built model for training.
+27/08 22:58 INFO ------------------------------
+27/08 22:58 INFO  Approximate Model Statistics 
+27/08 22:58 INFO ------------------------------
+27/08 22:58 INFO FLOPS per input: 205,323,382.0
+27/08 22:58 INFO Trainable Parameters: 150,813
+27/08 22:58 INFO ------------------------------
+27/08 22:59 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 22:59 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m27/08 23:02[0m [1;30mINFO[0m Built model for training.
+[32m27/08 23:02[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:02[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 23:02[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:02[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 23:02[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 23:02[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:03[0m [1;30mINFO[0m Built model for training.
+[32m27/08 23:03[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:03[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 23:03[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:03[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 23:03[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 23:03[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:03[0m [1;30mINFO[0m Built model for training.
+[32m27/08 23:03[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:03[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 23:03[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:03[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 23:03[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 23:03[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:04[0m [1;30mINFO[0m Built model for training.
+[32m27/08 23:04[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:04[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 23:04[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:04[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 23:04[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 23:04[0m [1;30mINFO[0m ------------------------------
+27/08 23:04 INFO Built model for training.
+27/08 23:04 INFO ------------------------------
+27/08 23:04 INFO  Approximate Model Statistics 
+27/08 23:04 INFO ------------------------------
+27/08 23:04 INFO FLOPS per input: 205,323,382.0
+27/08 23:04 INFO Trainable Parameters: 150,813
+27/08 23:04 INFO ------------------------------
+27/08 23:05 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 23:05 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m27/08 23:05[0m [1;30mINFO[0m Built model for training.
+[32m27/08 23:05[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:05[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 23:05[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:05[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 23:05[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 23:05[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:06[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m27/08 23:06[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m27/08 23:08[0m [1;30mINFO[0m Built model for training.
+[32m27/08 23:08[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:08[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 23:08[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:08[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 23:08[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 23:08[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:09[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m27/08 23:09[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m27/08 23:14[0m [1;30mINFO[0m Built model for training.
+[32m27/08 23:14[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:14[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m27/08 23:14[0m [1;30mINFO[0m ------------------------------
+[32m27/08 23:14[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m27/08 23:14[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m27/08 23:14[0m [1;30mINFO[0m ------------------------------
+27/08 23:15 INFO Built model for training.
+27/08 23:15 INFO ------------------------------
+27/08 23:15 INFO  Approximate Model Statistics 
+27/08 23:15 INFO ------------------------------
+27/08 23:15 INFO FLOPS per input: 205,323,382.0
+27/08 23:15 INFO Trainable Parameters: 150,813
+27/08 23:15 INFO ------------------------------
+27/08 23:16 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+27/08 23:16 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+27/08 23:18 INFO Built model for training.
+27/08 23:18 INFO ------------------------------
+27/08 23:18 INFO  Approximate Model Statistics 
+27/08 23:18 INFO ------------------------------
+27/08 23:18 INFO FLOPS per input: 205,323,382.0
+27/08 23:18 INFO Trainable Parameters: 150,813
+27/08 23:18 INFO ------------------------------
+28/08 09:13 INFO Built model for training.
+28/08 09:13 INFO ------------------------------
+28/08 09:13 INFO  Approximate Model Statistics 
+28/08 09:13 INFO ------------------------------
+28/08 09:13 INFO FLOPS per input: 205,323,382.0
+28/08 09:13 INFO Trainable Parameters: 150,813
+28/08 09:13 INFO ------------------------------
+28/08 09:14 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 09:14 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 09:17 INFO Built model for training.
+28/08 09:17 INFO ------------------------------
+28/08 09:17 INFO  Approximate Model Statistics 
+28/08 09:17 INFO ------------------------------
+28/08 09:17 INFO FLOPS per input: 205,323,382.0
+28/08 09:17 INFO Trainable Parameters: 150,813
+28/08 09:17 INFO ------------------------------
+28/08 09:17 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 09:17 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 09:25 INFO Built model for training.
+28/08 09:25 INFO ------------------------------
+28/08 09:25 INFO  Approximate Model Statistics 
+28/08 09:25 INFO ------------------------------
+28/08 09:25 INFO FLOPS per input: 205,323,382.0
+28/08 09:25 INFO Trainable Parameters: 150,813
+28/08 09:25 INFO ------------------------------
+28/08 09:26 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 09:26 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 09:27 INFO Built model for training.
+28/08 09:27 INFO ------------------------------
+28/08 09:27 INFO  Approximate Model Statistics 
+28/08 09:27 INFO ------------------------------
+28/08 09:27 INFO FLOPS per input: 205,323,382.0
+28/08 09:27 INFO Trainable Parameters: 150,813
+28/08 09:27 INFO ------------------------------
+28/08 09:27 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 09:27 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 09:33 INFO Built model for training.
+28/08 09:33 INFO ------------------------------
+28/08 09:33 INFO  Approximate Model Statistics 
+28/08 09:33 INFO ------------------------------
+28/08 09:33 INFO FLOPS per input: 205,323,382.0
+28/08 09:33 INFO Trainable Parameters: 150,813
+28/08 09:33 INFO ------------------------------
+28/08 09:33 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 09:33 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 09:33 INFO Built model for training.
+28/08 09:33 INFO ------------------------------
+28/08 09:33 INFO  Approximate Model Statistics 
+28/08 09:33 INFO ------------------------------
+28/08 09:33 INFO FLOPS per input: 205,323,382.0
+28/08 09:33 INFO Trainable Parameters: 150,813
+28/08 09:33 INFO ------------------------------
+28/08 09:34 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 09:34 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 09:34 INFO Built model for training.
+28/08 09:34 INFO ------------------------------
+28/08 09:34 INFO  Approximate Model Statistics 
+28/08 09:34 INFO ------------------------------
+28/08 09:34 INFO FLOPS per input: 205,323,382.0
+28/08 09:34 INFO Trainable Parameters: 150,813
+28/08 09:34 INFO ------------------------------
+28/08 09:34 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 09:34 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 09:36 INFO Built model for training.
+28/08 09:36 INFO ------------------------------
+28/08 09:36 INFO  Approximate Model Statistics 
+28/08 09:36 INFO ------------------------------
+28/08 09:36 INFO FLOPS per input: 205,323,382.0
+28/08 09:36 INFO Trainable Parameters: 150,813
+28/08 09:36 INFO ------------------------------
+28/08 09:36 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 09:36 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 09:37 INFO Built model for training.
+28/08 09:37 INFO ------------------------------
+28/08 09:37 INFO  Approximate Model Statistics 
+28/08 09:37 INFO ------------------------------
+28/08 09:37 INFO FLOPS per input: 205,323,382.0
+28/08 09:37 INFO Trainable Parameters: 150,813
+28/08 09:37 INFO ------------------------------
+28/08 09:37 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 09:37 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 09:58 INFO Built model for training.
+28/08 09:58 INFO ------------------------------
+28/08 09:58 INFO  Approximate Model Statistics 
+28/08 09:58 INFO ------------------------------
+28/08 09:58 INFO FLOPS per input: 205,323,382.0
+28/08 09:58 INFO Trainable Parameters: 150,813
+28/08 09:58 INFO ------------------------------
+28/08 09:58 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 09:58 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:01 INFO Built model for training.
+28/08 10:01 INFO ------------------------------
+28/08 10:01 INFO  Approximate Model Statistics 
+28/08 10:01 INFO ------------------------------
+28/08 10:01 INFO FLOPS per input: 205,323,382.0
+28/08 10:01 INFO Trainable Parameters: 150,813
+28/08 10:01 INFO ------------------------------
+28/08 10:01 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:01 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:02 INFO Built model for training.
+28/08 10:02 INFO ------------------------------
+28/08 10:02 INFO  Approximate Model Statistics 
+28/08 10:02 INFO ------------------------------
+28/08 10:02 INFO FLOPS per input: 205,323,382.0
+28/08 10:02 INFO Trainable Parameters: 150,813
+28/08 10:02 INFO ------------------------------
+28/08 10:02 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:02 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:03 INFO Built model for training.
+28/08 10:03 INFO ------------------------------
+28/08 10:03 INFO  Approximate Model Statistics 
+28/08 10:03 INFO ------------------------------
+28/08 10:03 INFO FLOPS per input: 205,323,382.0
+28/08 10:03 INFO Trainable Parameters: 150,813
+28/08 10:03 INFO ------------------------------
+28/08 10:03 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:03 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:05 INFO Built model for training.
+28/08 10:05 INFO ------------------------------
+28/08 10:05 INFO  Approximate Model Statistics 
+28/08 10:05 INFO ------------------------------
+28/08 10:05 INFO FLOPS per input: 205,323,382.0
+28/08 10:05 INFO Trainable Parameters: 150,813
+28/08 10:05 INFO ------------------------------
+28/08 10:05 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:05 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:19 INFO Built model for training.
+28/08 10:19 INFO ------------------------------
+28/08 10:19 INFO  Approximate Model Statistics 
+28/08 10:19 INFO ------------------------------
+28/08 10:19 INFO FLOPS per input: 205,323,382.0
+28/08 10:19 INFO Trainable Parameters: 150,813
+28/08 10:19 INFO ------------------------------
+28/08 10:19 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:19 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:20 INFO Built model for training.
+28/08 10:20 INFO ------------------------------
+28/08 10:20 INFO  Approximate Model Statistics 
+28/08 10:20 INFO ------------------------------
+28/08 10:20 INFO FLOPS per input: 205,323,382.0
+28/08 10:20 INFO Trainable Parameters: 150,813
+28/08 10:20 INFO ------------------------------
+28/08 10:20 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:20 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:21 INFO Built model for training.
+28/08 10:21 INFO ------------------------------
+28/08 10:21 INFO  Approximate Model Statistics 
+28/08 10:21 INFO ------------------------------
+28/08 10:21 INFO FLOPS per input: 205,323,382.0
+28/08 10:21 INFO Trainable Parameters: 150,813
+28/08 10:21 INFO ------------------------------
+28/08 10:21 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:21 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:22 INFO Built model for training.
+28/08 10:22 INFO ------------------------------
+28/08 10:22 INFO  Approximate Model Statistics 
+28/08 10:22 INFO ------------------------------
+28/08 10:22 INFO FLOPS per input: 205,323,382.0
+28/08 10:22 INFO Trainable Parameters: 150,813
+28/08 10:22 INFO ------------------------------
+28/08 10:22 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:22 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:23 INFO Built model for training.
+28/08 10:23 INFO ------------------------------
+28/08 10:23 INFO  Approximate Model Statistics 
+28/08 10:23 INFO ------------------------------
+28/08 10:23 INFO FLOPS per input: 205,323,382.0
+28/08 10:23 INFO Trainable Parameters: 150,813
+28/08 10:23 INFO ------------------------------
+28/08 10:23 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:23 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:24 INFO Built model for training.
+28/08 10:24 INFO ------------------------------
+28/08 10:24 INFO  Approximate Model Statistics 
+28/08 10:24 INFO ------------------------------
+28/08 10:24 INFO FLOPS per input: 205,323,382.0
+28/08 10:24 INFO Trainable Parameters: 150,813
+28/08 10:24 INFO ------------------------------
+28/08 10:24 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:24 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:27 INFO Built model for training.
+28/08 10:27 INFO ------------------------------
+28/08 10:27 INFO  Approximate Model Statistics 
+28/08 10:27 INFO ------------------------------
+28/08 10:27 INFO FLOPS per input: 205,323,382.0
+28/08 10:27 INFO Trainable Parameters: 150,813
+28/08 10:27 INFO ------------------------------
+28/08 10:27 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:27 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:29 INFO Built model for training.
+28/08 10:29 INFO ------------------------------
+28/08 10:29 INFO  Approximate Model Statistics 
+28/08 10:29 INFO ------------------------------
+28/08 10:29 INFO FLOPS per input: 205,323,382.0
+28/08 10:29 INFO Trainable Parameters: 150,813
+28/08 10:29 INFO ------------------------------
+28/08 10:29 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:29 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:29 INFO Built model for training.
+28/08 10:29 INFO ------------------------------
+28/08 10:29 INFO  Approximate Model Statistics 
+28/08 10:29 INFO ------------------------------
+28/08 10:29 INFO FLOPS per input: 205,323,382.0
+28/08 10:29 INFO Trainable Parameters: 150,813
+28/08 10:29 INFO ------------------------------
+28/08 10:29 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:29 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:30 INFO Built model for training.
+28/08 10:30 INFO ------------------------------
+28/08 10:30 INFO  Approximate Model Statistics 
+28/08 10:30 INFO ------------------------------
+28/08 10:30 INFO FLOPS per input: 205,323,382.0
+28/08 10:30 INFO Trainable Parameters: 150,813
+28/08 10:30 INFO ------------------------------
+28/08 10:30 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:30 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:33 INFO Built model for training.
+28/08 10:33 INFO ------------------------------
+28/08 10:33 INFO  Approximate Model Statistics 
+28/08 10:33 INFO ------------------------------
+28/08 10:33 INFO FLOPS per input: 205,323,382.0
+28/08 10:33 INFO Trainable Parameters: 150,813
+28/08 10:33 INFO ------------------------------
+28/08 10:33 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:33 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:38 INFO Built model for training.
+28/08 10:38 INFO ------------------------------
+28/08 10:38 INFO  Approximate Model Statistics 
+28/08 10:38 INFO ------------------------------
+28/08 10:38 INFO FLOPS per input: 205,323,382.0
+28/08 10:38 INFO Trainable Parameters: 150,813
+28/08 10:38 INFO ------------------------------
+28/08 10:38 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:38 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:40 INFO Built model for training.
+28/08 10:40 INFO ------------------------------
+28/08 10:40 INFO  Approximate Model Statistics 
+28/08 10:40 INFO ------------------------------
+28/08 10:40 INFO FLOPS per input: 205,323,382.0
+28/08 10:40 INFO Trainable Parameters: 150,813
+28/08 10:40 INFO ------------------------------
+28/08 10:40 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:40 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:44 INFO Built model for training.
+28/08 10:44 INFO ------------------------------
+28/08 10:44 INFO  Approximate Model Statistics 
+28/08 10:44 INFO ------------------------------
+28/08 10:44 INFO FLOPS per input: 205,323,382.0
+28/08 10:44 INFO Trainable Parameters: 150,813
+28/08 10:44 INFO ------------------------------
+28/08 10:44 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:44 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:48 INFO Built model for training.
+28/08 10:48 INFO ------------------------------
+28/08 10:48 INFO  Approximate Model Statistics 
+28/08 10:48 INFO ------------------------------
+28/08 10:48 INFO FLOPS per input: 205,323,382.0
+28/08 10:48 INFO Trainable Parameters: 150,813
+28/08 10:48 INFO ------------------------------
+28/08 10:48 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:48 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:49 INFO Built model for training.
+28/08 10:49 INFO ------------------------------
+28/08 10:49 INFO  Approximate Model Statistics 
+28/08 10:49 INFO ------------------------------
+28/08 10:49 INFO FLOPS per input: 205,323,382.0
+28/08 10:49 INFO Trainable Parameters: 150,813
+28/08 10:49 INFO ------------------------------
+28/08 10:49 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 10:49 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:51 INFO Built model for training.
+28/08 10:51 INFO ------------------------------
+28/08 10:51 INFO  Approximate Model Statistics 
+28/08 10:51 INFO ------------------------------
+28/08 10:51 INFO FLOPS per input: 205,323,382.0
+28/08 10:51 INFO Trainable Parameters: 150,813
+28/08 10:51 INFO ------------------------------
+28/08 10:52 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 10:52 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m28/08 10:54[0m [1;30mINFO[0m Built model for training.
+[32m28/08 10:54[0m [1;30mINFO[0m ------------------------------
+[32m28/08 10:54[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 10:54[0m [1;30mINFO[0m ------------------------------
+[32m28/08 10:54[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 10:54[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 10:54[0m [1;30mINFO[0m ------------------------------
+[32m28/08 10:55[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m28/08 10:55[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m28/08 10:56[0m [1;30mINFO[0m Built model for training.
+[32m28/08 10:56[0m [1;30mINFO[0m ------------------------------
+[32m28/08 10:56[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 10:56[0m [1;30mINFO[0m ------------------------------
+[32m28/08 10:56[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 10:56[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 10:56[0m [1;30mINFO[0m ------------------------------
+[32m28/08 10:57[0m [1;30mINFO[0m Built model for training.
+[32m28/08 10:57[0m [1;30mINFO[0m ------------------------------
+[32m28/08 10:57[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 10:57[0m [1;30mINFO[0m ------------------------------
+[32m28/08 10:57[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 10:57[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 10:57[0m [1;30mINFO[0m ------------------------------
+[32m28/08 10:58[0m [1;30mINFO[0m Built model for training.
+[32m28/08 10:58[0m [1;30mINFO[0m ------------------------------
+[32m28/08 10:58[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 10:58[0m [1;30mINFO[0m ------------------------------
+[32m28/08 10:58[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 10:58[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 10:58[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:04[0m [1;30mINFO[0m Built model for training.
+[32m28/08 11:04[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:04[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 11:04[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:04[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 11:04[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 11:04[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:04[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m28/08 11:04[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m28/08 11:10[0m [1;30mINFO[0m Built model for training.
+[32m28/08 11:10[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:10[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 11:10[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:10[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 11:10[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 11:10[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:11[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m28/08 11:11[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m28/08 11:12[0m [1;30mINFO[0m Built model for training.
+[32m28/08 11:12[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:12[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 11:12[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:12[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 11:12[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 11:12[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:12[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m28/08 11:12[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m28/08 11:14[0m [1;30mINFO[0m Built model for training.
+[32m28/08 11:14[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:14[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 11:14[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:14[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 11:14[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 11:14[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:16[0m [1;30mINFO[0m Built model for training.
+[32m28/08 11:16[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:16[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 11:16[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:16[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 11:16[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 11:16[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:17[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m28/08 11:17[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m28/08 11:22[0m [1;30mINFO[0m Built model for training.
+[32m28/08 11:22[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:22[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 11:22[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:22[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 11:22[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 11:22[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:22[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m28/08 11:22[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 11:24 INFO Built model for training.
+28/08 11:24 INFO ------------------------------
+28/08 11:24 INFO  Approximate Model Statistics 
+28/08 11:24 INFO ------------------------------
+28/08 11:24 INFO FLOPS per input: 205,323,382.0
+28/08 11:24 INFO Trainable Parameters: 150,813
+28/08 11:24 INFO ------------------------------
+28/08 11:25 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 11:25 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 11:29 INFO Built model for training.
+28/08 11:29 INFO ------------------------------
+28/08 11:29 INFO  Approximate Model Statistics 
+28/08 11:29 INFO ------------------------------
+28/08 11:29 INFO FLOPS per input: 205,323,382.0
+28/08 11:29 INFO Trainable Parameters: 150,813
+28/08 11:29 INFO ------------------------------
+[32m28/08 11:30[0m [1;30mINFO[0m Built model for training.
+[32m28/08 11:30[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:30[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 11:30[0m [1;30mINFO[0m ------------------------------
+[32m28/08 11:30[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 11:30[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 11:30[0m [1;30mINFO[0m ------------------------------
+28/08 11:31 INFO Built model for training.
+28/08 11:31 INFO ------------------------------
+28/08 11:31 INFO  Approximate Model Statistics 
+28/08 11:31 INFO ------------------------------
+28/08 11:31 INFO FLOPS per input: 205,323,382.0
+28/08 11:31 INFO Trainable Parameters: 150,813
+28/08 11:31 INFO ------------------------------
+28/08 11:31 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 11:31 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 11:33 INFO Built model for training.
+28/08 11:33 INFO ------------------------------
+28/08 11:33 INFO  Approximate Model Statistics 
+28/08 11:33 INFO ------------------------------
+28/08 11:33 INFO FLOPS per input: 205,323,382.0
+28/08 11:33 INFO Trainable Parameters: 150,813
+28/08 11:33 INFO ------------------------------
+28/08 11:33 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 11:33 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 11:35 INFO Built model for training.
+28/08 11:35 INFO ------------------------------
+28/08 11:35 INFO  Approximate Model Statistics 
+28/08 11:35 INFO ------------------------------
+28/08 11:35 INFO FLOPS per input: 205,323,382.0
+28/08 11:35 INFO Trainable Parameters: 150,813
+28/08 11:35 INFO ------------------------------
+28/08 11:35 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 11:35 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 11:36 INFO Built model for training.
+28/08 11:36 INFO ------------------------------
+28/08 11:36 INFO  Approximate Model Statistics 
+28/08 11:36 INFO ------------------------------
+28/08 11:36 INFO FLOPS per input: 205,323,382.0
+28/08 11:36 INFO Trainable Parameters: 150,813
+28/08 11:36 INFO ------------------------------
+28/08 11:37 INFO Built model for training.
+28/08 11:37 INFO ------------------------------
+28/08 11:37 INFO  Approximate Model Statistics 
+28/08 11:37 INFO ------------------------------
+28/08 11:37 INFO FLOPS per input: 205,323,382.0
+28/08 11:37 INFO Trainable Parameters: 150,813
+28/08 11:37 INFO ------------------------------
+28/08 11:37 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 11:37 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 11:38 INFO Built model for training.
+28/08 11:38 INFO ------------------------------
+28/08 11:38 INFO  Approximate Model Statistics 
+28/08 11:38 INFO ------------------------------
+28/08 11:38 INFO FLOPS per input: 205,323,382.0
+28/08 11:38 INFO Trainable Parameters: 150,813
+28/08 11:38 INFO ------------------------------
+28/08 11:40 INFO Built model for training.
+28/08 11:40 INFO ------------------------------
+28/08 11:40 INFO  Approximate Model Statistics 
+28/08 11:40 INFO ------------------------------
+28/08 11:40 INFO FLOPS per input: 205,323,382.0
+28/08 11:40 INFO Trainable Parameters: 150,813
+28/08 11:40 INFO ------------------------------
+28/08 11:41 INFO Built model for training.
+28/08 11:41 INFO ------------------------------
+28/08 11:41 INFO  Approximate Model Statistics 
+28/08 11:41 INFO ------------------------------
+28/08 11:41 INFO FLOPS per input: 205,323,382.0
+28/08 11:41 INFO Trainable Parameters: 150,813
+28/08 11:41 INFO ------------------------------
+28/08 11:42 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 11:42 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 11:43 INFO Built model for training.
+28/08 11:43 INFO ------------------------------
+28/08 11:43 INFO  Approximate Model Statistics 
+28/08 11:43 INFO ------------------------------
+28/08 11:43 INFO FLOPS per input: 205,323,382.0
+28/08 11:43 INFO Trainable Parameters: 150,813
+28/08 11:43 INFO ------------------------------
+28/08 11:43 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 11:43 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 11:45 INFO Built model for training.
+28/08 11:45 INFO ------------------------------
+28/08 11:45 INFO  Approximate Model Statistics 
+28/08 11:45 INFO ------------------------------
+28/08 11:45 INFO FLOPS per input: 205,323,382.0
+28/08 11:45 INFO Trainable Parameters: 150,813
+28/08 11:45 INFO ------------------------------
+28/08 11:46 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 11:46 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 12:30 INFO Built model for training.
+28/08 12:30 INFO ------------------------------
+28/08 12:30 INFO  Approximate Model Statistics 
+28/08 12:30 INFO ------------------------------
+28/08 12:30 INFO FLOPS per input: 205,323,382.0
+28/08 12:30 INFO Trainable Parameters: 150,813
+28/08 12:30 INFO ------------------------------
+28/08 12:31 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+28/08 12:31 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 12:33 INFO Built model for training.
+28/08 12:33 INFO ------------------------------
+28/08 12:33 INFO  Approximate Model Statistics 
+28/08 12:33 INFO ------------------------------
+28/08 12:33 INFO FLOPS per input: 205,323,382.0
+28/08 12:33 INFO Trainable Parameters: 150,813
+28/08 12:33 INFO ------------------------------
+28/08 12:33 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+28/08 12:33 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m28/08 12:36[0m [1;30mINFO[0m Built model for training.
+[32m28/08 12:36[0m [1;30mINFO[0m ------------------------------
+[32m28/08 12:36[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 12:36[0m [1;30mINFO[0m ------------------------------
+[32m28/08 12:36[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 12:36[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 12:36[0m [1;30mINFO[0m ------------------------------
+[32m28/08 12:37[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m28/08 12:37[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m28/08 12:41[0m [1;30mINFO[0m Built model for training.
+[32m28/08 12:41[0m [1;30mINFO[0m ------------------------------
+[32m28/08 12:41[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 12:41[0m [1;30mINFO[0m ------------------------------
+[32m28/08 12:41[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 12:41[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 12:41[0m [1;30mINFO[0m ------------------------------
+[32m28/08 12:42[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m28/08 12:42[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m28/08 12:43[0m [1;30mINFO[0m Built model for training.
+[32m28/08 12:43[0m [1;30mINFO[0m ------------------------------
+[32m28/08 12:43[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m28/08 12:43[0m [1;30mINFO[0m ------------------------------
+[32m28/08 12:43[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m28/08 12:43[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m28/08 12:43[0m [1;30mINFO[0m ------------------------------
+[32m28/08 12:44[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m28/08 12:44[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+29/08 08:00 INFO Built model for training.
+29/08 08:00 INFO ------------------------------
+29/08 08:00 INFO  Approximate Model Statistics 
+29/08 08:00 INFO ------------------------------
+29/08 08:00 INFO FLOPS per input: 205,323,382.0
+29/08 08:00 INFO Trainable Parameters: 150,813
+29/08 08:00 INFO ------------------------------
+29/08 08:00 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+29/08 08:00 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+29/08 08:02 INFO Built model for training.
+29/08 08:02 INFO ------------------------------
+29/08 08:02 INFO  Approximate Model Statistics 
+29/08 08:02 INFO ------------------------------
+29/08 08:02 INFO FLOPS per input: 205,323,382.0
+29/08 08:02 INFO Trainable Parameters: 150,813
+29/08 08:02 INFO ------------------------------
+29/08 08:02 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+29/08 08:02 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+29/08 08:17 INFO Built model for training.
+29/08 08:17 INFO ------------------------------
+29/08 08:17 INFO  Approximate Model Statistics 
+29/08 08:17 INFO ------------------------------
+29/08 08:17 INFO FLOPS per input: 205,323,382.0
+29/08 08:17 INFO Trainable Parameters: 150,813
+29/08 08:17 INFO ------------------------------
+29/08 08:17 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+29/08 08:17 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+29/08 08:18 INFO Built model for training.
+29/08 08:18 INFO ------------------------------
+29/08 08:18 INFO  Approximate Model Statistics 
+29/08 08:18 INFO ------------------------------
+29/08 08:18 INFO FLOPS per input: 205,323,382.0
+29/08 08:18 INFO Trainable Parameters: 150,813
+29/08 08:18 INFO ------------------------------
+29/08 08:18 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+29/08 08:18 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+29/08 08:20 INFO Built model for training.
+29/08 08:20 INFO ------------------------------
+29/08 08:20 INFO  Approximate Model Statistics 
+29/08 08:20 INFO ------------------------------
+29/08 08:20 INFO FLOPS per input: 205,323,382.0
+29/08 08:20 INFO Trainable Parameters: 150,813
+29/08 08:20 INFO ------------------------------
+29/08 08:20 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+29/08 08:20 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m29/08 09:05[0m [1;30mINFO[0m Built model for training.
+[32m29/08 09:05[0m [1;30mINFO[0m ------------------------------
+[32m29/08 09:05[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m29/08 09:05[0m [1;30mINFO[0m ------------------------------
+[32m29/08 09:05[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m29/08 09:05[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m29/08 09:05[0m [1;30mINFO[0m ------------------------------
+29/08 09:15 INFO Built model for training.
+29/08 09:15 INFO ------------------------------
+29/08 09:15 INFO  Approximate Model Statistics 
+29/08 09:15 INFO ------------------------------
+29/08 09:15 INFO FLOPS per input: 205,323,382.0
+29/08 09:15 INFO Trainable Parameters: 150,813
+29/08 09:15 INFO ------------------------------
+29/08 09:15 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+29/08 09:15 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+29/08 09:34 INFO Built model for training.
+29/08 09:34 INFO ------------------------------
+29/08 09:34 INFO  Approximate Model Statistics 
+29/08 09:34 INFO ------------------------------
+29/08 09:34 INFO FLOPS per input: 205,323,382.0
+29/08 09:34 INFO Trainable Parameters: 150,813
+29/08 09:34 INFO ------------------------------
+29/08 09:34 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+29/08 09:34 INFO Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
+[32m29/08 09:47[0m [1;30mINFO[0m Built model for training.
+[32m29/08 09:47[0m [1;30mINFO[0m ------------------------------
+[32m29/08 09:47[0m [1;30mINFO[0m  Approximate Model Statistics 
+[32m29/08 09:47[0m [1;30mINFO[0m ------------------------------
+[32m29/08 09:47[0m [1;30mINFO[0m FLOPS per input: 205,323,382.0
+[32m29/08 09:47[0m [1;30mINFO[0m Trainable Parameters: 150,813
+[32m29/08 09:47[0m [1;30mINFO[0m ------------------------------
+[32m29/08 09:47[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/radius/model-4672654
+[32m29/08 09:47[0m [1;30mINFO[0m Restoring parameters from /home/aa36/Desktop/arto_eye/outputs/ELG_i60x36_f60x36_n32_m2/checkpoints/hourglass/model-4672654
