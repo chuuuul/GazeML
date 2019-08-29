@@ -609,6 +609,13 @@ if __name__ == '__main__':
                     gaze_mean = 0
                     point = 0
 
+                    if eye_side == 'left' :
+                        left_iris_centre = iris_centre
+                        left_eyeball_centre = eyeball_centre
+                    else:
+                        right_iris_centre = iris_centre
+                        right_eyeball_centre = eyeball_centre
+
                     # Smooth and visualize gaze direction
                     num_total_eyes_in_frame = len(frame['eyes'])
                     if len(all_gaze_histories) != num_total_eyes_in_frame:
@@ -621,17 +628,6 @@ if __name__ == '__main__':
                             color=(0, 255, 0), markerType=cv.MARKER_CROSS, markerSize=4,
                             thickness=1, line_type=cv.LINE_AA,
                         )
-                        # cv.circle(  # Eyeball outline
-                        #     bgr, tuple(np.round(eyeball_centre).astype(np.int32)),
-                        #     int(np.round(eyeball_radius)), color=(0, 255, 0),
-                        #     thickness=1, lineType=cv.LINE_AA,
-                        # )
-
-                        # Draw "gaze"
-                        # from models.elg import estimate_gaze_from_landmarks
-                        # current_gaze = estimate_gaze_from_landmarks(
-                        #     iris_landmarks, iris_centre, eyeball_centre, eyeball_radius)
-
 
                         # 눈 좌표 변경
                         i_x0, i_y0 = iris_centre
@@ -642,7 +638,6 @@ if __name__ == '__main__':
                         gaze_y = i_y0 - e_y0 + Cy
 
                         # 경계선 알고리즘 변경
-
                         if len(left_iris_captured_data) < 15:
                             x_middle = 1
                             y_middle = 1
@@ -682,7 +677,7 @@ if __name__ == '__main__':
                             def calc_cali(a, b) :
                                 for i in range(2) :
                                     for j in range(2) :
-                                        result = abs((Cali_Center_Points[a + i + 4 * j][b] - left_iris_captured_data[a + i + 4 * j][b]) / 
+                                        result = abs((Cali_Center_Points[a + i + 4 * j][b] - left_iris_captured_data[a + i + 4 * j][b]) /
                                                      (left_iris_captured_data[a + i + 4 * j][b] - left_eyeball_captured_data[a + i + 4 * j][b]))
                                 return result
 
@@ -760,34 +755,26 @@ if __name__ == '__main__':
                         # gaze_mean = np.mean(gaze_history, axis=0)
                         # util.gaze.draw_gaze(bgr, iris_centre, gaze_mean,thickness=1)
 
-
+                        # 시선 중심 구하기
                         if eye_side == 'left':
-                            left_iris_centre = iris_centre
-                            left_eyeball_centre = eyeball_centre
                             left_gaze_coordinate = np.mean(gaze_history, axis=0)
                         else:
-                            right_iris_centre = iris_centre
-                            right_eyeball_centre = eyeball_centre
                             right_gaze_coordinate = np.mean(gaze_history, axis=0)
 
                         if (left_gaze_coordinate is not None) and (right_gaze_coordinate is not None):
-
                             gaze_mean = (left_gaze_coordinate + right_gaze_coordinate) / 2.0
 
                             # 가운데 원으로 표시
-                            util.gaze.draw_gaze_point(bgr, gaze_mean,
-                                                      thickness=1)
-
+                            util.gaze.draw_gaze_point(bgr, gaze_mean, thickness=1)
 
                             if debug_draw_gaze_arrow:
-                                # 왼쪽 화살표로 표시
+                                # 왼쪽 시선 화살표로 표시
                                 if eye_side == 'left':
                                     util.gaze.draw_gaze(bgr, iris_centre, left_gaze_coordinate, thickness=1)
 
-                                # 오른쪽 화살표로 표시
+                                # 오른쪽 시선 화살표로 표시
                                 if eye_side == 'right':
                                     util.gaze.draw_gaze(bgr, iris_centre, right_gaze_coordinate, thickness=1)
-
 
                     else:
                         gaze_history.clear()
