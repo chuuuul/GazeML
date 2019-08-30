@@ -28,8 +28,8 @@ debug_monitor_index = 1
 debug_execute_calibration = True
 debug_draw_gaze_arrow = True
 
-debug_full_screen_calibration = False
-debug_full_screen_gaze_capture = False
+debug_full_screen_calibration = True
+debug_full_screen_gaze_capture = True
 
 #############################################################################################
 
@@ -232,6 +232,7 @@ if __name__ == '__main__':
                                     calibration_thread = threading.Thread(target=cali.start_cali, name='calibration_th2')
                                     calibration_thread.daemon = True
                                     calibration_thread.start()
+                                     
 
                     # /////////////////////////////////////////////////////
                     # 종료 조건
@@ -349,10 +350,14 @@ if __name__ == '__main__':
 
                     if eye_side == 'left':
                         cali.left_iris_centre = iris_centre
+                        left_i_x0, left_i_y0 = cali.left_iris_centre
                         cali.left_eyeball_centre = eyeball_centre
+                        left_e_x0, left_e_y0 = cali.left_eyeball_centre
                     else:
                         cali.right_iris_centre = iris_centre
+                        right_i_x0, right_i_y0 = cali.right_iris_centre
                         cali.right_eyeball_centre = eyeball_centre
+                        right_e_x0, right_e_y0 = cali.right_eyeball_centre
 
                     # Smooth and visualize gaze direction
                     num_total_eyes_in_frame = len(frame['eyes'])
@@ -379,82 +384,33 @@ if __name__ == '__main__':
 
 
                         # 눈 좌표 변경
-                        left_i_x0, left_i_y0 = cali.left_iris_centre
-                        right_i_x0, right_i_y0 = cali.right_iris_centre
-                        left_e_x0, left_e_y0 = cali.left_eyeball_centre
-                        right_e_x0, right_e_y0 = cali.right_eyeball_centre
-                        Cx = 2
-                        Cy = -0.5
 
-                        # 경계선 알고리즘 변경
-                        left_x_middle = 0
-                        right_x_middle = 0
-                        y_middle = 0
+                        Cx = 0
+                        Cy = 0
 
-                        left_gaze_x = left_i_x0 - left_e_x0 + Cx
-                        right_gaze_x = right_i_x0 - right_e_x0 + Cx
-                        left_gaze_y = left_i_y0 - left_e_y0 + Cy
-                        right_gaze_y = right_i_y0 - right_e_y0 + Cy
+                        left_dx = 0
+                        left_dy = 0
+                        right_dx = 0
+                        right_dy = 0
 
-                        # 눈 위치
+                        if cali.is_finish:
+                            left_gaze_x = left_i_x0 - left_e_x0 + Cx
+                            right_gaze_x = right_i_x0 - right_e_x0 + Cx
+                            left_gaze_y = left_i_y0 - left_e_y0 + Cy
+                            right_gaze_y = right_i_y0 - right_e_y0 + Cy
 
-                        #left_eye_location = 0
-                        #top_eye_location = 0
-
-                        if len(cali.left_iris_captured_data) < 16:
-                            left_x_middle = 8
-                            right_x_middle = 8
-                            y_middle = 3
-                            left_dx1 = 42
-                            left_dx2 = 5
-                            left_dx3 = 42
-                            left_dx4 = 42
-                            left_dx5 = 5
-                            left_dx6 = 42
-                            left_dx7 = 42
-                            left_dx8 = 5
-                            left_dx9 = 42
-                            right_dx1 = 42
-                            right_dx2 = 5
-                            right_dx3 = 42
-                            right_dx4 = 42
-                            right_dx5 = 5
-                            right_dx6 = 42
-                            right_dx7 = 42
-                            right_dx8 = 5
-                            right_dx9 = 42
-                            left_dy1 = 68
-                            left_dy2 = 68
-                            left_dy3 = 68
-                            left_dy4 = 5
-                            left_dy5 = 5
-                            left_dy6 = 5
-                            left_dy7 = 68
-                            left_dy8 = 68
-                            left_dy9 = 68
-                            right_dy1 = 68
-                            right_dy2 = 68
-                            right_dy3 = 68
-                            right_dy4 = 5
-                            right_dy5 = 5
-                            right_dy6 = 5
-                            right_dy7 = 68
-                            right_dy8 = 68
-                            right_dy9 = 68
-
-                        else:
                             left_x_middle = (
-                                (cali.right_eyeball_captured_data[1][0] - cali.right_iris_captured_data[1][0]) +
-                                (cali.right_eyeball_captured_data[5][0] - cali.right_iris_captured_data[5][0]) +
-                                (cali.right_eyeball_captured_data[9][0] - cali.right_iris_captured_data[9][0]) +
-                                (cali.right_eyeball_captured_data[13][0] - cali.right_iris_captured_data[13][0]) / 4)
+                               ((cali.right_iris_captured_data[1][0] - cali.right_eyeball_captured_data[1][0]) +
+                                (cali.right_iris_captured_data[5][0] - cali.right_eyeball_captured_data[5][0]) +
+                                (cali.right_iris_captured_data[9][0] - cali.right_eyeball_captured_data[9][0]) +
+                                (cali.right_iris_captured_data[13][0] - cali.right_eyeball_captured_data[13][0])) / 4)
                             right_x_middle = (
-                                (cali.left_iris_captured_data[2][0] - cali.left_eyeball_captured_data[2][0]) +
+                               ((cali.left_iris_captured_data[2][0] - cali.left_eyeball_captured_data[2][0]) +
                                 (cali.left_iris_captured_data[6][0] - cali.left_eyeball_captured_data[6][0]) +
                                 (cali.left_iris_captured_data[10][0] - cali.left_eyeball_captured_data[10][0]) +
-                                (cali.left_iris_captured_data[14][0] - cali.left_eyeball_captured_data[14][0]) / 4)
+                                (cali.left_iris_captured_data[14][0] - cali.left_eyeball_captured_data[14][0])) / 4)
                             y_middle = (
-                                (cali.left_iris_captured_data[8][1] - cali.left_eyeball_captured_data[8][1]) +
+                               ((cali.left_iris_captured_data[8][1] - cali.left_eyeball_captured_data[8][1]) +
                                 (cali.left_iris_captured_data[9][1] - cali.left_eyeball_captured_data[9][1]) +
                                 (cali.left_iris_captured_data[10][1] - cali.left_eyeball_captured_data[10][1]) +
                                 (cali.left_iris_captured_data[11][1] - cali.left_eyeball_captured_data[11][1]) +
@@ -469,7 +425,7 @@ if __name__ == '__main__':
                                 (cali.right_iris_captured_data[4][1] - cali.right_eyeball_captured_data[4][1]) -
                                 (cali.right_iris_captured_data[5][1] - cali.right_eyeball_captured_data[5][1]) -
                                 (cali.right_iris_captured_data[6][1] - cali.right_eyeball_captured_data[6][1]) -
-                                (cali.right_iris_captured_data[7][1] - cali.right_eyeball_captured_data[7][1]) / 16)
+                                (cali.right_iris_captured_data[7][1] - cali.right_eyeball_captured_data[7][1])) / 16)
 
                             # 캘리브레이션 가중치 변경
 
@@ -523,123 +479,127 @@ if __name__ == '__main__':
                             left_dy8 = left_calc_cali(9, 1)
                             left_dy9 = left_calc_cali(10, 1)
 
-                            right_dy1 = left_calc_cali(0, 1)
-                            right_dy2 = left_calc_cali(1, 1)
-                            right_dy3 = left_calc_cali(2, 1)
-                            right_dy4 = left_calc_cali(4, 1)
-                            right_dy5 = left_calc_cali(5, 1)
-                            right_dy6 = left_calc_cali(6, 1)
-                            right_dy7 = left_calc_cali(8, 1)
-                            right_dy8 = left_calc_cali(9, 1)
-                            right_dy9 = left_calc_cali(10, 1)
+                            right_dy1 = right_calc_cali(0, 1)
+                            right_dy2 = right_calc_cali(1, 1)
+                            right_dy3 = right_calc_cali(2, 1)
+                            right_dy4 = right_calc_cali(4, 1)
+                            right_dy5 = right_calc_cali(5, 1)
+                            right_dy6 = right_calc_cali(6, 1)
+                            right_dy7 = right_calc_cali(8, 1)
+                            right_dy8 = right_calc_cali(9, 1)
+                            right_dy9 = right_calc_cali(10, 1)
 
-                        if (-1 * right_gaze_x) < (-1 * left_x_middle) :
-                            left_eye_location = 1
-                        elif (-1 * left_gaze_x) > right_x_middle :
-                            left_eye_location = 3
-                        else :
-                            left_eye_location = 2
+                            if right_gaze_x < left_x_middle :
+                                left_eye_location = 1
+                            elif left_gaze_x > right_x_middle :
+                                left_eye_location = 3
+                            else :
+                                left_eye_location = 2
 
-                        # 현재 눈 크기 (추후)
+                            if left_gaze_y < -1 * y_middle :
+                                top_eye_location = 1
+                            elif left_gaze_y > y_middle :
+                                top_eye_location = 3
+                            else :
+                                top_eye_location = 2
 
-                        # now_eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
-                        # now_eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
+                            # 현재 눈 크기 (추후)
 
-                        if (-1 * right_gaze_x < left_x_middle and left_gaze_x < right_x_middle and abs(left_gaze_y) < y_middle) :
-                            left_dx = left_dx5
-                            right_dx = right_dx5
-                            left_dy = left_dy5
-                            right_dy = right_dy5
-                            point = 5
-                        elif right_gaze_x <= -1 * left_x_middle and left_gaze_y <= -1 * y_middle :
-                            left_dx = left_dx1
-                            right_dx = right_dx1
-                            left_dy = left_dy1
-                            right_dy = right_dy1
-                            point = 1
-                        elif right_gaze_x < left_x_middle and left_gaze_x < right_x_middle and left_gaze_y <= -1 * y_middle :
-                            left_dx = left_dx2
-                            right_dx = right_dx2
-                            left_dy = left_dy2
-                            right_dy = right_dy2
-                            point = 2
-                        elif left_gaze_x >= right_x_middle and left_gaze_y <= -1 * y_middle :
-                            left_dx = left_dx3
-                            right_dx = right_dx3
-                            left_dy = left_dy3
-                            right_dy = right_dy3
-                            point = 3
-                        elif right_gaze_x <= -1 * left_x_middle and abs(left_gaze_y) < y_middle :
-                            left_dx = left_dx4
-                            right_dx = right_dx4
-                            left_dy = left_dy4
-                            right_dy = right_dy4
-                            point = 4
-                        elif left_gaze_x >= right_x_middle and abs(left_gaze_y) < y_middle :
-                            left_dx = left_dx6
-                            right_dx = right_dx6
-                            left_dy = left_dy6
-                            right_dy = right_dy6
-                            point = 6
-                        elif right_gaze_x <= -1 * left_x_middle and left_gaze_y >= y_middle :
-                            left_dx = left_dx7
-                            right_dx = right_dx7
-                            left_dy = left_dy7
-                            right_dy = right_dy7
-                            point = 7
-                        elif right_gaze_x < left_x_middle and left_gaze_x < right_x_middle and left_gaze_y >= y_middle :
-                            left_dx = left_dx8
-                            right_dx = right_dx8
-                            left_dy = left_dy8
-                            right_dy = right_dy8
-                            point = 8
-                        elif left_gaze_x >= right_x_middle and left_gaze_y >= y_middle :
-                            left_dx = left_dx9
-                            right_dx = right_dx9
-                            left_dy = left_dy9
-                            right_dy = right_dy9
-                            point = 9
-
-                        current_gaze = np.array([((left_i_x0 + left_gaze_x * left_dx) +
-                                                  (right_i_x0 + right_gaze_x * right_dx)) / 2,
-                                                 ((left_i_y0 + left_gaze_y * left_dy) +
-                                                  (right_i_y0 + right_gaze_y * right_dy)) / 2])
-
-                        gaze_history.append(current_gaze)
-                        gaze_history_max_len = 10
-                        if len(gaze_history) > gaze_history_max_len:
-                            gaze_history = gaze_history[-gaze_history_max_len:]
-
-                        # 시선 좌표 변경
-
-                        # gaze_mean = np.mean(gaze_history, axis=0)
-                        # util.gaze.draw_gaze(bgr, iris_centre, gaze_mean,thickness=1)
+                            # now_eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
+                            # now_eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
 
 
+                            if left_eye_location == 1 and top_eye_location == 1 :
+                                left_dx = left_dx1
+                                right_dx = right_dx1
+                                left_dy = left_dy1
+                                right_dy = right_dy1
+                                point = 1
+                            elif left_eye_location == 2 and top_eye_location == 1 :
+                                left_dx = left_dx2
+                                right_dx = right_dx2
+                                left_dy = left_dy2
+                                right_dy = right_dy2
+                                point = 2
+                            elif left_eye_location == 3 and top_eye_location == 1 :
+                                left_dx = left_dx3
+                                right_dx = right_dx3
+                                left_dy = left_dy3
+                                right_dy = right_dy3
+                                point = 3
+                            elif left_eye_location == 1 and top_eye_location == 2 :
+                                left_dx = left_dx4
+                                right_dx = right_dx4
+                                left_dy = left_dy4
+                                right_dy = right_dy4
+                                point = 4
+                            elif left_eye_location == 2 and top_eye_location == 2 :
+                                left_dx = left_dx5
+                                right_dx = right_dx5
+                                left_dy = left_dy5
+                                right_dy = right_dy5
+                                point = 5
+                            elif left_eye_location == 3 and top_eye_location == 2 :
+                                left_dx = left_dx6
+                                right_dx = right_dx6
+                                left_dy = left_dy6
+                                right_dy = right_dy6
+                                point = 6
+                            elif left_eye_location == 1 and top_eye_location == 3 :
+                                left_dx = left_dx7
+                                right_dx = right_dx7
+                                left_dy = left_dy7
+                                right_dy = right_dy7
+                                point = 7
+                            elif left_eye_location == 2 and top_eye_location == 3 :
+                                left_dx = left_dx8
+                                right_dx = right_dx8
+                                left_dy = left_dy8
+                                right_dy = right_dy8
+                                point = 8
+                            elif left_eye_location == 3 and top_eye_location == 3 :
+                                left_dx = left_dx9
+                                right_dx = right_dx9
+                                left_dy = left_dy9
+                                right_dy = right_dy9
+                                point = 9
 
-                        if eye_side == 'left':
-                            cali.left_gaze_coordinate = np.mean(gaze_history, axis=0)
-                        else:
-                            cali.right_gaze_coordinate = np.mean(gaze_history, axis=0)
+                            current_gaze = np.array([((left_i_x0 + left_gaze_x * left_dx) +
+                                                      (right_i_x0 + right_gaze_x * right_dx)) / 2,
+                                                     ((left_i_y0 + left_gaze_y * left_dy) +
+                                                      (right_i_y0 + right_gaze_y * right_dy)) / 2])
 
-                        if (cali.left_gaze_coordinate is not None) and (cali.right_gaze_coordinate is not None):
+                            gaze_history.append(current_gaze)
+                            gaze_history_max_len = 10
+                            if len(gaze_history) > gaze_history_max_len:
+                                gaze_history = gaze_history[-gaze_history_max_len:]
 
-                            gaze_mean = (cali.left_gaze_coordinate + cali.right_gaze_coordinate) / 2.0
+                            # 시선 좌표 변경
 
-                            # 가운데 원으로 표시
-                            util.gaze.draw_gaze_point(bgr, gaze_mean,
-                                                      thickness=1)
+                            # gaze_mean = np.mean(gaze_history, axis=0)
+                            # util.gaze.draw_gaze(bgr, iris_centre, gaze_mean,thickness=1)
 
+                            if eye_side == 'left':
+                                cali.left_gaze_coordinate = np.mean(gaze_history, axis=0)
+                            else:
+                                cali.right_gaze_coordinate = np.mean(gaze_history, axis=0)
 
-                            if debug_draw_gaze_arrow:
-                                # 왼쪽 화살표로 표시
-                                if eye_side == 'left':
-                                    util.gaze.draw_gaze(bgr, iris_centre, cali.left_gaze_coordinate, thickness=1)
+                            if (cali.left_gaze_coordinate is not None) and (cali.right_gaze_coordinate is not None):
 
-                                # 오른쪽 화살표로 표시
-                                if eye_side == 'right':
-                                    util.gaze.draw_gaze(bgr, iris_centre, cali.right_gaze_coordinate, thickness=1)
+                                gaze_mean = (cali.left_gaze_coordinate + cali.right_gaze_coordinate) / 2.0
 
+                                # 가운데 원으로 표시
+                                util.gaze.draw_gaze_point(bgr, gaze_mean,
+                                                          thickness=1)
+
+                                if debug_draw_gaze_arrow:
+                                    # 왼쪽 화살표로 표시
+                                    if eye_side == 'left':
+                                        util.gaze.draw_gaze(bgr, iris_centre, cali.left_gaze_coordinate, thickness=1)
+
+                                    # 오른쪽 화살표로 표시
+                                    if eye_side == 'right':
+                                        util.gaze.draw_gaze(bgr, iris_centre, cali.right_gaze_coordinate, thickness=1)
 
                     else:
                         gaze_history.clear()
@@ -741,11 +701,6 @@ if __name__ == '__main__':
                             # 결과값 출력
                             print("current gaze : ", gaze_mean)
                             print("point : ", point)
-                            if len(cali.left_iris_captured_data) > 15:
-                                print("left_x_middle : ", left_x_middle)
-                                print("right_x_middle : ", right_x_middle)
-                                print("location : ", left_gaze_x)
-                                print("location : ", right_gaze_x)
 
                             before_history = after_history
                             after_history = point
