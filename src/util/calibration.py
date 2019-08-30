@@ -166,12 +166,7 @@ class Calibration:
 
         # 캘리브레이션 순간!
         if (count == (duration * self.Const_Cali_Unit_Time)):
-            # 다음 캘리브레이션 경로가 없다면 창 종료
-            if (self.sequence.empty() == True):
-                self.is_finish = True  # 종료플레그
-                print("Complete Calibration!!")
-                self.close_window(self.Const_Cali_Window_name)
-                return
+
             ##########################################
             # to-do : 눈의 좌표 저장
             # idea : 개선점? : 캘리브레이션 중간에 값 저장해서 보정하는건 어떤가?
@@ -185,6 +180,15 @@ class Calibration:
             print ("left_iris_captured_data : ",self.left_eyeball_captured_data)
 
             ##########################################
+
+
+            # 다음 캘리브레이션 경로가 없다면 창 종료
+            if (self.sequence.empty() == True):
+                self.is_finish = True  # 종료플레그
+                print("Complete Calibration!!")
+                self.close_window(self.Const_Cali_Window_name)
+                return
+
 
             # 큐에 다음 캘리브레이션 포인트가 있다면 원을 이동하여 캘리브레이션 작업
             index = self.sequence.get_nowait()
