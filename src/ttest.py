@@ -5,11 +5,46 @@
 # print(sess.run(hello))
 
 
-print (3.144444444/3)
-# import threading
-# import numpy as np
-# import cv2
-# import time
+import threading
+import numpy as np
+import cv2
+import time
+
+def pr():
+    print("print_Thread!!")
+
+
+
+
+def mouse_callback(event, x, y, flags, param):
+    if event == cv2.EVENT_LBUTTONDOWN:
+        # event
+        # var1.append(실제찍은값)
+        # var2.append(보고있는값)
+        #
+        # var1 and var2 비교 후
+        cv2.circle(img, (x, y), 10, (255, 0, 0), -1)
+
+        # th = threading.Timer( 1, pr,)
+        # th.daemon = True
+        # th.start()
+
+
+
+
+
+
+img = cv2.imread('ballon.jpg', cv2.IMREAD_COLOR)
+
+cv2.namedWindow('image2', cv2.WINDOW_NORMAL)  # auto resized
+cv2.setMouseCallback('image2', mouse_callback)
+
+while True:
+    cv2.imshow('image2', img)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+cv2.destroyAllWindows()
+
 #
 # from util.calibration import Calibration
 #
@@ -23,6 +58,9 @@ print (3.144444444/3)
 # calibration_thread.join()
 # print("wait thread")
 #
+
+
+
 
 
 
