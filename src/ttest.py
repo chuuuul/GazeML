@@ -4,19 +4,37 @@
 # sess = tf.Session()
 # print(sess.run(hello))
 
-import threading
-import numpy as np
-import cv2
-import time
+
+print (3.144444444/3)
+# import threading
+# import numpy as np
+# import cv2
+# import time
+#
+# from util.calibration import Calibration
+#
+# calibration = Calibration()
+#
+# calibration_thread = threading.Thread(target=calibration.start_cali(), name='calibration_th2')
+# calibration_thread.daemon = True
+# calibration_thread.start()
+#
+# print("thread start")
+# calibration_thread.join()
+# print("wait thread")
+#
 
 
-img = cv2.imread('ballon.jpg', cv2.IMREAD_GRAYSCALE)
 
-cv2.namedWindow('image2', cv2.WINDOW_NORMAL)  # auto resized
-cv2.setWindowProperty('image2', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FREERATIO )
-cv2.imshow('image2', img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+
+
+# img = cv2.imread('ballon.jpg', cv2.IMREAD_GRAYSCALE)
+#
+# cv2.namedWindow('image2', cv2.WINDOW_NORMAL)  # auto resized
+# cv2.setWindowProperty('image2', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FREERATIO )
+# cv2.imshow('image2', img)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
 
 
 # def a_thread():
