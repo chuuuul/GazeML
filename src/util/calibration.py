@@ -91,19 +91,12 @@ class Calibration:
             self.sequence.put_nowait(i)
 
         img = self.init_canvas()
-        background = img.copy()
         self.init_cali()
 
-        self.draw_circle(img, self.Cali_Center_Points[0], self.Const_Cali_Radius)
-        self.draw_cross(img, self.Cali_Center_Points[0])
-
-        for point in self.Cali_Center_Points:
-            self.draw_circle(img, point, self.Const_Cali_Radius)
-            self.draw_cross(img, point)
         # 큐의 순서대로 캘리브레이션 시작
         index = self.sequence.get_nowait()
 
-        self.resize_figure(img, self.Cali_Center_Points[index], self.Const_Cali_Radius, self.Const_Cali_Capture_Duration, background)
+        self.resize_figure(img, self.Cali_Center_Points[index], self.Const_Cali_Radius, self.Const_Cali_Capture_Duration)
 
         # 문제점 : waitkey로 키 입력 받으려고 변수 저장 후 비교해서 다르면 waitkey를 다시 하게 되는데 그 순간 먹통(쓰레드랑관련?)
         cv2.waitKey(0)
@@ -113,12 +106,12 @@ class Calibration:
         self.close_window(self.Const_Cali_Window_name)
         return
 
-    def move_figure(self, img, start_point, end_point, current_point, duration, background, count=0):
+    def move_figure(self, img, start_point, end_point, current_point, duration, count=0):
 
         while (self.is_face_detect == False):
             continue
 
-        img = background.copy()
+        copy_img = img.copy()
 
         to_move_x = (end_point[0] - start_point[0])
         to_move_y = (end_point[1] - start_point[1])
@@ -128,35 +121,34 @@ class Calibration:
 
         updated_current_point = (current_point[0] + move_once_x, current_point[1] + move_once_y)
 
-        self.draw_circle(img, current_point, self.Const_Cali_Radius)
-        self.draw_cross(img, current_point)
+        self.draw_circle(copy_img, current_point, self.Const_Cali_Radius)
+        self.draw_cross(copy_img, current_point)
 
-        self.display_canvas(self.Const_Cali_Window_name, img)
+        self.display_canvas(self.Const_Cali_Window_name, copy_img)
         count = count + 1
 
         if (count == (duration * self.Const_Cali_Unit_Time)):
-            self.resize_figure(img, end_point, self.Const_Cali_Radius, self.Const_Cali_Capture_Duration, background)
+            self.resize_figure(img, end_point, self.Const_Cali_Radius, self.Const_Cali_Capture_Duration, )
             return
 
-        # threading.Timer(1 / self.Const_Cali_Unit_Time, move_figure, [img, start_point, end_point, updated_current_point, duration, background, count]).start()
         th = threading.Timer(1 / self.Const_Cali_Unit_Time, self.move_figure,
-                             [img, start_point, end_point, updated_current_point, self.Const_Cali_Move_Duration, background,
+                             [img, start_point, end_point, updated_current_point, self.Const_Cali_Move_Duration,
                               count])
         th.daemon = True
         th.start()
 
-    def resize_figure(self, img, point, current_radius, duration, background, count=0):
+    def resize_figure(self, img, point, current_radius, duration, count=0):
 
-        img = background.copy()
+        copy_img = img.copy()
 
         to_resize_radius = self.Const_Cali_Radius - self.Const_Cali_Resize_Radius
         resize_once_radius = to_resize_radius / (duration * self.Const_Cali_Unit_Time)
 
         updated_current_radius = current_radius - resize_once_radius
-        self.draw_circle(img, point, updated_current_radius)
-        self.draw_cross(img, point)
+        self.draw_circle(copy_img, point, updated_current_radius)
+        self.draw_cross(copy_img, point)
 
-        self.display_canvas(self.Const_Cali_Window_name, img)
+        self.display_canvas(self.Const_Cali_Window_name, copy_img)
         count = count + 1
 
 
@@ -192,11 +184,11 @@ class Calibration:
 
             # 큐에 다음 캘리브레이션 포인트가 있다면 원을 이동하여 캘리브레이션 작업
             index = self.sequence.get_nowait()
-            self.move_figure(img, point, self.Cali_Center_Points[index], point, self.Const_Cali_Move_Duration, background)
+            self.move_figure(img, point, self.Cali_Center_Points[index], point, self.Const_Cali_Move_Duration)
             return
 
         th = threading.Timer(1 / self.Const_Cali_Unit_Time, self.resize_figure,
-                             [img, point, updated_current_radius, duration, background, count])
+                             [img, point, updated_current_radius, duration, count])
         th.daemon = True
         th.start()
 
@@ -223,14 +215,14 @@ class Calibration:
         return img
 
     def draw_circle(self, img, point, radius):
-        img = cv2.circle(img, ((int)(point[0]), (int)(point[1])), (int)(radius), (0, 0, 255), -1)
+        cv2.circle(img, ((int)(point[0]), (int)(point[1])), (int)(radius), (0, 0, 255), -1)
 
     def draw_cross(self, img, point):
         half_size = (int)(self.Const_Cali_Cross_Size / 2)
-        img = cv2.line(img, ((int)(point[0] - half_size), (int)(point[1])),
+        cv2.line(img, ((int)(point[0] - half_size), (int)(point[1])),
                        ((int)(point[0] + half_size), (int)(point[1])),
                        (255, 255, 255), 1)
-        img = cv2.line(img, ((int)(point[0]), (int)(point[1] - half_size)),
+        cv2.line(img, ((int)(point[0]), (int)(point[1] - half_size)),
                        ((int)(point[0]), (int)(point[1] + half_size)),
                        (255, 255, 255), 1)
 
