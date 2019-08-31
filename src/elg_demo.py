@@ -297,12 +297,16 @@ if __name__ == '__main__':
                                  .reshape(-1, 1, 2)],
                             isClosed=True, color=(255, 255, 0), thickness=1, lineType=cv.LINE_AA,
                         )
+                        cali.is_face_detect = True
+                    else:
+                        cali.is_face_detect = False
                     if can_use_iris:
                         cv.polylines(
                             eye_image_annotated,
                             [np.round(eye_upscale * eye_landmarks[8:16]).astype(np.int32)
                                  .reshape(-1, 1, 2)],
                             isClosed=True, color=(0, 255, 255), thickness=1, lineType=cv.LINE_AA,
+
                         )
                         cv.drawMarker(
                             eye_image_annotated,
@@ -310,6 +314,11 @@ if __name__ == '__main__':
                             color=(0, 255, 255), markerType=cv.MARKER_CROSS, markerSize=4,
                             thickness=1, line_type=cv.LINE_AA,
                         )
+                        cali.is_face_detect = True
+                    else:       # 얼굴인식안됨으로 판별
+                        cali.is_face_detect = False
+
+
                     face_index = int(eye_index / 2)
                     eh, ew, _ = eye_image_raw.shape
                     v0 = face_index * 2 * eh
