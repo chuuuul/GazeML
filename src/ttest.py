@@ -104,3 +104,68 @@ cv2.destroyAllWindows()
 # cv2.destroyAllWindows()
 
 
+
+## performance test했던코드
+
+
+# from util.calibration import Calibration
+#
+# cali = Calibration()
+# cali.Const_Display_X = 0
+#
+# ########### 추가 ##################
+# import time  # time 라이브러리
+#
+# ###################################
+# perf = Performance(1280, 720)
+#
+# cam = cv2.VideoCapture(-1)  # 카메라 생성
+# # cam.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+# # cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+# # 윈도우 생성 및 사이즈 변경
+# var1 = 10
+# var2 = 10
+#
+# cv2.namedWindow('CAM_Window')
+# cv2.setMouseCallback('CAM_Window', perf.mouse_callback,param=(cali))
+#
+#
+#
+# prevTime = 0  # 이전 시간을 저장할 변수
+# while (True):
+#
+#
+#     cali.Const_Display_X = cali.Const_Display_X + 1
+#
+#     ret, perf.show_img = cam.read()
+#
+#     curTime = time.time()
+#
+#     sec = curTime - prevTime
+#     prevTime = curTime
+#     fps = 1 / (sec)
+#
+#
+#     # 프레임 수를 문자열에 저장
+#     str = "FPS : %0.1f" % fps
+#
+#     # 표시
+#     cv2.putText(perf.show_img, str, (0, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0))
+#
+#
+#     if perf.save_index != 0 :
+#         perf.draw_gaze_coordinate_mark()
+#         perf.draw_real_coordinate_mark()
+#     # 얻어온 이미지 윈도우에 표시
+#     cv2.imshow('CAM_Window', perf.show_img)
+#
+#     # 10ms 동안 키입력 대기
+#     if cv2.waitKey(10) >= 0:
+#         break;
+#
+# # 윈도우 종려
+# cam.release()
+# cv2.destroyWindow('CAM_Window')
+#
+
+
