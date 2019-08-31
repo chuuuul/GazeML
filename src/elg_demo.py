@@ -17,10 +17,10 @@ from models import ELG
 import util.gaze
 
 from util.calibration import Calibration
-
-
+from util.perfomance_test import Performance
 
 cali = Calibration()
+perform = Performance(cali.Const_Display_X, cali.Const_Display_Y)
 
 
 ##################################### Debug Var #############################################
@@ -202,13 +202,16 @@ if __name__ == '__main__':
                             cali.is_face_detect = False
                             if not args.headless:
                                 if cali.is_finish:
-
                                     if not is_start_visualize:
                                         is_start_visualize = True
 
+                                        # cv.setMouseCallback('vis', perform.mouse_callback,param = cali)
+                                                            # [(cali.left_gaze_coordinate + cali.right_gaze_coordinate) / 2])
                                         if debug_full_screen_gaze_capture or args.fullscreen:
                                             cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
+
                                             cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
+
 
                                     img = next_frame['bgr']
 
@@ -217,6 +220,8 @@ if __name__ == '__main__':
                                     util.gaze.draw_monitor_grid(img, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_X, False)
 
                                     cv.imshow('vis', img)
+
+                                    cv.setMouseCallback('vis', perform.mouse_callback, param = cali)
                                 None
 
                             if args.record_video:
@@ -232,6 +237,7 @@ if __name__ == '__main__':
                                     calibration_thread = threading.Thread(target=cali.start_cali, name='calibration_th2')
                                     calibration_thread.daemon = True
                                     calibration_thread.start()
+
                                      
 
                     # /////////////////////////////////////////////////////
@@ -394,11 +400,15 @@ if __name__ == '__main__':
                         right_dx = 0
                         right_dy = 0
 
-                        if cali.is_finish:
+                        if cali.is_finish :
+
+
+
                             left_gaze_x = left_i_x0 - left_e_x0 + Cx
                             right_gaze_x = right_i_x0 - right_e_x0 + Cx
                             left_gaze_y = left_i_y0 - left_e_y0 + Cy
                             right_gaze_y = right_i_y0 - right_e_y0 + Cy
+
 
                             left_x_middle = (
                                ((cali.right_iris_captured_data[1][0] - cali.right_eyeball_captured_data[1][0]) +
@@ -650,20 +660,31 @@ if __name__ == '__main__':
                         cv.putText(bgr, fps_str, org=(fw - 111, fh - 21),
                                    fontFace=cv.FONT_HERSHEY_DUPLEX, fontScale=0.79,
                                    color=(255, 255, 255), thickness=1, lineType=cv.LINE_AA)
+
                         if not args.headless:
                             if cali.is_finish == True:
-
                                 if not is_start_visualize:
                                     is_start_visualize = True
-
                                     if debug_full_screen_gaze_capture or args.fullscreen:
                                         cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
                                         cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
 
+
                                 # 그리드 레이아웃 그리기
                                 util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_Y, True)
                                 util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_X, False)
+
+
+                                #성능평가에서 찍은점 그리기
+                                perform.draw_real_coordinate_mark(bgr)
+                                perform.draw_gaze_coordinate_mark(bgr)
+
                                 cv.imshow('vis', bgr)
+
+                                # call back 함수 등록
+                                if perform.is_set_callback == False:
+                                    perform.is_set_callback = True
+                                    cv.setMouseCallback('vis', perform.mouse_callback, param = cali)
                             None
                         last_frame_index = frame_index
 
