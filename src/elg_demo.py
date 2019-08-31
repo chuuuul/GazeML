@@ -171,7 +171,11 @@ if __name__ == '__main__':
             last_frame_index = 0
             last_frame_time = time.time()
             fps_history = []
-            all_gaze_histories = []
+
+            # 왼쪽 눈, 오른쪽 눈 리스트
+
+            left_gaze_histories = []
+            right_gaze_histories = []
 
             # 패턴
 
@@ -361,9 +365,16 @@ if __name__ == '__main__':
 
                     # Smooth and visualize gaze direction
                     num_total_eyes_in_frame = len(frame['eyes'])
-                    if len(all_gaze_histories) != num_total_eyes_in_frame:
-                        all_gaze_histories = [list() for _ in range(num_total_eyes_in_frame)]
-                    gaze_history = all_gaze_histories[eye_index]
+
+                    # 양쪽 시선 방향을 매끄럽게 시각화
+                    if len(left_gaze_histories) != num_total_eyes_in_frame:
+                        left_gaze_histories = [list() for _ in range(num_total_eyes_in_frame)]
+                    if len(right_gaze_histories) != num_total_eyes_in_frame:
+                        right_gaze_histories = [list() for _ in range(num_total_eyes_in_frame)]
+
+                    left_gaze_history = left_gaze_histories[eye_index]
+                    right_gaze_history = right_gaze_histories[eye_index]
+
                     if can_use_eye:
                         # Visualize landmarks
                         cv.drawMarker(  # Eyeball centre
@@ -564,15 +575,19 @@ if __name__ == '__main__':
                                 right_dy = right_dy9
                                 point = 9
 
-                            current_gaze = np.array([((left_i_x0 + left_gaze_x * left_dx) +
-                                                      (right_i_x0 + right_gaze_x * right_dx)) / 2,
-                                                     ((left_i_y0 + left_gaze_y * left_dy) +
-                                                      (right_i_y0 + right_gaze_y * right_dy)) / 2])
+                            left_current_gaze = np.array([left_i_x0 + left_gaze_x * left_dx, left_i_y0 + left_gaze_y * left_dy])
+                            right_current_gaze = np.array([right_i_x0 + right_gaze_x * right_dx,right_i_y0 + right_gaze_y * right_dy])
 
-                            gaze_history.append(current_gaze)
-                            gaze_history_max_len = 10
-                            if len(gaze_history) > gaze_history_max_len:
-                                gaze_history = gaze_history[-gaze_history_max_len:]
+                            left_gaze_history.append(left_current_gaze)
+                            right_gaze_history.append(right_current_gaze)
+
+                            left_gaze_history_max_len = 10
+                            if len(left_gaze_history) > left_gaze_history_max_len:
+                                left_gaze_history = left_gaze_history[-left_gaze_history_max_len:]
+
+                            right_gaze_history_max_len = 10
+                            if len(right_gaze_history) > right_gaze_history_max_len:
+                                right_gaze_history = right_gaze_history[-right_gaze_history_max_len:]
 
                             # 시선 좌표 변경
 
@@ -580,9 +595,9 @@ if __name__ == '__main__':
                             # util.gaze.draw_gaze(bgr, iris_centre, gaze_mean,thickness=1)
 
                             if eye_side == 'left':
-                                cali.left_gaze_coordinate = np.mean(gaze_history, axis=0)
+                                cali.left_gaze_coordinate = np.mean(left_gaze_history, axis=0)
                             else:
-                                cali.right_gaze_coordinate = np.mean(gaze_history, axis=0)
+                                cali.right_gaze_coordinate = np.mean(right_gaze_history, axis=0)
 
                             if (cali.left_gaze_coordinate is not None) and (cali.right_gaze_coordinate is not None):
 
@@ -602,7 +617,8 @@ if __name__ == '__main__':
                                         util.gaze.draw_gaze(bgr, iris_centre, cali.right_gaze_coordinate, thickness=1)
 
                     else:
-                        gaze_history.clear()
+                        left_gaze_history.clear()
+                        right_gaze_history.clear()
 
                     if can_use_eyelid:
                         cv.polylines(
