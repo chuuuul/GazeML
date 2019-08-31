@@ -444,20 +444,20 @@ if __name__ == '__main__':
                                 result = 0
                                 for i in range(2) :
                                     for j in range(2) :
-                                        result = abs((cali.Cali_Center_Points[a + i + 4 * j][b] -
-                                                      cali.left_iris_captured_data[a + i + 4 * j][b]) /
-                                                     (cali.left_iris_captured_data[a + i + 4 * j][b] -
-                                                      cali.left_eyeball_captured_data[a + i + 4 * j][b]))
+                                        result = abs((cali.Cali_Center_Points[a + i * 4 + j][b] -
+                                                      cali.left_iris_captured_data[a + i * 4 + j][b]) /
+                                                     (cali.left_iris_captured_data[a + i * 4 + j][b] -
+                                                      cali.left_eyeball_captured_data[a + i * 4 + j][b]))
                                 return result
 
                             def right_calc_cali(a, b) :
                                 result = 0
                                 for i in range(2) :
                                     for j in range(2) :
-                                        result = abs((cali.Cali_Center_Points[a + i + 4 * j][b] -
-                                                      cali.right_iris_captured_data[a + i + 4 * j][b]) /
-                                                     (cali.right_iris_captured_data[a + i + 4 * j][b] -
-                                                      cali.right_eyeball_captured_data[a + i + 4 * j][b]))
+                                        result = abs((cali.Cali_Center_Points[a + i * 4 + j][b] -
+                                                      cali.right_iris_captured_data[a + i * 4 + j][b]) /
+                                                     (cali.right_iris_captured_data[a + i * 4 + j][b] -
+                                                      cali.right_eyeball_captured_data[a + i * 4 + j][b]))
                                 return result
 
                             left_dx1 = left_calc_cali(0, 0)
@@ -723,6 +723,47 @@ if __name__ == '__main__':
                             # 결과값 출력
                             print("current gaze : ", gaze_mean)
                             print("point : ", point)
+
+                            if cali.is_finish:
+                                print("left_x_middle : ", left_x_middle)
+                                print("right_x_middle : ", right_x_middle)
+                                print("y_middle : ", y_middle)
+                                print("left_dx1 : ", left_dx1)
+                                print("left_dx2 : ", left_dx2)
+                                print("left_dx3 : ", left_dx3)
+                                print("left_dx4 : ", left_dx4)
+                                print("left_dx5 : ", left_dx5)
+                                print("left_dx6 : ", left_dx6)
+                                print("left_dx7 : ", left_dx7)
+                                print("left_dx8 : ", left_dx8)
+                                print("left_dx9 : ", left_dx9)
+                                print("right_dx1 : ", right_dx1)
+                                print("right_dx2 : ", right_dx2)
+                                print("right_dx3 : ", right_dx3)
+                                print("right_dx4 : ", right_dx4)
+                                print("right_dx5 : ", right_dx5)
+                                print("right_dx6 : ", right_dx6)
+                                print("right_dx7 : ", right_dx7)
+                                print("right_dx8 : ", right_dx8)
+                                print("right_dx9 : ", right_dx9)
+                                print("left_dy1 : ", left_dy1)
+                                print("left_dy2 : ", left_dy2)
+                                print("left_dy3 : ", left_dy3)
+                                print("left_dy4 : ", left_dy4)
+                                print("left_dy5 : ", left_dy5)
+                                print("left_dy6 : ", left_dy6)
+                                print("left_dy7 : ", left_dy7)
+                                print("left_dy8 : ", left_dy8)
+                                print("left_dy9 : ", left_dy9)
+                                print("right_dy1 : ", right_dy1)
+                                print("right_dy2 : ", right_dy2)
+                                print("right_dy3 : ", right_dy3)
+                                print("right_dy4 : ", right_dy4)
+                                print("right_dy5 : ", right_dy5)
+                                print("right_dy6 : ", right_dy6)
+                                print("right_dy7 : ", right_dy7)
+                                print("right_dy8 : ", right_dy8)
+                                print("right_dy9 : ", right_dy9)
 
                             before_history = after_history
                             after_history = point
