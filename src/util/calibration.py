@@ -107,9 +107,6 @@ class Calibration:
 
     def move_figure(self, img, start_point, end_point, current_point, duration, count=0):
 
-        while (self.is_face_detect == False):
-            continue
-
         copy_img = img.copy()
 
         to_move_x = (end_point[0] - start_point[0])
