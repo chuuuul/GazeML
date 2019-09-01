@@ -17,10 +17,10 @@ from models import ELG
 import util.gaze
 
 from util.calibration import Calibration
-
-
+from util.perfomance_test import Performance
 
 cali = Calibration()
+perform = Performance(cali.Const_Display_X, cali.Const_Display_Y)
 
 
 ##################################### Debug Var #############################################
@@ -30,6 +30,11 @@ debug_draw_gaze_arrow = True
 
 debug_full_screen_calibration = True
 debug_full_screen_gaze_capture = True
+
+debug_show_visualize_info = False
+debug_show_result_info = True
+debug_show_current_info = True
+
 
 #############################################################################################
 
@@ -202,13 +207,16 @@ if __name__ == '__main__':
                             cali.is_face_detect = False
                             if not args.headless:
                                 if cali.is_finish:
-
                                     if not is_start_visualize:
                                         is_start_visualize = True
 
+                                        # cv.setMouseCallback('vis', perform.mouse_callback,param = cali)
+                                                            # [(cali.left_gaze_coordinate + cali.right_gaze_coordinate) / 2])
                                         if debug_full_screen_gaze_capture or args.fullscreen:
                                             cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
+
                                             cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
+
 
                                     img = next_frame['bgr']
 
@@ -217,6 +225,8 @@ if __name__ == '__main__':
                                     util.gaze.draw_monitor_grid(img, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_X, False)
 
                                     cv.imshow('vis', img)
+
+                                    cv.setMouseCallback('vis', perform.mouse_callback, param = cali)
                                 None
 
                             if args.record_video:
@@ -232,6 +242,7 @@ if __name__ == '__main__':
                                     calibration_thread = threading.Thread(target=cali.start_cali, name='calibration_th2')
                                     calibration_thread.daemon = True
                                     calibration_thread.start()
+
                                      
 
                     # /////////////////////////////////////////////////////
@@ -286,12 +297,16 @@ if __name__ == '__main__':
                                  .reshape(-1, 1, 2)],
                             isClosed=True, color=(255, 255, 0), thickness=1, lineType=cv.LINE_AA,
                         )
+                        cali.is_face_detect = True
+                    else:
+                        cali.is_face_detect = False
                     if can_use_iris:
                         cv.polylines(
                             eye_image_annotated,
                             [np.round(eye_upscale * eye_landmarks[8:16]).astype(np.int32)
                                  .reshape(-1, 1, 2)],
                             isClosed=True, color=(0, 255, 255), thickness=1, lineType=cv.LINE_AA,
+
                         )
                         cv.drawMarker(
                             eye_image_annotated,
@@ -299,6 +314,11 @@ if __name__ == '__main__':
                             color=(0, 255, 255), markerType=cv.MARKER_CROSS, markerSize=4,
                             thickness=1, line_type=cv.LINE_AA,
                         )
+                        cali.is_face_detect = True
+                    else:       # 얼굴인식안됨으로 판별
+                        cali.is_face_detect = False
+
+
                     face_index = int(eye_index / 2)
                     eh, ew, _ = eye_image_raw.shape
                     v0 = face_index * 2 * eh
@@ -350,6 +370,7 @@ if __name__ == '__main__':
 
                     if eye_side == 'left':
                         cali.left_iris_centre = iris_centre
+
                         left_i_x0, left_i_y0 = cali.left_iris_centre
                         cali.left_eyeball_centre = eyeball_centre
                         left_e_x0, left_e_y0 = cali.left_eyeball_centre
@@ -382,33 +403,28 @@ if __name__ == '__main__':
                         # current_gaze = estimate_gaze_from_landmarks(
                         #     iris_landmarks, iris_centre, eyeball_centre, eyeball_radius)
 
-
-                        # 눈 좌표 변경
-
-                        Cx = 0
-                        Cy = 0
-
                         left_dx = 0
                         left_dy = 0
                         right_dx = 0
                         right_dy = 0
 
-                        if cali.is_finish:
-                            left_gaze_x = left_i_x0 - left_e_x0 + Cx
-                            right_gaze_x = right_i_x0 - right_e_x0 + Cx
-                            left_gaze_y = left_i_y0 - left_e_y0 + Cy
-                            right_gaze_y = right_i_y0 - right_e_y0 + Cy
+                        if cali.is_finish :
+
+                            left_gaze_x = left_i_x0 - left_e_x0
+                            right_gaze_x = right_i_x0 - right_e_x0
+                            left_gaze_y = left_i_y0 - left_e_y0
+                            right_gaze_y = right_i_y0 - right_e_y0
 
                             left_x_middle = (
                                ((cali.right_iris_captured_data[1][0] - cali.right_eyeball_captured_data[1][0]) +
                                 (cali.right_iris_captured_data[5][0] - cali.right_eyeball_captured_data[5][0]) +
                                 (cali.right_iris_captured_data[9][0] - cali.right_eyeball_captured_data[9][0]) +
-                                (cali.right_iris_captured_data[13][0] - cali.right_eyeball_captured_data[13][0])) / 4)
+                                (cali.right_iris_captured_data[13][0] - cali.right_eyeball_captured_data[13][0])) / 4 * 4)
                             right_x_middle = (
                                ((cali.left_iris_captured_data[2][0] - cali.left_eyeball_captured_data[2][0]) +
                                 (cali.left_iris_captured_data[6][0] - cali.left_eyeball_captured_data[6][0]) +
                                 (cali.left_iris_captured_data[10][0] - cali.left_eyeball_captured_data[10][0]) +
-                                (cali.left_iris_captured_data[14][0] - cali.left_eyeball_captured_data[14][0])) / 4)
+                                (cali.left_iris_captured_data[14][0] - cali.left_eyeball_captured_data[14][0])) / 4 * 4)
                             y_middle = (
                                ((cali.left_iris_captured_data[8][1] - cali.left_eyeball_captured_data[8][1]) +
                                 (cali.left_iris_captured_data[9][1] - cali.left_eyeball_captured_data[9][1]) +
@@ -425,7 +441,7 @@ if __name__ == '__main__':
                                 (cali.right_iris_captured_data[4][1] - cali.right_eyeball_captured_data[4][1]) -
                                 (cali.right_iris_captured_data[5][1] - cali.right_eyeball_captured_data[5][1]) -
                                 (cali.right_iris_captured_data[6][1] - cali.right_eyeball_captured_data[6][1]) -
-                                (cali.right_iris_captured_data[7][1] - cali.right_eyeball_captured_data[7][1])) / 16)
+                                (cali.right_iris_captured_data[7][1] - cali.right_eyeball_captured_data[7][1])) / 16 * 4)
 
                             # 캘리브레이션 가중치 변경
 
@@ -435,8 +451,10 @@ if __name__ == '__main__':
                                     for j in range(2) :
                                         result = abs((cali.Cali_Center_Points[a + i * 4 + j][b] -
                                                       cali.left_iris_captured_data[a + i * 4 + j][b]) /
-                                                     (cali.left_iris_captured_data[a + i * 4 + j][b] -
-                                                      cali.left_eyeball_captured_data[a + i * 4 + j][b]))
+                                                    (4 * (cali.left_iris_captured_data[a + i * 4 + j][b] -
+                                                           cali.left_eyeball_captured_data[a + i * 4 + j][b]) *
+                                                          (cali.left_iris_captured_data[a + i * 4 + j][b] -
+                                                           cali.left_eyeball_captured_data[a + i * 4 + j][b])))
                                 return result
 
                             def right_calc_cali(a, b) :
@@ -445,8 +463,10 @@ if __name__ == '__main__':
                                     for j in range(2) :
                                         result = abs((cali.Cali_Center_Points[a + i * 4 + j][b] -
                                                       cali.right_iris_captured_data[a + i * 4 + j][b]) /
-                                                     (cali.right_iris_captured_data[a + i * 4 + j][b] -
-                                                      cali.right_eyeball_captured_data[a + i * 4 + j][b]))
+                                                    (4 * (cali.right_iris_captured_data[a + i * 4 + j][b] -
+                                                           cali.right_eyeball_captured_data[a + i * 4 + j][b]) *
+                                                          (cali.right_iris_captured_data[a + i * 4 + j][b] -
+                                                           cali.right_eyeball_captured_data[a + i * 4 + j][b])))
                                 return result
 
                             left_dx1 = left_calc_cali(0, 0)
@@ -508,7 +528,6 @@ if __name__ == '__main__':
                             # now_eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
                             # now_eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
 
-
                             if left_eye_location == 1 and top_eye_location == 1 :
                                 left_dx = left_dx1
                                 right_dx = right_dx1
@@ -564,10 +583,10 @@ if __name__ == '__main__':
                                 right_dy = right_dy9
                                 point = 9
 
-                            current_gaze = np.array([((left_i_x0 + left_gaze_x * left_dx) +
-                                                      (right_i_x0 + right_gaze_x * right_dx)) / 2,
-                                                     ((left_i_y0 + left_gaze_y * left_dy) +
-                                                      (right_i_y0 + right_gaze_y * right_dy)) / 2])
+                            current_gaze = np.array([((left_i_x0 + 4 * left_gaze_x * abs(left_gaze_x) * left_dx) +
+                                                      (right_i_x0 + 4 * right_gaze_x * abs(right_gaze_x) * right_dx)) / 2,
+                                                     ((left_i_y0 + 4 * left_gaze_y * abs(left_gaze_y) * left_dy) +
+                                                      (right_i_y0 + 4 * right_gaze_y * abs(right_gaze_y) * right_dy)) / 2])
 
                             gaze_history.append(current_gaze)
                             gaze_history_max_len = 10
@@ -649,20 +668,31 @@ if __name__ == '__main__':
                         cv.putText(bgr, fps_str, org=(fw - 111, fh - 21),
                                    fontFace=cv.FONT_HERSHEY_DUPLEX, fontScale=0.79,
                                    color=(255, 255, 255), thickness=1, lineType=cv.LINE_AA)
+
                         if not args.headless:
                             if cali.is_finish == True:
-
                                 if not is_start_visualize:
                                     is_start_visualize = True
-
                                     if debug_full_screen_gaze_capture or args.fullscreen:
                                         cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
                                         cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
 
+
                                 # 그리드 레이아웃 그리기
                                 util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_Y, True)
                                 util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_X, False)
+
+
+                                #성능평가에서 찍은점 그리기
+                                perform.draw_real_coordinate_mark(bgr)
+                                perform.draw_gaze_coordinate_mark(bgr)
+
                                 cv.imshow('vis', bgr)
+
+                                # call back 함수 등록
+                                if perform.is_set_callback == False:
+                                    perform.is_set_callback = True
+                                    cv.setMouseCallback('vis', perform.mouse_callback, param = cali)
                             None
                         last_frame_index = frame_index
 
@@ -694,54 +724,57 @@ if __name__ == '__main__':
                                 'latency: %dms' % latency,
                             ])
                             if is_start_visualize :
-                                print('%08d [%s] %s' % (frame_index, fps_str, timing_string))
+                                if debug_show_visualize_info:
+                                    print('%08d [%s] %s' % (frame_index, fps_str, timing_string))
 
                             ## End visualize_output ##
 
                             # 결과값 출력
-                            print("current gaze : ", gaze_mean)
-                            print("point : ", point)
+                            if debug_show_current_info:
+                                print("current gaze : ", gaze_mean)
+                                print("point : ", point)
 
-                            if cali.is_finish:
-                                print("left_x_middle : ", left_x_middle)
-                                print("right_x_middle : ", right_x_middle)
-                                print("y_middle : ", y_middle)
-                                print("left_dx1 : ", left_dx1)
-                                print("left_dx2 : ", left_dx2)
-                                print("left_dx3 : ", left_dx3)
-                                print("left_dx4 : ", left_dx4)
-                                print("left_dx5 : ", left_dx5)
-                                print("left_dx6 : ", left_dx6)
-                                print("left_dx7 : ", left_dx7)
-                                print("left_dx8 : ", left_dx8)
-                                print("left_dx9 : ", left_dx9)
-                                print("right_dx1 : ", right_dx1)
-                                print("right_dx2 : ", right_dx2)
-                                print("right_dx3 : ", right_dx3)
-                                print("right_dx4 : ", right_dx4)
-                                print("right_dx5 : ", right_dx5)
-                                print("right_dx6 : ", right_dx6)
-                                print("right_dx7 : ", right_dx7)
-                                print("right_dx8 : ", right_dx8)
-                                print("right_dx9 : ", right_dx9)
-                                print("left_dy1 : ", left_dy1)
-                                print("left_dy2 : ", left_dy2)
-                                print("left_dy3 : ", left_dy3)
-                                print("left_dy4 : ", left_dy4)
-                                print("left_dy5 : ", left_dy5)
-                                print("left_dy6 : ", left_dy6)
-                                print("left_dy7 : ", left_dy7)
-                                print("left_dy8 : ", left_dy8)
-                                print("left_dy9 : ", left_dy9)
-                                print("right_dy1 : ", right_dy1)
-                                print("right_dy2 : ", right_dy2)
-                                print("right_dy3 : ", right_dy3)
-                                print("right_dy4 : ", right_dy4)
-                                print("right_dy5 : ", right_dy5)
-                                print("right_dy6 : ", right_dy6)
-                                print("right_dy7 : ", right_dy7)
-                                print("right_dy8 : ", right_dy8)
-                                print("right_dy9 : ", right_dy9)
+                            if debug_show_result_info:
+                                if cali.is_finish:
+                                    print("left_x_middle : ", left_x_middle)
+                                    print("right_x_middle : ", right_x_middle)
+                                    print("y_middle : ", y_middle)
+                                    print("left_dx1 : ", left_dx1)
+                                    print("left_dx2 : ", left_dx2)
+                                    print("left_dx3 : ", left_dx3)
+                                    print("left_dx4 : ", left_dx4)
+                                    print("left_dx5 : ", left_dx5)
+                                    print("left_dx6 : ", left_dx6)
+                                    print("left_dx7 : ", left_dx7)
+                                    print("left_dx8 : ", left_dx8)
+                                    print("left_dx9 : ", left_dx9)
+                                    print("right_dx1 : ", right_dx1)
+                                    print("right_dx2 : ", right_dx2)
+                                    print("right_dx3 : ", right_dx3)
+                                    print("right_dx4 : ", right_dx4)
+                                    print("right_dx5 : ", right_dx5)
+                                    print("right_dx6 : ", right_dx6)
+                                    print("right_dx7 : ", right_dx7)
+                                    print("right_dx8 : ", right_dx8)
+                                    print("right_dx9 : ", right_dx9)
+                                    print("left_dy1 : ", left_dy1)
+                                    print("left_dy2 : ", left_dy2)
+                                    print("left_dy3 : ", left_dy3)
+                                    print("left_dy4 : ", left_dy4)
+                                    print("left_dy5 : ", left_dy5)
+                                    print("left_dy6 : ", left_dy6)
+                                    print("left_dy7 : ", left_dy7)
+                                    print("left_dy8 : ", left_dy8)
+                                    print("left_dy9 : ", left_dy9)
+                                    print("right_dy1 : ", right_dy1)
+                                    print("right_dy2 : ", right_dy2)
+                                    print("right_dy3 : ", right_dy3)
+                                    print("right_dy4 : ", right_dy4)
+                                    print("right_dy5 : ", right_dy5)
+                                    print("right_dy6 : ", right_dy6)
+                                    print("right_dy7 : ", right_dy7)
+                                    print("right_dy8 : ", right_dy8)
+                                    print("right_dy9 : ", right_dy9)
 
                             before_history = after_history
                             after_history = point
