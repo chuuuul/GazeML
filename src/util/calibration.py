@@ -2,6 +2,8 @@ import queue
 import cv2
 import numpy as np
 import threading
+import time
+
 
 
 class Calibration:
@@ -36,7 +38,7 @@ class Calibration:
     Const_Cali_Radius = 30  # 캘리브레이션 포인트 원 크기
     Const_Cali_Resize_Radius = 7  # 캘리브레이션 포인트가 가장 작을 때 원 크기
 
-    Const_Cali_Unit_Time = 60  # 캘리브레이션 한 번 표현 소요 시간 (쓰레드 반복 시간, 프레임) # 1/60 초마다 실행 # 50 일 때 문제발생
+    Const_Cali_Unit_Time = 120  # 캘리브레이션 한 번 표현 소요 시간 (쓰레드 반복 시간, 프레임) # 1/60 초마다 실행 # 50 일 때 문제발생
     Const_Cali_Move_Duration = 0.2  # 캘리브레이션 원 이동 횟수       # 이동 할 때 (Unit_Time * Move_Duration)만큼 소요
     Const_Cali_Capture_Duration = 0.2  # 캘리브레이션 원 줄어드는 횟수    # 줄어들 때 (Unit_Time * Move_Duration)만큼 소요
 
@@ -107,9 +109,6 @@ class Calibration:
 
     def move_figure(self, img, start_point, end_point, current_point, duration, count=0):
 
-        while (self.is_face_detect == False):
-            continue
-
         copy_img = img.copy()
 
         to_move_x = (end_point[0] - start_point[0])
@@ -153,7 +152,9 @@ class Calibration:
 
 
         while (self.is_face_detect == False):
+            time.sleep(1)
             continue
+
 
         # 캘리브레이션 순간!
         if (count == (duration * self.Const_Cali_Unit_Time)):
