@@ -37,8 +37,8 @@ debug_full_screen_calibration = True
 debug_full_screen_gaze_capture = True
 
 debug_show_visualize_info = False
-debug_show_result_info = False
-debug_show_current_info = False
+debug_show_result_info = True
+debug_show_current_info = True
 
 
 #############################################################################################
@@ -189,7 +189,7 @@ if __name__ == '__main__':
         inferred_stuff_queue = queue.Queue()
 
         def _visualize_output():
-            global cali, y_middle
+            global cali
 
             is_start_visualize =  False
             last_frame_index = 0
@@ -198,7 +198,6 @@ if __name__ == '__main__':
             all_gaze_histories = []
 
             # 패턴
-
 
             pattern = [1, 3, 9, 7]
             before_history = 0              # 처음에 처다보는 포인트
@@ -214,7 +213,6 @@ if __name__ == '__main__':
 
             if args.fullscreen :
                 cali.is_full_screen = True
-
 
             while True:
                 # If no output to visualize, show unannotated frame
@@ -235,7 +233,6 @@ if __name__ == '__main__':
                                             cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
 
                                             cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
-
 
                                     img = next_frame['bgr']
 
@@ -261,8 +258,6 @@ if __name__ == '__main__':
                                     calibration_thread = threading.Thread(target=cali.start_cali, name='calibration_th2')
                                     calibration_thread.daemon = True
                                     calibration_thread.start()
-
-                                     
 
                     # /////////////////////////////////////////////////////
                     # 종료 조건
@@ -337,7 +332,6 @@ if __name__ == '__main__':
                     else:       # 얼굴인식안됨으로 판별
                         cali.is_face_detect = False
 
-
                     face_index = int(eye_index / 2)
                     eh, ew, _ = eye_image_raw.shape
                     v0 = face_index * 2 * eh
@@ -389,7 +383,6 @@ if __name__ == '__main__':
 
                     if eye_side == 'left':
                         cali.left_iris_centre = iris_centre
-
                         left_i_x0, left_i_y0 = cali.left_iris_centre
                         cali.left_eyeball_centre = eyeball_centre
                         left_e_x0, left_e_y0 = cali.left_eyeball_centre
@@ -422,110 +415,70 @@ if __name__ == '__main__':
                         # current_gaze = estimate_gaze_from_landmarks(
                         #     iris_landmarks, iris_centre, eyeball_centre, eyeball_radius)
 
-                        Cx = 0
-                        Cy = 0
-
-                        left_dx = 0
-                        left_dy = 0
-                        right_dx = 0
-                        right_dy = 0
-
                         if cali.is_finish :
 
-                            left_gaze_x = left_i_x0 - left_e_x0 + Cx
-                            right_gaze_x = right_i_x0 - right_e_x0 + Cx
-                            left_gaze_y = left_i_y0 - left_e_y0 + Cy
-                            right_gaze_y = right_i_y0 - right_e_y0 + Cy
+                            left_gaze_x = left_i_x0 - left_e_x0
+                            right_gaze_x = right_i_x0 - right_e_x0
+                            left_gaze_y = left_i_y0 - left_e_y0
+                            right_gaze_y = right_i_y0 - right_e_y0
 
                             left_x_middle = (
-                               ((cali.right_iris_captured_data[1][0] - cali.right_eyeball_captured_data[1][0]) +
-                                (cali.right_iris_captured_data[5][0] - cali.right_eyeball_captured_data[5][0]) +
-                                (cali.right_iris_captured_data[9][0] - cali.right_eyeball_captured_data[9][0]) +
-                                (cali.right_iris_captured_data[13][0] - cali.right_eyeball_captured_data[13][0])) / 4)
+                                ((cali.right_iris_captured_data[1][0] - cali.right_eyeball_captured_data[1][0]) +
+                                 (cali.right_iris_captured_data[5][0] - cali.right_eyeball_captured_data[5][0]) +
+                                 (cali.right_iris_captured_data[9][0] - cali.right_eyeball_captured_data[9][0]) +
+                                 (cali.right_iris_captured_data[13][0] - cali.right_eyeball_captured_data[13][0])) / 4)
                             right_x_middle = (
-                               ((cali.left_iris_captured_data[2][0] - cali.left_eyeball_captured_data[2][0]) +
-                                (cali.left_iris_captured_data[6][0] - cali.left_eyeball_captured_data[6][0]) +
-                                (cali.left_iris_captured_data[10][0] - cali.left_eyeball_captured_data[10][0]) +
-                                (cali.left_iris_captured_data[14][0] - cali.left_eyeball_captured_data[14][0])) / 4)
-                            y_middle = (
-                               ((cali.left_iris_captured_data[8][1] - cali.left_eyeball_captured_data[8][1]) +
-                                (cali.left_iris_captured_data[9][1] - cali.left_eyeball_captured_data[9][1]) +
-                                (cali.left_iris_captured_data[10][1] - cali.left_eyeball_captured_data[10][1]) +
-                                (cali.left_iris_captured_data[11][1] - cali.left_eyeball_captured_data[11][1]) +
-                                (cali.right_iris_captured_data[8][1] - cali.right_eyeball_captured_data[8][1]) +
-                                (cali.right_iris_captured_data[9][1] - cali.right_eyeball_captured_data[9][1]) +
-                                (cali.right_iris_captured_data[10][1] - cali.right_eyeball_captured_data[10][1]) +
-                                (cali.right_iris_captured_data[11][1] - cali.right_eyeball_captured_data[11][1]) -
-                                (cali.left_iris_captured_data[4][1] - cali.left_eyeball_captured_data[4][1]) -
-                                (cali.left_iris_captured_data[5][1] - cali.left_eyeball_captured_data[5][1]) -
-                                (cali.left_iris_captured_data[6][1] - cali.left_eyeball_captured_data[6][1]) -
-                                (cali.left_iris_captured_data[7][1] - cali.left_eyeball_captured_data[7][1]) -
-                                (cali.right_iris_captured_data[4][1] - cali.right_eyeball_captured_data[4][1]) -
-                                (cali.right_iris_captured_data[5][1] - cali.right_eyeball_captured_data[5][1]) -
-                                (cali.right_iris_captured_data[6][1] - cali.right_eyeball_captured_data[6][1]) -
-                                (cali.right_iris_captured_data[7][1] - cali.right_eyeball_captured_data[7][1])) / 16)
+                                ((cali.left_iris_captured_data[2][0] - cali.left_eyeball_captured_data[2][0]) +
+                                 (cali.left_iris_captured_data[6][0] - cali.left_eyeball_captured_data[6][0]) +
+                                 (cali.left_iris_captured_data[10][0] - cali.left_eyeball_captured_data[10][0]) +
+                                 (cali.left_iris_captured_data[14][0] - cali.left_eyeball_captured_data[14][0])) / 4)
+                            top_y_middle = (
+                                ((cali.left_iris_captured_data[4][1] - cali.left_eyeball_captured_data[4][1]) +
+                                 (cali.left_iris_captured_data[5][1] - cali.left_eyeball_captured_data[5][1]) +
+                                 (cali.left_iris_captured_data[6][1] - cali.left_eyeball_captured_data[6][1]) +
+                                 (cali.left_iris_captured_data[7][1] - cali.left_eyeball_captured_data[7][1]) +
+                                 (cali.right_iris_captured_data[4][1] - cali.right_eyeball_captured_data[4][1]) +
+                                 (cali.right_iris_captured_data[5][1] - cali.right_eyeball_captured_data[5][1]) +
+                                 (cali.right_iris_captured_data[6][1] - cali.right_eyeball_captured_data[6][1]) +
+                                 (cali.right_iris_captured_data[7][1] - cali.right_eyeball_captured_data[7][1])) / 8)
+                            bottom_y_middle = (
+                                ((cali.left_iris_captured_data[8][1] - cali.left_eyeball_captured_data[8][1]) +
+                                 (cali.left_iris_captured_data[9][1] - cali.left_eyeball_captured_data[9][1]) +
+                                 (cali.left_iris_captured_data[10][1] - cali.left_eyeball_captured_data[10][1]) +
+                                 (cali.left_iris_captured_data[11][1] - cali.left_eyeball_captured_data[11][1]) +
+                                 (cali.right_iris_captured_data[8][1] - cali.right_eyeball_captured_data[8][1]) +
+                                 (cali.right_iris_captured_data[9][1] - cali.right_eyeball_captured_data[9][1]) +
+                                 (cali.right_iris_captured_data[10][1] - cali.right_eyeball_captured_data[10][1]) +
+                                 (cali.right_iris_captured_data[11][1] - cali.right_eyeball_captured_data[11][1])) / 8)
 
                             # 캘리브레이션 가중치 변경
 
-                            def left_calc_cali(a, b) :
-                                result = 0
-                                for i in range(2) :
-                                    for j in range(2) :
-                                        result = abs((cali.Cali_Center_Points[a + i * 4 + j][b] -
-                                                      cali.left_iris_captured_data[a + i * 4 + j][b]) /
-                                                     (cali.left_iris_captured_data[a + i * 4 + j][b] -
-                                                      cali.left_eyeball_captured_data[a + i * 4 + j][b]))
-                                return result
+                            def left_calc_cali(a) :
+                                result = []
+                                for i in range(16) :
+                                    result.append(abs(cali.Cali_Center_Points[i][a] -
+                                                      cali.left_iris_captured_data[i][a]) /
+                                                    ((cali.left_iris_captured_data[i][a] -
+                                                      cali.left_eyeball_captured_data[i][a]) *
+                                                     (cali.left_iris_captured_data[i][a] -
+                                                      cali.left_eyeball_captured_data[i][a])))
+                                return sum(result) / 16
 
-                            def right_calc_cali(a, b) :
-                                result = 0
-                                for i in range(2) :
-                                    for j in range(2) :
-                                        result = abs((cali.Cali_Center_Points[a + i * 4 + j][b] -
-                                                      cali.right_iris_captured_data[a + i * 4 + j][b]) /
-                                                     (cali.right_iris_captured_data[a + i * 4 + j][b] -
-                                                      cali.right_eyeball_captured_data[a + i * 4 + j][b]))
-                                return result
+                            def right_calc_cali(a) :
+                                result = []
+                                for i in range(16) :
+                                    result.append(abs(cali.Cali_Center_Points[i][a] -
+                                                      cali.right_iris_captured_data[i][a]) /
+                                                    ((cali.right_iris_captured_data[i][a] -
+                                                      cali.right_eyeball_captured_data[i][a]) *
+                                                     (cali.right_iris_captured_data[i][a] -
+                                                      cali.right_eyeball_captured_data[i][a])))
+                                return sum(result) / 16
 
-                            left_dx1 = left_calc_cali(0, 0)
-                            left_dx2 = left_calc_cali(1, 0)
-                            left_dx3 = left_calc_cali(2, 0)
-                            left_dx4 = left_calc_cali(4, 0)
-                            left_dx5 = left_calc_cali(5, 0)
-                            left_dx6 = left_calc_cali(6, 0)
-                            left_dx7 = left_calc_cali(8, 0)
-                            left_dx8 = left_calc_cali(9, 0)
-                            left_dx9 = left_calc_cali(10, 0)
-
-                            right_dx1 = right_calc_cali(0, 0)
-                            right_dx2 = right_calc_cali(1, 0)
-                            right_dx3 = right_calc_cali(2, 0)
-                            right_dx4 = right_calc_cali(4, 0)
-                            right_dx5 = right_calc_cali(5, 0)
-                            right_dx6 = right_calc_cali(6, 0)
-                            right_dx7 = right_calc_cali(8, 0)
-                            right_dx8 = right_calc_cali(9, 0)
-                            right_dx9 = right_calc_cali(10, 0)
-
-                            left_dy1 = left_calc_cali(0, 1)
-                            left_dy2 = left_calc_cali(1, 1)
-                            left_dy3 = left_calc_cali(2, 1)
-                            left_dy4 = left_calc_cali(4, 1)
-                            left_dy5 = left_calc_cali(5, 1)
-                            left_dy6 = left_calc_cali(6, 1)
-                            left_dy7 = left_calc_cali(8, 1)
-                            left_dy8 = left_calc_cali(9, 1)
-                            left_dy9 = left_calc_cali(10, 1)
-
-                            right_dy1 = right_calc_cali(0, 1)
-                            right_dy2 = right_calc_cali(1, 1)
-                            right_dy3 = right_calc_cali(2, 1)
-                            right_dy4 = right_calc_cali(4, 1)
-                            right_dy5 = right_calc_cali(5, 1)
-                            right_dy6 = right_calc_cali(6, 1)
-                            right_dy7 = right_calc_cali(8, 1)
-                            right_dy8 = right_calc_cali(9, 1)
-                            right_dy9 = right_calc_cali(10, 1)
+                            left_dx = left_calc_cali(0)
+                            right_dx = right_calc_cali(0)
+                            left_dy = left_calc_cali(1)
+                            right_dy = right_calc_cali(1)
 
                             if right_gaze_x < left_x_middle :
                                 left_eye_location = 1
@@ -534,9 +487,9 @@ if __name__ == '__main__':
                             else :
                                 left_eye_location = 2
 
-                            if left_gaze_y < -1 * y_middle :
+                            if left_gaze_y < top_y_middle :
                                 top_eye_location = 1
-                            elif left_gaze_y > y_middle :
+                            elif left_gaze_y > bottom_y_middle :
                                 top_eye_location = 3
                             else :
                                 top_eye_location = 2
@@ -546,65 +499,12 @@ if __name__ == '__main__':
                             # now_eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
                             # now_eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
 
-                            if left_eye_location == 1 and top_eye_location == 1 :
-                                left_dx = left_dx1
-                                right_dx = right_dx1
-                                left_dy = left_dy1
-                                right_dy = right_dy1
-                                point = 1
-                            elif left_eye_location == 2 and top_eye_location == 1 :
-                                left_dx = left_dx2
-                                right_dx = right_dx2
-                                left_dy = left_dy2
-                                right_dy = right_dy2
-                                point = 2
-                            elif left_eye_location == 3 and top_eye_location == 1 :
-                                left_dx = left_dx3
-                                right_dx = right_dx3
-                                left_dy = left_dy3
-                                right_dy = right_dy3
-                                point = 3
-                            elif left_eye_location == 1 and top_eye_location == 2 :
-                                left_dx = left_dx4
-                                right_dx = right_dx4
-                                left_dy = left_dy4
-                                right_dy = right_dy4
-                                point = 4
-                            elif left_eye_location == 2 and top_eye_location == 2 :
-                                left_dx = left_dx5
-                                right_dx = right_dx5
-                                left_dy = left_dy5
-                                right_dy = right_dy5
-                                point = 5
-                            elif left_eye_location == 3 and top_eye_location == 2 :
-                                left_dx = left_dx6
-                                right_dx = right_dx6
-                                left_dy = left_dy6
-                                right_dy = right_dy6
-                                point = 6
-                            elif left_eye_location == 1 and top_eye_location == 3 :
-                                left_dx = left_dx7
-                                right_dx = right_dx7
-                                left_dy = left_dy7
-                                right_dy = right_dy7
-                                point = 7
-                            elif left_eye_location == 2 and top_eye_location == 3 :
-                                left_dx = left_dx8
-                                right_dx = right_dx8
-                                left_dy = left_dy8
-                                right_dy = right_dy8
-                                point = 8
-                            elif left_eye_location == 3 and top_eye_location == 3 :
-                                left_dx = left_dx9
-                                right_dx = right_dx9
-                                left_dy = left_dy9
-                                right_dy = right_dy9
-                                point = 9
+                            point = left_eye_location + (top_eye_location - 1) * 3
 
-                            current_gaze = np.array([((left_i_x0 + left_gaze_x * left_dx) +
-                                                      (right_i_x0 + right_gaze_x * right_dx)) / 2,
-                                                     ((left_i_y0 + left_gaze_y * left_dy) +
-                                                      (right_i_y0 + right_gaze_y * right_dy)) / 2])
+                            current_gaze = np.array([((left_i_x0 + left_gaze_x * abs(left_gaze_x) * left_dx) +
+                                                      (right_i_x0 + right_gaze_x * abs(right_gaze_x) * right_dx)) / 2,
+                                                     ((left_i_y0 + left_gaze_y * abs(left_gaze_y) * left_dy) +
+                                                      (right_i_y0 + right_gaze_y * abs(right_gaze_y) * right_dy)) / 2])
 
                             gaze_history.append(current_gaze)
                             gaze_history_max_len = 10
@@ -695,7 +595,6 @@ if __name__ == '__main__':
                                         cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
                                         cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
 
-
                                 # 그리드 레이아웃 그리기
                                 util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_Y, True)
                                 util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_X, False)
@@ -771,43 +670,12 @@ if __name__ == '__main__':
                                 if cali.is_finish:
                                     print("left_x_middle : ", left_x_middle)
                                     print("right_x_middle : ", right_x_middle)
-                                    print("y_middle : ", y_middle)
-                                    print("left_dx1 : ", left_dx1)
-                                    print("left_dx2 : ", left_dx2)
-                                    print("left_dx3 : ", left_dx3)
-                                    print("left_dx4 : ", left_dx4)
-                                    print("left_dx5 : ", left_dx5)
-                                    print("left_dx6 : ", left_dx6)
-                                    print("left_dx7 : ", left_dx7)
-                                    print("left_dx8 : ", left_dx8)
-                                    print("left_dx9 : ", left_dx9)
-                                    print("right_dx1 : ", right_dx1)
-                                    print("right_dx2 : ", right_dx2)
-                                    print("right_dx3 : ", right_dx3)
-                                    print("right_dx4 : ", right_dx4)
-                                    print("right_dx5 : ", right_dx5)
-                                    print("right_dx6 : ", right_dx6)
-                                    print("right_dx7 : ", right_dx7)
-                                    print("right_dx8 : ", right_dx8)
-                                    print("right_dx9 : ", right_dx9)
-                                    print("left_dy1 : ", left_dy1)
-                                    print("left_dy2 : ", left_dy2)
-                                    print("left_dy3 : ", left_dy3)
-                                    print("left_dy4 : ", left_dy4)
-                                    print("left_dy5 : ", left_dy5)
-                                    print("left_dy6 : ", left_dy6)
-                                    print("left_dy7 : ", left_dy7)
-                                    print("left_dy8 : ", left_dy8)
-                                    print("left_dy9 : ", left_dy9)
-                                    print("right_dy1 : ", right_dy1)
-                                    print("right_dy2 : ", right_dy2)
-                                    print("right_dy3 : ", right_dy3)
-                                    print("right_dy4 : ", right_dy4)
-                                    print("right_dy5 : ", right_dy5)
-                                    print("right_dy6 : ", right_dy6)
-                                    print("right_dy7 : ", right_dy7)
-                                    print("right_dy8 : ", right_dy8)
-                                    print("right_dy9 : ", right_dy9)
+                                    print("top_y_middle : ", top_y_middle)
+                                    print("bottom_y_middle : ", bottom_y_middle)
+                                    print("left_dx : ", left_dx)
+                                    print("right_dx : ", right_dx)
+                                    print("left_dy : ", left_dy)
+                                    print("right_dy : ", right_dy)
 
                             before_history = after_history
                             after_history = point
