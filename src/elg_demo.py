@@ -19,6 +19,11 @@ import util.gaze
 from util.calibration import Calibration
 from util.perfomance_test import Performance
 
+# SMS발송
+#import sys
+#from sdk.api.message import Message
+#from sdk.exceptions import CoolsmsException
+
 cali = Calibration()
 perform = Performance(cali.Const_Display_X, cali.Const_Display_Y)
 
@@ -32,8 +37,8 @@ debug_full_screen_calibration = True
 debug_full_screen_gaze_capture = True
 
 debug_show_visualize_info = False
-debug_show_result_info = True
-debug_show_current_info = True
+debug_show_result_info = False
+debug_show_current_info = False
 
 
 #############################################################################################
@@ -46,6 +51,20 @@ if debug_full_screen_calibration:
 
 
 if __name__ == '__main__':
+
+    #SMS발송
+    ## set api key, api secret
+    #api_key = "NCSXC7WLECQIQ9V5"
+    #api_secret = "0U1XOKP6IJWBZOVCCHHC4716DPCRRXWQ"
+
+    ### 4 params(to, from, type, text) are mandatory. must be filled
+    #params = dict()
+    #params['type'] = 'sms' # Message type ( sms, lms, mms, ata )
+    #params['to'] = '01067428889' # Recipients Number '01000000000,01000000001'
+    #params['from'] = '01067428889' # Sender number
+    #params['text'] = 'Test Message' # Message
+
+    #cool = Message(api_key, api_secret)
 
     # Set global log level
     parser = argparse.ArgumentParser(description='Demonstration of landmarks localization.')
@@ -403,6 +422,9 @@ if __name__ == '__main__':
                         # current_gaze = estimate_gaze_from_landmarks(
                         #     iris_landmarks, iris_centre, eyeball_centre, eyeball_radius)
 
+                        Cx = 0
+                        Cy = 0
+
                         left_dx = 0
                         left_dy = 0
                         right_dx = 0
@@ -410,21 +432,21 @@ if __name__ == '__main__':
 
                         if cali.is_finish :
 
-                            left_gaze_x = left_i_x0 - left_e_x0
-                            right_gaze_x = right_i_x0 - right_e_x0
-                            left_gaze_y = left_i_y0 - left_e_y0
-                            right_gaze_y = right_i_y0 - right_e_y0
+                            left_gaze_x = left_i_x0 - left_e_x0 + Cx
+                            right_gaze_x = right_i_x0 - right_e_x0 + Cx
+                            left_gaze_y = left_i_y0 - left_e_y0 + Cy
+                            right_gaze_y = right_i_y0 - right_e_y0 + Cy
 
                             left_x_middle = (
                                ((cali.right_iris_captured_data[1][0] - cali.right_eyeball_captured_data[1][0]) +
                                 (cali.right_iris_captured_data[5][0] - cali.right_eyeball_captured_data[5][0]) +
                                 (cali.right_iris_captured_data[9][0] - cali.right_eyeball_captured_data[9][0]) +
-                                (cali.right_iris_captured_data[13][0] - cali.right_eyeball_captured_data[13][0])) / 4 * 4)
+                                (cali.right_iris_captured_data[13][0] - cali.right_eyeball_captured_data[13][0])) / 4)
                             right_x_middle = (
                                ((cali.left_iris_captured_data[2][0] - cali.left_eyeball_captured_data[2][0]) +
                                 (cali.left_iris_captured_data[6][0] - cali.left_eyeball_captured_data[6][0]) +
                                 (cali.left_iris_captured_data[10][0] - cali.left_eyeball_captured_data[10][0]) +
-                                (cali.left_iris_captured_data[14][0] - cali.left_eyeball_captured_data[14][0])) / 4 * 4)
+                                (cali.left_iris_captured_data[14][0] - cali.left_eyeball_captured_data[14][0])) / 4)
                             y_middle = (
                                ((cali.left_iris_captured_data[8][1] - cali.left_eyeball_captured_data[8][1]) +
                                 (cali.left_iris_captured_data[9][1] - cali.left_eyeball_captured_data[9][1]) +
@@ -441,7 +463,7 @@ if __name__ == '__main__':
                                 (cali.right_iris_captured_data[4][1] - cali.right_eyeball_captured_data[4][1]) -
                                 (cali.right_iris_captured_data[5][1] - cali.right_eyeball_captured_data[5][1]) -
                                 (cali.right_iris_captured_data[6][1] - cali.right_eyeball_captured_data[6][1]) -
-                                (cali.right_iris_captured_data[7][1] - cali.right_eyeball_captured_data[7][1])) / 16 * 4)
+                                (cali.right_iris_captured_data[7][1] - cali.right_eyeball_captured_data[7][1])) / 16)
 
                             # 캘리브레이션 가중치 변경
 
@@ -451,10 +473,8 @@ if __name__ == '__main__':
                                     for j in range(2) :
                                         result = abs((cali.Cali_Center_Points[a + i * 4 + j][b] -
                                                       cali.left_iris_captured_data[a + i * 4 + j][b]) /
-                                                    (4 * (cali.left_iris_captured_data[a + i * 4 + j][b] -
-                                                           cali.left_eyeball_captured_data[a + i * 4 + j][b]) *
-                                                          (cali.left_iris_captured_data[a + i * 4 + j][b] -
-                                                           cali.left_eyeball_captured_data[a + i * 4 + j][b])))
+                                                     (cali.left_iris_captured_data[a + i * 4 + j][b] -
+                                                      cali.left_eyeball_captured_data[a + i * 4 + j][b]))
                                 return result
 
                             def right_calc_cali(a, b) :
@@ -463,10 +483,8 @@ if __name__ == '__main__':
                                     for j in range(2) :
                                         result = abs((cali.Cali_Center_Points[a + i * 4 + j][b] -
                                                       cali.right_iris_captured_data[a + i * 4 + j][b]) /
-                                                    (4 * (cali.right_iris_captured_data[a + i * 4 + j][b] -
-                                                           cali.right_eyeball_captured_data[a + i * 4 + j][b]) *
-                                                          (cali.right_iris_captured_data[a + i * 4 + j][b] -
-                                                           cali.right_eyeball_captured_data[a + i * 4 + j][b])))
+                                                     (cali.right_iris_captured_data[a + i * 4 + j][b] -
+                                                      cali.right_eyeball_captured_data[a + i * 4 + j][b]))
                                 return result
 
                             left_dx1 = left_calc_cali(0, 0)
@@ -583,10 +601,10 @@ if __name__ == '__main__':
                                 right_dy = right_dy9
                                 point = 9
 
-                            current_gaze = np.array([((left_i_x0 + 4 * left_gaze_x * abs(left_gaze_x) * left_dx) +
-                                                      (right_i_x0 + 4 * right_gaze_x * abs(right_gaze_x) * right_dx)) / 2,
-                                                     ((left_i_y0 + 4 * left_gaze_y * abs(left_gaze_y) * left_dy) +
-                                                      (right_i_y0 + 4 * right_gaze_y * abs(right_gaze_y) * right_dy)) / 2])
+                            current_gaze = np.array([((left_i_x0 + left_gaze_x * left_dx) +
+                                                      (right_i_x0 + right_gaze_x * right_dx)) / 2,
+                                                     ((left_i_y0 + left_gaze_y * left_dy) +
+                                                      (right_i_y0 + right_gaze_y * right_dy)) / 2])
 
                             gaze_history.append(current_gaze)
                             gaze_history_max_len = 10
@@ -682,7 +700,6 @@ if __name__ == '__main__':
                                 util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_Y, True)
                                 util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_X, False)
 
-
                                 #성능평가에서 찍은점 그리기
                                 perform.draw_real_coordinate_mark(bgr)
                                 perform.draw_gaze_coordinate_mark(bgr)
@@ -707,9 +724,25 @@ if __name__ == '__main__':
                                 print("Failed Calibration! Exit Program.")
                                 return
 
+                            #SMS발송
+                            #if match == len(pattern) :
+                            #    try:
+                            #        response = cool.send(params)
+                            #        print("Success Count : %s" % response['success_count'])
+                            #        print("Error Count : %s" % response['error_count'])
+                            #        print("Group ID : %s" % response['group_id'])
+
+                            #        if "error_list" in response:
+                            #            print("Error List : %s" % response['error_list'])
+
+                            #    except CoolsmsException as e:
+                            #        print("Error Code : %s" % e.code)
+                            #        print("Error Message : %s" % e.msg)
+
+                            #    sys.exit()
+
                             if (cv.waitKey(1) & 0xFF == ord('q')) or (match == len(pattern)):
                                 return
-
 
                         # Print timings
                         if frame_index % 10 == 0:
