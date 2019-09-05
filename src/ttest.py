@@ -4,46 +4,91 @@
 # sess = tf.Session()
 # print(sess.run(hello))
 
+# echo_server.py
+#-*- coding:utf-8 -*-
+
 
 import threading
-import numpy as np
-import cv2
-import time
 
-def pr():
-    print("print_Thread!!")
+# class N:
+#     def __init__(self):
+#         self.value = 1
+#         pass
+#
+#     def up(self):
+#         print("th up")
+#
+#         while(True):
+#             #self.value = self.value + 1
+#             print(self.value)
 
+import socket
 
+class GazeDataSender:
 
+    def __init__(self,):
+        # 통신 정보 설정
+        self.IP = ''
+        self.PORT = 2347
+        self.SIZE = 1024
+        self.CLINET_ADDR = (self.IP, self.PORT)
 
-def mouse_callback(event, x, y, flags, param):
-    if event == cv2.EVENT_LBUTTONDOWN:
-        # event
-        # var1.append(실제찍은값)
-        # var2.append(보고있는값)
-        #
-        # var1 and var2 비교 후
-        cv2.circle(img, (x, y), 10, (255, 0, 0), -1)
+    def send_gaze(self):
+        # 서버 소켓 설정
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
+            server_socket.bind(self.CLINET_ADDR)    # 주소 바인딩
+            server_socket.listen()      # 클라이언트의 요청을 받을 준비
 
-        # th = threading.Timer( 1, pr,)
-        # th.daemon = True
-        # th.start()
+            client_socket, client_addr = server_socket.accept()  # 수신대기, 접속한 클라이언트 정보 (소켓, 주소) 반환
+            # 무한루프 진입
 
+            while True:
+                print(client_addr)
+                send_msg = str (n.value)
+                client_socket.send(  send_msg.encode())  # 클라이언트에게 응답
 
+            client_socket.close()  # 클라이언트 소켓 종료
 
+#
 
-
-
-img = cv2.imread('ballon.jpg', cv2.IMREAD_COLOR)
-
-cv2.namedWindow('image2', cv2.WINDOW_NORMAL)  # auto resized
-cv2.setMouseCallback('image2', mouse_callback)
-
-while True:
-    cv2.imshow('image2', img)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-cv2.destroyAllWindows()
+# import threading
+# import numpy as np
+# import cv2
+# import time
+# def pr():
+#     print("print_Thread!!")
+#
+#
+#
+#
+# def mouse_callback(event, x, y, flags, param):
+#     if event == cv2.EVENT_LBUTTONDOWN:
+#         # event
+#         # var1.append(실제찍은값)
+#         # var2.append(보고있는값)
+#         #
+#         # var1 and var2 비교 후
+#         cv2.circle(img, (x, y), 10, (255, 0, 0), -1)
+#
+#         # th = threading.Timer( 1, pr,)
+#         # th.daemon = True
+#         # th.start()
+#
+#
+#
+#
+#
+#
+# img = cv2.imread('ballon.jpg', cv2.IMREAD_COLOR)
+#
+# cv2.namedWindow('image2', cv2.WINDOW_NORMAL)  # auto resized
+# cv2.setMouseCallback('image2', mouse_callback)
+#
+# while True:
+#     cv2.imshow('image2', img)
+#     if cv2.waitKey(1) & 0xFF == ord('q'):
+#         break
+# cv2.destroyAllWindows()
 
 #
 # from util.calibration import Calibration
