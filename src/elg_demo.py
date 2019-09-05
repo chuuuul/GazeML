@@ -18,10 +18,12 @@ import util.gaze
 
 from util.calibration import Calibration
 from util.perfomance_test import Performance
+from util.gaze_data_sender import GazeDataSender
+
 
 cali = Calibration()
 perform = Performance(cali.Const_Display_X, cali.Const_Display_Y)
-
+gazeDataSender = GazeDataSender(cali)
 
 ##################################### Debug Var #############################################
 debug_monitor_index = 1
@@ -808,6 +810,10 @@ if __name__ == '__main__':
         visualize_thread = threading.Thread(target=_visualize_output, name='visualization')
         visualize_thread.daemon = True
         visualize_thread.start()
+
+        gaze_data_sender_thread = threading.Thread(target=gazeDataSender.send_gaze, name='gazeSenderThread')
+        gaze_data_sender_thread.daemon = True
+        gaze_data_sender_thread.start()
 
         # Do inference forever
         infer = model.inference_generator()
