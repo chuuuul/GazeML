@@ -30,8 +30,8 @@ debug_monitor_index = 1
 debug_execute_calibration = True
 debug_draw_gaze_arrow = True
 
-debug_full_screen_calibration = True
-debug_full_screen_gaze_capture = True
+debug_full_screen_calibration = False
+debug_full_screen_gaze_capture = False
 
 debug_show_visualize_info = False
 debug_show_result_info = False
@@ -612,7 +612,6 @@ if __name__ == '__main__':
                                 cali.right_gaze_coordinate = np.mean(gaze_history, axis=0)
 
                             if (cali.left_gaze_coordinate is not None) and (cali.right_gaze_coordinate is not None):
-
                                 gaze_mean = (cali.left_gaze_coordinate + cali.right_gaze_coordinate) / 2.0
 
                                 # 가운데 원으로 표시

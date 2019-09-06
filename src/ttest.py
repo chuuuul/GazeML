@@ -22,32 +22,25 @@ import threading
 #             #self.value = self.value + 1
 #             print(self.value)
 
-import socket
+# from util.gaze_data_sender import  GazeDataSender
+# from util.calibration import Calibration
+#
+# cali = Calibration()
+# gazeDataSender = GazeDataSender(cali)
+#
+# cali.left_gaze_coordinate = [123.456,123.456]
+# cali.right_gaze_coordinate = [78.9,78.9]
+#
+# gazeDataSender.send_gaze()
+#
+# while(True):
+#     continue
 
-class GazeDataSender:
 
-    def __init__(self,):
-        # 통신 정보 설정
-        self.IP = ''
-        self.PORT = 2347
-        self.SIZE = 1024
-        self.CLINET_ADDR = (self.IP, self.PORT)
+# string = "-623.9091577584877,1135.5278131590273"
+# a,b = string.split(',')
+#
 
-    def send_gaze(self):
-        # 서버 소켓 설정
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-            server_socket.bind(self.CLINET_ADDR)    # 주소 바인딩
-            server_socket.listen()      # 클라이언트의 요청을 받을 준비
-
-            client_socket, client_addr = server_socket.accept()  # 수신대기, 접속한 클라이언트 정보 (소켓, 주소) 반환
-            # 무한루프 진입
-
-            while True:
-                print(client_addr)
-                send_msg = str (n.value)
-                client_socket.send(  send_msg.encode())  # 클라이언트에게 응답
-
-            client_socket.close()  # 클라이언트 소켓 종료
 
 #
 
