@@ -26,6 +26,7 @@ perform = Performance(cali.Const_Display_X, cali.Const_Display_Y)
 gazeDataSender = GazeDataSender(cali)
 
 ##################################### Debug Var #############################################
+
 debug_monitor_index = 1
 debug_execute_calibration = True
 debug_draw_gaze_arrow = True
@@ -33,10 +34,9 @@ debug_draw_gaze_arrow = True
 debug_full_screen_calibration = True
 debug_full_screen_gaze_capture = True
 
-debug_show_visualize_info = False
+debug_show_visualize_info = True
 debug_show_result_info = False
 debug_show_current_info = False
-
 
 #############################################################################################
 
@@ -231,9 +231,12 @@ if __name__ == '__main__':
                                     util.gaze.draw_monitor_grid(img, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_X, False)
 
                                     cv.imshow('vis', img)
-
                                     cv.setMouseCallback('vis', perform.mouse_callback, param = cali)
-                                None
+
+                                else:
+                                    if cali.current_image is not None:
+                                        cv.imshow('vis', cali.current_image)
+
 
                             if args.record_video:
                                 video_out_queue.put_nowait(next_frame_index)
@@ -253,13 +256,13 @@ if __name__ == '__main__':
 
                     # /////////////////////////////////////////////////////
                     # 종료 조건
-                    if cali.is_finish:
-                        if cali.is_fail:
-                            print("Failed Calibration!")
-                            return
+                    # if cali.is_finish:
+                    if cali.is_fail:
+                        print("Failed Calibration!")
+                        return
 
-                        if cv.waitKey(1) & 0xFF == ord('q'):
-                            return
+                    if cv.waitKey(1) & 0xFF == ord('q'):
+                        return
                     # /////////////////////////////////////////////////////
                     continue
 
@@ -702,26 +705,31 @@ if __name__ == '__main__':
 
                                 cv.imshow('vis', bgr)
 
+
+
                                 # call back 함수 등록
                                 if perform.is_set_callback == False:
                                     perform.is_set_callback = True
                                     cv.setMouseCallback('vis', perform.mouse_callback, param = cali)
-                            None
+                            elif cali.is_finish == False:
+                                if cali.current_image is not None:
+                                    cv.imshow('vis', cali.current_image)
+
                         last_frame_index = frame_index
 
                         # Record frame?
                         if args.record_video:
                             video_out_queue.put_nowait(frame_index)
 
-                        if cali.is_finish:
-                            # Quit? # 패턴 매치되면 종료
+                        # if cali.is_finish:
+                        #     # Quit? # 패턴 매치되면 종료
 
-                            if cali.is_fail:
-                                print("Failed Calibration! Exit Program.")
-                                return
+                        if cali.is_fail:
+                            print("Failed Calibration! Exit Program.")
+                            return
 
-                            if (cv.waitKey(1) & 0xFF == ord('q')) or (match == len(pattern)):
-                                return
+                        if (cv.waitKey(1) & 0xFF == ord('q')) or (match == len(pattern)):
+                            return
 
 
                         # Print timings
