@@ -58,7 +58,7 @@ class Performance:
 
         if event == cv2.EVENT_LBUTTONDOWN:
             # event
-            print("Left Button Click !!!")
+            # print("Left Button Click !!!")
             tmp_gaze_coordinate = (param.left_gaze_coordinate + param.right_gaze_coordinate) / 2
             gaze_coordinate = (int (tmp_gaze_coordinate[0]) , int (tmp_gaze_coordinate[1]))
 

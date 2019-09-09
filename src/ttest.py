@@ -10,6 +10,38 @@
 
 import threading
 
+
+# a = []
+#
+#
+# a.append(1)
+# a.append(3)
+# a.append(5)
+# a.append(5)
+#
+# # print(a)
+#
+#
+# # 보낼때_배열->문자열
+# b = ""
+# for i in a:
+#     b = str(b)+str(i)
+#
+# # 받을때_문자열->_배열
+#
+# newArray = []
+# for i in range(len(b)):
+#     newArray.append( b[i] )
+#
+# print( newArray)
+#
+
+
+a = [1]
+
+a.append(3)
+
+print (a)
 # class N:
 #     def __init__(self):
 #         self.value = 1

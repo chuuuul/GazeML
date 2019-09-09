@@ -77,6 +77,9 @@ class Calibration:
     left_gaze_coordinate = None
     right_gaze_coordinate = None
 
+    current_point = None
+    correct_point = []
+
     sequence = queue.Queue()
 
 

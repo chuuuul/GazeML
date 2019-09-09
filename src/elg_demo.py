@@ -30,8 +30,8 @@ debug_monitor_index = 1
 debug_execute_calibration = True
 debug_draw_gaze_arrow = True
 
-debug_full_screen_calibration = False
-debug_full_screen_gaze_capture = False
+debug_full_screen_calibration = True
+debug_full_screen_gaze_capture = True
 
 debug_show_visualize_info = False
 debug_show_result_info = False
@@ -170,6 +170,10 @@ if __name__ == '__main__':
 
         # Begin visualization thread
         inferred_stuff_queue = queue.Queue()
+
+        gaze_data_sender_thread = threading.Thread(target=gazeDataSender.send_gaze, name='gazeSenderThread')
+        gaze_data_sender_thread.daemon = True
+        gaze_data_sender_thread.start()
 
         def _visualize_output():
             global cali, y_middle
@@ -606,6 +610,8 @@ if __name__ == '__main__':
                             # gaze_mean = np.mean(gaze_history, axis=0)
                             # util.gaze.draw_gaze(bgr, iris_centre, gaze_mean,thickness=1)
 
+                            cali.current_point = point
+
                             if eye_side == 'left':
                                 cali.left_gaze_coordinate = np.mean(gaze_history, axis=0)
                             else:
@@ -789,9 +795,12 @@ if __name__ == '__main__':
                             if point != 0 :
                                 if before_history == after_history :
                                     if after_history in pattern_compare :
+
+                                        cali.correct_point = []
                                         print("xxxxx", pattern_compare)
                                     else :
                                         pattern_compare.append(after_history)
+                                        cali.correct_point = pattern_compare
                                         print("pattern_compare : ", pattern_compare)
 
                             # 매치 알고리즘
@@ -810,9 +819,7 @@ if __name__ == '__main__':
         visualize_thread.daemon = True
         visualize_thread.start()
 
-        gaze_data_sender_thread = threading.Thread(target=gazeDataSender.send_gaze, name='gazeSenderThread')
-        gaze_data_sender_thread.daemon = True
-        gaze_data_sender_thread.start()
+
 
         # Do inference forever
         infer = model.inference_generator()
