@@ -458,7 +458,7 @@ if __name__ == '__main__':
 
                                 result.sort()
 
-                                for i in range(4) :
+                                for i in range(6) : # 극단치 제외 비율
                                     result.pop()
 
                                 return np.mean(result)
@@ -476,7 +476,7 @@ if __name__ == '__main__':
 
                                 result.sort()
 
-                                for i in range(4):
+                                for i in range(6): # 극단치 제외 비율
                                     result.pop()
 
                                 return np.mean(result)
