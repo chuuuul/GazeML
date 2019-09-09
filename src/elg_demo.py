@@ -198,16 +198,12 @@ if __name__ == '__main__':
             all_gaze_histories = []
 
             # 패턴
-
             pattern = [1, 3, 9, 7]
-            before_history = 0              # 처음에 처다보는 포인트
             after_history = 0               # 일정시간 응시 후 저장되는 포인트
-
             pattern_compare = []
             match = 0
 
             # 눈 크기 평균 (추후)
-
             # eye_size_x_average = 0
             # eye_size_y_average = 0
 
@@ -359,7 +355,6 @@ if __name__ == '__main__':
 
                     # Transform predictions
                     # 눈 중심 개선
-
                     eye_landmarks = np.concatenate([eye_landmarks,
                                                     [[eye_landmarks[-1, 0] + eye_radius,
                                                       eye_landmarks[-1, 1]]]])
@@ -374,7 +369,6 @@ if __name__ == '__main__':
                     eyeball_centre = sum(eye_landmarks) / len(eye_landmarks)
                     eyeball_radius = np.linalg.norm(eye_landmarks[18, :] -
                                                     eye_landmarks[17, :])
-
                     gaze_mean = None
                     point = None
 
@@ -409,7 +403,6 @@ if __name__ == '__main__':
                         #     int(np.round(eyeball_radius)), color=(0, 255, 0),
                         #     thickness=1, lineType=cv.LINE_AA,
                         # )
-
                         # Draw "gaze"
                         # from models.elg import estimate_gaze_from_landmarks
                         # current_gaze = estimate_gaze_from_landmarks(
@@ -452,9 +445,9 @@ if __name__ == '__main__':
                                  (cali.right_iris_captured_data[11][1] - cali.right_eyeball_captured_data[11][1])) / 8)
 
                             # 캘리브레이션 가중치 변경
-
                             def left_calc_cali(a) :
                                 result = []
+
                                 for i in range(16) :
                                     result.append(abs(cali.Cali_Center_Points[i][a] -
                                                       cali.left_iris_captured_data[i][a]) /
@@ -462,18 +455,31 @@ if __name__ == '__main__':
                                                       cali.left_eyeball_captured_data[i][a]) *
                                                      (cali.left_iris_captured_data[i][a] -
                                                       cali.left_eyeball_captured_data[i][a])))
-                                return sum(result) / 16
+
+                                result.sort()
+
+                                for i in range(4) :
+                                    result.pop()
+
+                                return np.mean(result)
 
                             def right_calc_cali(a) :
                                 result = []
-                                for i in range(16) :
+
+                                for i in range(16)  :
                                     result.append(abs(cali.Cali_Center_Points[i][a] -
                                                       cali.right_iris_captured_data[i][a]) /
                                                     ((cali.right_iris_captured_data[i][a] -
                                                       cali.right_eyeball_captured_data[i][a]) *
                                                      (cali.right_iris_captured_data[i][a] -
                                                       cali.right_eyeball_captured_data[i][a])))
-                                return sum(result) / 16
+
+                                result.sort()
+
+                                for i in range(4):
+                                    result.pop()
+
+                                return np.mean(result)
 
                             left_dx = left_calc_cali(0)
                             right_dx = right_calc_cali(0)
@@ -495,7 +501,6 @@ if __name__ == '__main__':
                                 top_eye_location = 2
 
                             # 현재 눈 크기 (추후)
-
                             # now_eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
                             # now_eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
 
@@ -512,7 +517,6 @@ if __name__ == '__main__':
                                 gaze_history = gaze_history[-gaze_history_max_len:]
 
                             # 시선 좌표 변경
-
                             # gaze_mean = np.mean(gaze_history, axis=0)
                             # util.gaze.draw_gaze(bgr, iris_centre, gaze_mean,thickness=1)
 
@@ -698,7 +702,6 @@ if __name__ == '__main__':
                                     pattern_compare = []
                                     break
                                 i = i + 1
-
 
         visualize_thread = threading.Thread(target=_visualize_output, name='visualization')
         visualize_thread.daemon = True
