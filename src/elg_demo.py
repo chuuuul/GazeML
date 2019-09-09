@@ -34,9 +34,10 @@ debug_draw_gaze_arrow = True
 debug_full_screen_calibration = True
 debug_full_screen_gaze_capture = True
 
-debug_show_visualize_info = True
+debug_show_visualize_info = False
 debug_show_result_info = False
-debug_show_current_info = False
+debug_show_current_info = True
+debug_display_webcam = True
 
 #############################################################################################
 
@@ -178,6 +179,7 @@ if __name__ == '__main__':
         def _visualize_output():
             global cali, y_middle
 
+            is_set_fullscreen = False
             is_start_visualize =  False
             last_frame_index = 0
             last_frame_time = time.time()
@@ -213,27 +215,36 @@ if __name__ == '__main__':
                             cali.is_face_detect = False
                             if not args.headless:
                                 if cali.is_finish:
-                                    if not is_start_visualize:
-                                        is_start_visualize = True
+                                    if debug_display_webcam:
+                                        if not is_start_visualize:
+                                            is_start_visualize = True
 
-                                        # cv.setMouseCallback('vis', perform.mouse_callback,param = cali)
-                                                            # [(cali.left_gaze_coordinate + cali.right_gaze_coordinate) / 2])
-                                        if debug_full_screen_gaze_capture or args.fullscreen:
-                                            cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
+                                            # cv.setMouseCallback('vis', perform.mouse_callback,param = cali)
+                                                                # [(cali.left_gaze_coordinate + cali.right_gaze_coordinate) / 2])
+                                            if debug_full_screen_gaze_capture or args.fullscreen:
+                                                cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
+                                                cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
 
-                                            cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
 
+                                        img = next_frame['bgr']
 
-                                    img = next_frame['bgr']
+                                        # 그리드 레이아웃 그리기
+                                        util.gaze.draw_monitor_grid(img, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_Y, True)
+                                        util.gaze.draw_monitor_grid(img, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_X, False)
 
-                                    # 그리드 레이아웃 그리기
-                                    util.gaze.draw_monitor_grid(img, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_Y, True)
-                                    util.gaze.draw_monitor_grid(img, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_X, False)
+                                        cv.imshow('vis', img)
+                                        cv.setMouseCallback('vis', perform.mouse_callback, param = cali)
+                                    else:
+                                        if cali.current_image is not None:
+                                            cali.current_image = None
+                                            cv.destroyWindow('vis')
 
-                                    cv.imshow('vis', img)
-                                    cv.setMouseCallback('vis', perform.mouse_callback, param = cali)
 
                                 else:
+                                    if is_set_fullscreen == False:
+                                        is_set_fullscreen=True
+                                        cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
+                                        cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
                                     if cali.current_image is not None:
                                         cv.imshow('vis', cali.current_image)
 
@@ -342,16 +353,18 @@ if __name__ == '__main__':
                     frame_landmarks = (frame['smoothed_landmarks']
                                        if 'smoothed_landmarks' in frame
                                        else frame['landmarks'])
-                    for f, face in enumerate(frame['faces']):
-                        for landmark in frame_landmarks[f][:-1]:
-                            cv.drawMarker(bgr, tuple(np.round(landmark).astype(np.int32)),
-                                          color=(0, 0, 255), markerType=cv.MARKER_STAR,
-                                          markerSize=2, thickness=1, line_type=cv.LINE_AA)
-                        cv.rectangle(
-                            bgr, tuple(np.round(face[:2]).astype(np.int32)),
-                            tuple(np.round(np.add(face[:2], face[2:])).astype(np.int32)),
-                            color=(0, 255, 255), thickness=1, lineType=cv.LINE_AA,
-                        )
+
+                    if debug_display_webcam:
+                        for f, face in enumerate(frame['faces']):
+                            for landmark in frame_landmarks[f][:-1]:
+                                cv.drawMarker(bgr, tuple(np.round(landmark).astype(np.int32)),
+                                              color=(0, 0, 255), markerType=cv.MARKER_STAR,
+                                              markerSize=2, thickness=1, line_type=cv.LINE_AA)
+                            cv.rectangle(
+                                bgr, tuple(np.round(face[:2]).astype(np.int32)),
+                                tuple(np.round(np.add(face[:2], face[2:])).astype(np.int32)),
+                                color=(0, 255, 255), thickness=1, lineType=cv.LINE_AA,
+                            )
 
                     # Transform predictions
                     # 눈 중심 개선
@@ -396,11 +409,13 @@ if __name__ == '__main__':
                     gaze_history = all_gaze_histories[eye_index]
                     if can_use_eye:
                         # Visualize landmarks
-                        cv.drawMarker(  # Eyeball centre
-                            bgr, tuple(np.round(eyeball_centre).astype(np.int32)),
-                            color=(0, 255, 0), markerType=cv.MARKER_CROSS, markerSize=4,
-                            thickness=1, line_type=cv.LINE_AA,
-                        )
+
+                        if debug_display_webcam:
+                            cv.drawMarker(  # Eyeball centre
+                                bgr, tuple(np.round(eyeball_centre).astype(np.int32)),
+                                color=(0, 255, 0), markerType=cv.MARKER_CROSS, markerSize=4,
+                                thickness=1, line_type=cv.LINE_AA,
+                            )
                         # cv.circle(  # Eyeball outline
                         #     bgr, tuple(np.round(eyeball_centre).astype(np.int32)),
                         #     int(np.round(eyeball_radius)), color=(0, 255, 0),
@@ -639,22 +654,23 @@ if __name__ == '__main__':
                     else:
                         gaze_history.clear()
 
-                    if can_use_eyelid:
-                        cv.polylines(
-                            bgr, [np.round(eyelid_landmarks).astype(np.int32).reshape(-1, 1, 2)],
-                            isClosed=True, color=(255, 255, 0), thickness=1, lineType=cv.LINE_AA,
-                        )
+                    if debug_display_webcam:
+                        if can_use_eyelid:
+                            cv.polylines(
+                                bgr, [np.round(eyelid_landmarks).astype(np.int32).reshape(-1, 1, 2)],
+                                isClosed=True, color=(255, 255, 0), thickness=1, lineType=cv.LINE_AA,
+                            )
 
-                    if can_use_iris:
-                        cv.polylines(
-                            bgr, [np.round(iris_landmarks).astype(np.int32).reshape(-1, 1, 2)],
-                            isClosed=True, color=(0, 255, 255), thickness=1, lineType=cv.LINE_AA,
-                        )
-                        cv.drawMarker(
-                            bgr, tuple(np.round(iris_centre).astype(np.int32)),
-                            color=(0, 255, 255), markerType=cv.MARKER_CROSS, markerSize=4,
-                            thickness=1, line_type=cv.LINE_AA,
-                        )
+                        if can_use_iris:
+                            cv.polylines(
+                                bgr, [np.round(iris_landmarks).astype(np.int32).reshape(-1, 1, 2)],
+                                isClosed=True, color=(0, 255, 255), thickness=1, lineType=cv.LINE_AA,
+                            )
+                            cv.drawMarker(
+                                bgr, tuple(np.round(iris_centre).astype(np.int32)),
+                                color=(0, 255, 255), markerType=cv.MARKER_CROSS, markerSize=4,
+                                thickness=1, line_type=cv.LINE_AA,
+                            )
 
                     dtime = 1e3 * (time.time() - start_time)
                     if 'visualization' not in frame['time']:
@@ -678,12 +694,14 @@ if __name__ == '__main__':
                         fps_str = '%d FPS' % np.mean(fps_history)
                         last_frame_time = time.time()
                         fh, fw, _ = bgr.shape
-                        cv.putText(bgr, fps_str, org=(fw - 110, fh - 20),
-                                   fontFace=cv.FONT_HERSHEY_DUPLEX, fontScale=0.8,
-                                   color=(0, 0, 0), thickness=1, lineType=cv.LINE_AA)
-                        cv.putText(bgr, fps_str, org=(fw - 111, fh - 21),
-                                   fontFace=cv.FONT_HERSHEY_DUPLEX, fontScale=0.79,
-                                   color=(255, 255, 255), thickness=1, lineType=cv.LINE_AA)
+
+                        if debug_display_webcam:
+                            cv.putText(bgr, fps_str, org=(fw - 110, fh - 20),
+                                       fontFace=cv.FONT_HERSHEY_DUPLEX, fontScale=0.8,
+                                       color=(0, 0, 0), thickness=1, lineType=cv.LINE_AA)
+                            cv.putText(bgr, fps_str, org=(fw - 111, fh - 21),
+                                       fontFace=cv.FONT_HERSHEY_DUPLEX, fontScale=0.79,
+                                       color=(255, 255, 255), thickness=1, lineType=cv.LINE_AA)
 
                         if not args.headless:
                             if cali.is_finish == True:
@@ -693,25 +711,33 @@ if __name__ == '__main__':
                                         cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
                                         cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
 
+                                if debug_display_webcam:
 
-                                # 그리드 레이아웃 그리기
-                                util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_Y, True)
-                                util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_X, False)
-
-
-                                #성능평가에서 찍은점 그리기
-                                perform.draw_real_coordinate_mark(bgr)
-                                perform.draw_gaze_coordinate_mark(bgr)
-
-                                cv.imshow('vis', bgr)
+                                    # 그리드 레이아웃 그리기
+                                    util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_Y, True)
+                                    util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_X, False)
 
 
+                                    #성능평가에서 찍은점 그리기
+                                    perform.draw_real_coordinate_mark(bgr)
+                                    perform.draw_gaze_coordinate_mark(bgr)
 
-                                # call back 함수 등록
-                                if perform.is_set_callback == False:
-                                    perform.is_set_callback = True
-                                    cv.setMouseCallback('vis', perform.mouse_callback, param = cali)
+                                    cv.imshow('vis', bgr)
+
+                                    # call back 함수 등록
+                                    if perform.is_set_callback == False:
+                                        perform.is_set_callback = True
+                                        cv.setMouseCallback('vis', perform.mouse_callback, param = cali)
+                                else:
+                                    if cali.current_image is not None:
+                                        cali.current_image = None
+                                        cv.destroyWindow('vis')
+
                             elif cali.is_finish == False:
+                                if is_set_fullscreen == False:
+                                    is_set_fullscreen = True
+                                    cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
+                                    cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
                                 if cali.current_image is not None:
                                     cv.imshow('vis', cali.current_image)
 
