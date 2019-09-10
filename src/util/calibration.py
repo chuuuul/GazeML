@@ -88,8 +88,10 @@ class Calibration:
 
         print("Start Calibration!")
         # 큐에 캘리브레이션 순서 인덱스를 찾례로 넣는다
-        for i in range(0, self.Const_Cali_Num_X * self.Const_Cali_Num_Y):
-            self.sequence.put_nowait(i)
+
+
+
+        self.make_sequence()
 
         background = self.init_canvas()
         self.current_image = background.copy()
@@ -127,6 +129,22 @@ class Calibration:
         # self.is_finish = True
         # self.is_fail = True
         # return
+
+    def make_sequence(self):
+        self.sequence.put_nowait(0)
+        self.sequence.put_nowait(1)
+        self.sequence.put_nowait(2)
+        self.sequence.put_nowait(3)
+        self.sequence.put_nowait(6)
+        self.sequence.put_nowait(5)
+        self.sequence.put_nowait(4)
+        self.sequence.put_nowait(7)
+        self.sequence.put_nowait(8)
+        self.sequence.put_nowait(9)
+        self.sequence.put_nowait(10)
+        self.sequence.put_nowait(13)
+        self.sequence.put_nowait(12)
+        self.sequence.put_nowait(11)
 
 
     def resize_figure(self, img, point, radius):
@@ -210,18 +228,49 @@ class Calibration:
         cali_unit_distance_x = 0
         cali_unit_distance_y = 0
 
+        whole_distance_x = self.Const_Display_X - self.Const_Cali_Margin_X * 2
+        whole_distance_y = self.Const_Display_Y - self.Const_Cali_Margin_Y * 2
+
+        unit_distance_x = int(whole_distance_x / (self.Const_Cali_Num_X + (self.Const_Cali_Num_X - 1) - 1))
+        unit_distance_y = int(whole_distance_y / (self.Const_Cali_Num_Y - 1))
+
+        print(unit_distance_x)
+        print(unit_distance_y)
+
+        for j in range(0,self.Const_Cali_Num_Y):        # 세로
+            for i in range(0,self.Const_Cali_Num_X):    # 가로
+                y = self.Const_Cali_Margin_Y + unit_distance_y * j
+                if (j%2 == 0):      # 4개
+                    x = self.Const_Cali_Margin_X + unit_distance_x * 2 * i
+                    self.Cali_Center_Points.append( (x, y) )
+
+                if (j%2 == 1):
+                    if i == self.Const_Cali_Num_X - 1:
+                        continue
+
+                    x = self.Const_Cali_Margin_X + unit_distance_x + unit_distance_x * 2 * i
+                    self.Cali_Center_Points.append( (x, y) )
+
+
+
+
+
+                # if (j%2 == 1):      # 3개
+
+
+
         # 캘리브레이션이 가로나 세로에 1개라면 계산식에서 나누기 에러 발생
         # 실제로 캘리브레이션을 1개만 하는 경우는 없고 디버깅 용도이므로 자세하게 코딩하지 않았다.
-        if self.Const_Cali_Num_X != 1:
-            cali_unit_distance_x = (self.Const_Display_X - self.Const_Cali_Margin_X * 2) / (self.Const_Cali_Num_X - 1)
-
-        if self.Const_Cali_Num_Y != 1:
-            cali_unit_distance_y = (self.Const_Display_Y - self.Const_Cali_Margin_Y * 2) / (self.Const_Cali_Num_Y - 1)
-
-        for y in range(0, self.Const_Cali_Num_Y):
-            for x in range(0, self.Const_Cali_Num_X):
-                self.Cali_Center_Points.append(((int)(self.Const_Cali_Margin_X + cali_unit_distance_x * x)
-                                           , (int)(self.Const_Cali_Margin_Y + cali_unit_distance_y * y)))
+        # if self.Const_Cali_Num_X != 1:
+        #     cali_unit_distance_x = (self.Const_Display_X - self.Const_Cali_Margin_X * 2) / (self.Const_Cali_Num_X - 1)
+        #
+        # if self.Const_Cali_Num_Y != 1:
+        #     cali_unit_distance_y = (self.Const_Display_Y - self.Const_Cali_Margin_Y * 2) / (self.Const_Cali_Num_Y - 1)
+        #
+        # for y in range(0, self.Const_Cali_Num_Y):
+        #     for x in range(0, self.Const_Cali_Num_X):
+        #         self.Cali_Center_Points.append(((int)(self.Const_Cali_Margin_X + cali_unit_distance_x * x)
+        #                                    , (int)(self.Const_Cali_Margin_Y + cali_unit_distance_y * y)))
 
     def init_canvas(self):
         img = np.zeros((self.Const_Display_Y, self.Const_Display_X, 3), np.uint8)
@@ -244,35 +293,35 @@ class Calibration:
 
 
 
-#
-#
-#
-# if __name__ == '__main__':
-#
-#     # main
-#     cali = Calibration()
-#
-#     cali.is_face_detect = True
-#     th = threading.Thread(target=cali.start_cali)
-#     th.daemon = True
-#     th.start()
-#
-#     cv2.namedWindow("canvas")
-#
-#     while(True):
-#         if cali.current_image is not None:
-#
-#             cv2.imshow("canvas",cali.current_image)
-#             if cv2.waitKey(1) & 0xFF == ord('q'):
-#                 break
-#
-#
-#
-#
-#
-#
-#
-#
+
+
+
+if __name__ == '__main__':
+
+    # main
+    cali = Calibration()
+
+    cali.is_face_detect = True
+    th = threading.Thread(target=cali.start_cali)
+    th.daemon = True
+    th.start()
+
+    cv2.namedWindow("canvas")
+
+    while(True):
+        if cali.current_image is not None:
+
+            cv2.imshow("canvas",cali.current_image)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+
+
+
+
+
+
+
 
 
 
