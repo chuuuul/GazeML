@@ -711,10 +711,6 @@ if __name__ == '__main__':
                             return
 
 
-                            if cali.is_fail:
-                                print("Failed Calibration! Exit Program.")
-                                return
-
                             #SMS발송
                             #if match == len(pattern) :
                             #    try:
