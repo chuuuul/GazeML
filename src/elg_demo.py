@@ -440,34 +440,72 @@ if __name__ == '__main__':
                             left_gaze_y = left_i_y0 - left_e_y0
 
 
-                            left_x_middle = (
-                                ((cali.right_iris_captured_data[1][0] - cali.right_eyeball_captured_data[1][0]) +
-                                 (cali.right_iris_captured_data[5][0] - cali.right_eyeball_captured_data[5][0]) +
-                                 (cali.right_iris_captured_data[9][0] - cali.right_eyeball_captured_data[9][0]) +
-                                 (cali.right_iris_captured_data[13][0] - cali.right_eyeball_captured_data[13][0])) / 4)
-                            right_x_middle = (
-                                ((cali.left_iris_captured_data[2][0] - cali.left_eyeball_captured_data[2][0]) +
-                                 (cali.left_iris_captured_data[6][0] - cali.left_eyeball_captured_data[6][0]) +
-                                 (cali.left_iris_captured_data[10][0] - cali.left_eyeball_captured_data[10][0]) +
-                                 (cali.left_iris_captured_data[14][0] - cali.left_eyeball_captured_data[14][0])) / 4)
-                            top_y_middle = (
-                                ((cali.left_iris_captured_data[4][1] - cali.left_eyeball_captured_data[4][1]) +
-                                 (cali.left_iris_captured_data[5][1] - cali.left_eyeball_captured_data[5][1]) +
-                                 (cali.left_iris_captured_data[6][1] - cali.left_eyeball_captured_data[6][1]) +
-                                 (cali.left_iris_captured_data[7][1] - cali.left_eyeball_captured_data[7][1]) +
-                                 (cali.right_iris_captured_data[4][1] - cali.right_eyeball_captured_data[4][1]) +
-                                 (cali.right_iris_captured_data[5][1] - cali.right_eyeball_captured_data[5][1]) +
-                                 (cali.right_iris_captured_data[6][1] - cali.right_eyeball_captured_data[6][1]) +
-                                 (cali.right_iris_captured_data[7][1] - cali.right_eyeball_captured_data[7][1])) / 8)
-                            bottom_y_middle = (
-                                ((cali.left_iris_captured_data[8][1] - cali.left_eyeball_captured_data[8][1]) +
-                                 (cali.left_iris_captured_data[9][1] - cali.left_eyeball_captured_data[9][1]) +
-                                 (cali.left_iris_captured_data[10][1] - cali.left_eyeball_captured_data[10][1]) +
-                                 (cali.left_iris_captured_data[11][1] - cali.left_eyeball_captured_data[11][1]) +
-                                 (cali.right_iris_captured_data[8][1] - cali.right_eyeball_captured_data[8][1]) +
-                                 (cali.right_iris_captured_data[9][1] - cali.right_eyeball_captured_data[9][1]) +
-                                 (cali.right_iris_captured_data[10][1] - cali.right_eyeball_captured_data[10][1]) +
-                                 (cali.right_iris_captured_data[11][1] - cali.right_eyeball_captured_data[11][1])) / 8)
+                            def left_calc_middle():
+                                result = []
+
+                                for i in range(4) :
+                                    result.append(cali.right_iris_captured_data[4 * i + 1][0] -
+                                                  cali.right_eyeball_captured_data[4 * i + 1][0])
+
+                                result.sort()
+
+                                for i in range(2):  # 극단치 제외 비율
+                                    result.pop()
+
+                                return np.mean(result)
+
+                            def right_calc_middle():
+                                result = []
+
+                                for i in range(4):
+                                    result.append(cali.left_iris_captured_data[4 * i + 2][0] -
+                                                  cali.left_eyeball_captured_data[4 * i + 2][0])
+
+                                result.sort()
+                                result.reverse()
+
+                                for i in range(2):  # 극단치 제외 비율
+                                    result.pop()
+
+                                return np.mean(result)
+
+                            def top_calc_middle():
+                                result = []
+
+                                for i in range(4):
+                                    result.append(cali.left_iris_captured_data[i + 4][1] -
+                                                  cali.left_eyeball_captured_data[i + 4][1])
+                                    result.append(cali.right_iris_captured_data[i + 4][1] -
+                                                  cali.right_eyeball_captured_data[i + 4][1])
+
+                                result.sort()
+
+                                for i in range(4) : # 극단치 제외 비율
+                                    result.pop()
+
+                                return np.mean(result)
+
+                            def bottom_calc_middle():
+                                result = []
+
+                                for i in range(4):
+                                    result.append(cali.left_iris_captured_data[i + 8][1] -
+                                                  cali.left_eyeball_captured_data[i + 8][1])
+                                    result.append(cali.right_iris_captured_data[i + 8][1] -
+                                                  cali.right_eyeball_captured_data[i + 8][1])
+
+                                result.sort()
+                                result.reverse()
+
+                                for i in range(4):  # 극단치 제외 비율
+                                    result.pop()
+
+                                return np.mean(result)
+
+                            left_x_middle = left_calc_middle()
+                            right_x_middle = right_calc_middle()
+                            top_y_middle = top_calc_middle()
+                            bottom_y_middle = bottom_calc_middle()
 
                             # 캘리브레이션 가중치 변경
                             def left_calc_cali(a) :
