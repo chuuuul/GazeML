@@ -438,7 +438,7 @@ if __name__ == '__main__':
                             left_gaze_x = left_i_x0 - left_e_x0
                             right_gaze_x = right_i_x0 - right_e_x0
                             left_gaze_y = left_i_y0 - left_e_y0
-                            right_gaze_y = right_i_y0 - left_e_y0
+                            right_gaze_y = right_i_y0 - right_e_y0
 
 
                             def left_calc_middle():
