@@ -87,10 +87,8 @@ class Calibration:
         self.is_start = True
 
         print("Start Calibration!")
-        # 큐에 캘리브레이션 순서 인덱스를 찾례로 넣는다
 
-
-
+        # 캘리브레이션_순서_설정
         self.make_sequence()
 
         background = self.init_canvas()
@@ -123,28 +121,6 @@ class Calibration:
 
         self.is_finish = True  # 종료플레그
         print("Complete Calibration!!")
-
-        # # 문제점 : waitkey로 키 입력 받으려고 변수 저장 후 비교해서 다르면 waitkey를 다시 하게 되는데 그 순간 먹통(쓰레드랑관련?)
-        # print("pressed key!! Exit calibration!")
-        # self.is_finish = True
-        # self.is_fail = True
-        # return
-
-    def make_sequence(self):
-        self.sequence.put_nowait(0)
-        self.sequence.put_nowait(1)
-        self.sequence.put_nowait(2)
-        self.sequence.put_nowait(3)
-        self.sequence.put_nowait(6)
-        self.sequence.put_nowait(5)
-        self.sequence.put_nowait(4)
-        self.sequence.put_nowait(7)
-        self.sequence.put_nowait(8)
-        self.sequence.put_nowait(9)
-        self.sequence.put_nowait(10)
-        self.sequence.put_nowait(13)
-        self.sequence.put_nowait(12)
-        self.sequence.put_nowait(11)
 
 
     def resize_figure(self, img, point, radius):
@@ -191,10 +167,6 @@ class Calibration:
         ##########################################
 
 
-
-
-
-
     def move_figure(self, img, start_point, end_point ):
 
 
@@ -224,9 +196,6 @@ class Calibration:
 
 
     def init_cali(self,):
-        # 캘리브레이션 포인인
-        cali_unit_distance_x = 0
-        cali_unit_distance_y = 0
 
         whole_distance_x = self.Const_Display_X - self.Const_Cali_Margin_X * 2
         whole_distance_y = self.Const_Display_Y - self.Const_Cali_Margin_Y * 2
@@ -251,27 +220,6 @@ class Calibration:
                     x = self.Const_Cali_Margin_X + unit_distance_x + unit_distance_x * 2 * i
                     self.Cali_Center_Points.append( (x, y) )
 
-
-
-
-
-                # if (j%2 == 1):      # 3개
-
-
-
-        # 캘리브레이션이 가로나 세로에 1개라면 계산식에서 나누기 에러 발생
-        # 실제로 캘리브레이션을 1개만 하는 경우는 없고 디버깅 용도이므로 자세하게 코딩하지 않았다.
-        # if self.Const_Cali_Num_X != 1:
-        #     cali_unit_distance_x = (self.Const_Display_X - self.Const_Cali_Margin_X * 2) / (self.Const_Cali_Num_X - 1)
-        #
-        # if self.Const_Cali_Num_Y != 1:
-        #     cali_unit_distance_y = (self.Const_Display_Y - self.Const_Cali_Margin_Y * 2) / (self.Const_Cali_Num_Y - 1)
-        #
-        # for y in range(0, self.Const_Cali_Num_Y):
-        #     for x in range(0, self.Const_Cali_Num_X):
-        #         self.Cali_Center_Points.append(((int)(self.Const_Cali_Margin_X + cali_unit_distance_x * x)
-        #                                    , (int)(self.Const_Cali_Margin_Y + cali_unit_distance_y * y)))
-
     def init_canvas(self):
         img = np.zeros((self.Const_Display_Y, self.Const_Display_X, 3), np.uint8)
         return img
@@ -292,31 +240,21 @@ class Calibration:
         self.current_image=img
 
 
-
-
-
-
-if __name__ == '__main__':
-
-    # main
-    cali = Calibration()
-
-    cali.is_face_detect = True
-    th = threading.Thread(target=cali.start_cali)
-    th.daemon = True
-    th.start()
-
-    cv2.namedWindow("canvas")
-
-    while(True):
-        if cali.current_image is not None:
-
-            cv2.imshow("canvas",cali.current_image)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-
-
-
+    def make_sequence(self):
+        self.sequence.put_nowait(0)
+        self.sequence.put_nowait(1)
+        self.sequence.put_nowait(2)
+        self.sequence.put_nowait(3)
+        self.sequence.put_nowait(6)
+        self.sequence.put_nowait(5)
+        self.sequence.put_nowait(4)
+        self.sequence.put_nowait(7)
+        self.sequence.put_nowait(8)
+        self.sequence.put_nowait(9)
+        self.sequence.put_nowait(10)
+        self.sequence.put_nowait(13)
+        self.sequence.put_nowait(12)
+        self.sequence.put_nowait(11)
 
 
 
