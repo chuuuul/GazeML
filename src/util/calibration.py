@@ -29,7 +29,7 @@ class Calibration:
 
     Const_Cali_Num_X = 4  # 캘리브레이션 포인트 x 갯수
     Const_Cali_Num_Y = 4  # 캘리브레이션 포인트 y 갯수
-    Const_Cali_Radius = 30  # 캘리브레이션 포인트 원 크기
+    Const_Cali_Radius = 20  # 캘리브레이션 포인트 원 크기
     Const_Cali_Goal_Radius = 4  # 캘리브레이션 포인트가 가장 작을 때 원 크기
 
     Const_Cali_Reduce_Num = 20      # 줄어들 횟수
@@ -95,10 +95,19 @@ class Calibration:
         self.current_image = background.copy()
         self.init_cali()
 
+
         # 큐의 순서대로 캘리브레이션 시작
         index = self.sequence.get_nowait()
 
+        tmp_img = background.copy()
+        self.draw_circle(tmp_img, self.Cali_Center_Points[index], self.Const_Cali_Radius)
+        self.draw_cross(tmp_img, self.Cali_Center_Points[index])
+        self.current_image = tmp_img
+        time.sleep(1)
+
         while(True):
+
+
             self.resize_figure(background, self.Cali_Center_Points[index], self.Const_Cali_Radius)
 
             previous_index = index
