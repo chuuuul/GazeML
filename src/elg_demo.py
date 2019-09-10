@@ -711,6 +711,7 @@ if __name__ == '__main__':
                             return
 
 
+
                             #SMS발송
                             #if match == len(pattern) :
                             #    try:
@@ -728,8 +729,8 @@ if __name__ == '__main__':
 
                             #    sys.exit()
 
-                            if (cv.waitKey(1) & 0xFF == ord('q')) or (match == len(pattern)):
-                                return
+                        if (cv.waitKey(1) & 0xFF == ord('q')) or (match == len(pattern)):
+                            return
 
                         # Print timings
                         if frame_index % 10 == 0:
