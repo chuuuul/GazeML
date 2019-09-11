@@ -39,7 +39,7 @@ debug_full_screen_calibration = True
 debug_full_screen_gaze_capture = True
 
 debug_show_visualize_info = False
-debug_show_result_info = False
+debug_show_result_info = True
 debug_show_current_info = True
 debug_display_webcam = True
 
@@ -440,49 +440,35 @@ if __name__ == '__main__':
                             left_gaze_y = left_i_y0 - left_e_y0
                             right_gaze_y = right_i_y0 - right_e_y0
 
-
                             def left_calc_middle():
                                 result = []
 
-                                for i in range(4) :
-                                    result.append(cali.right_iris_captured_data[4 * i + 1][0] -
-                                                  cali.right_eyeball_captured_data[4 * i + 1][0])
-
-                                result.sort()
-
-                                for i in range(2):  # 극단치 제외 비율
-                                    result.pop()
+                                for i in range(2) :
+                                    result.append(cali.right_iris_captured_data[7 * i + 1][0] -
+                                                  cali.right_eyeball_captured_data[7 * i + 1][0])
 
                                 return np.mean(result)
 
                             def right_calc_middle():
                                 result = []
 
-                                for i in range(4):
-                                    result.append(cali.left_iris_captured_data[4 * i + 2][0] -
-                                                  cali.left_eyeball_captured_data[4 * i + 2][0])
-
-                                result.sort()
-                                result.reverse()
-
-                                for i in range(2):  # 극단치 제외 비율
-                                    result.pop()
+                                for i in range(2):
+                                    result.append(cali.left_iris_captured_data[7 * i + 2][0] -
+                                                  cali.left_eyeball_captured_data[7 * i + 2][0])
 
                                 return np.mean(result)
 
                             def top_calc_middle():
                                 result = []
 
-                                for i in range(4):
+                                for i in range(3):
                                     result.append(cali.left_iris_captured_data[i + 4][1] -
                                                   cali.left_eyeball_captured_data[i + 4][1])
                                     result.append(cali.right_iris_captured_data[i + 4][1] -
                                                   cali.right_eyeball_captured_data[i + 4][1])
 
                                 result.sort()
-
-                                for i in range(4) : # 극단치 제외 비율
-                                    result.pop()
+                                result.pop()
 
                                 return np.mean(result)
 
@@ -490,15 +476,15 @@ if __name__ == '__main__':
                                 result = []
 
                                 for i in range(4):
-                                    result.append(cali.left_iris_captured_data[i + 8][1] -
-                                                  cali.left_eyeball_captured_data[i + 8][1])
-                                    result.append(cali.right_iris_captured_data[i + 8][1] -
-                                                  cali.right_eyeball_captured_data[i + 8][1])
+                                    result.append(cali.left_iris_captured_data[i + 7][1] -
+                                                  cali.left_eyeball_captured_data[i + 7][1])
+                                    result.append(cali.right_iris_captured_data[i + 7][1] -
+                                                  cali.right_eyeball_captured_data[i + 7][1])
 
                                 result.sort()
                                 result.reverse()
 
-                                for i in range(4):  # 극단치 제외 비율
+                                for i in range(2):  # 극단치 제외 비율
                                     result.pop()
 
                                 return np.mean(result)
@@ -512,7 +498,7 @@ if __name__ == '__main__':
                             def left_calc_cali(a) :
                                 result = []
 
-                                for i in range(16) :
+                                for i in range(14) :
                                     result.append(abs(cali.Cali_Center_Points[i][a] -
                                                       cali.left_iris_captured_data[i][a]) /
                                                     ((cali.left_iris_captured_data[i][a] -
@@ -522,7 +508,7 @@ if __name__ == '__main__':
 
                                 result.sort()
 
-                                for i in range(6) : # 극단치 제외 비율
+                                for i in range(5) : # 극단치 제외 비율
                                     result.pop()
 
                                 return np.mean(result)
@@ -530,7 +516,7 @@ if __name__ == '__main__':
                             def right_calc_cali(a) :
                                 result = []
 
-                                for i in range(16)  :
+                                for i in range(14)  :
                                     result.append(abs(cali.Cali_Center_Points[i][a] -
                                                       cali.right_iris_captured_data[i][a]) /
                                                     ((cali.right_iris_captured_data[i][a] -
@@ -540,7 +526,9 @@ if __name__ == '__main__':
 
                                 result.sort()
 
-                                for i in range(6): # 극단치 제외 비율
+                                print(result)
+
+                                for i in range(5): # 극단치 제외 비율
                                     result.pop()
 
                                 return np.mean(result)
@@ -673,7 +661,6 @@ if __name__ == '__main__':
                                     util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_Y, True)
                                     util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_X, False)
 
-
                                     #성능평가에서 찍은점 그리기
                                     perform.draw_real_coordinate_mark(bgr)
                                     perform.draw_gaze_coordinate_mark(bgr)
@@ -710,24 +697,19 @@ if __name__ == '__main__':
                             print("Failed Calibration! Exit Program.")
                             return
 
-
-
-                            #SMS발송
-                            #if match == len(pattern) :
-                            #    try:
-                            #        response = cool.send(params)
-                            #        print("Success Count : %s" % response['success_count'])
-                            #        print("Error Count : %s" % response['error_count'])
-                            #        print("Group ID : %s" % response['group_id'])
-
-                            #        if "error_list" in response:
-                            #            print("Error List : %s" % response['error_list'])
-
-                            #    except CoolsmsException as e:
-                            #        print("Error Code : %s" % e.code)
-                            #        print("Error Message : %s" % e.msg)
-
-                            #    sys.exit()
+                        #SMS발송
+                        #if match == len(pattern) :
+                        #    try:
+                        #        response = cool.send(params)
+                        #        print("Success Count : %s" % response['success_count'])
+                        #        print("Error Count : %s" % response['error_count'])
+                        #        print("Group ID : %s" % response['group_id'])
+                        #        if "error_list" in response:
+                        #            print("Error List : %s" % response['error_list'])
+                        #    except CoolsmsException as e:
+                        #        print("Error Code : %s" % e.code)
+                        #        print("Error Message : %s" % e.msg)
+                        #    sys.exit()
 
                         if (cv.waitKey(1) & 0xFF == ord('q')) or (match == len(pattern)):
                             return
@@ -769,15 +751,12 @@ if __name__ == '__main__':
                             before_history = after_history
                             after_history = point
                             match = 0
-                            if point != 0 :
-                                if before_history == after_history :
-                                    if after_history in pattern_compare :
-
-                                        cali.correct_point = []
+                            if point != 0:
+                                if before_history == after_history:
+                                    if after_history in pattern_compare:
                                         print("xxxxx", pattern_compare)
-                                    else :
+                                    else:
                                         pattern_compare.append(after_history)
-                                        cali.correct_point = pattern_compare
                                         print("pattern_compare : ", pattern_compare)
 
                             # 매치 알고리즘
@@ -791,11 +770,16 @@ if __name__ == '__main__':
                                     break
                                 i = i + 1
 
+                            if (match == len(pattern_compare)):
+                                cali.correct_point = pattern_compare
+                            else:
+                                cali.correct_point = []
+
+                            print("cali.correct_point : ", cali.correct_point)
+
         visualize_thread = threading.Thread(target=_visualize_output, name='visualization')
         visualize_thread.daemon = True
         visualize_thread.start()
-
-
 
         # Do inference forever
         infer = model.inference_generator()
