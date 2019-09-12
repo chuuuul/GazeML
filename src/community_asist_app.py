@@ -17,12 +17,15 @@ import time
 
 class MyMain(QMainWindow):
 
+    debug_run_speak = True
+    debug_fullscreen_mode = True
+
     xml_dir = "./community_assist_app.xml"
     select_item_sec = 3.0
 
-
     def __init__(self):
         super().__init__()
+
 
         self.setStyleSheet("background-color: #d1d1d1")
 
@@ -56,7 +59,10 @@ class MyMain(QMainWindow):
         self.font.setPixelSize(50)
         self.parse_xml()                    # 데이터가져오기
 
-        self.setGeometry(300, 200, 1280, 720)
+        self.setGeometry(450, 300, 1280, 720)
+        if self.debug_fullscreen_mode:
+            self.setWindowState(Qt.WindowFullScreen)
+
         self.show()
 
 
@@ -97,7 +103,6 @@ class MyMain(QMainWindow):
 
 
     def paintEvent(self, event):
-
 
         if self.is_speaking == True:
             return
@@ -177,9 +182,12 @@ class MyMain(QMainWindow):
                     return
 
                 print("항목 선택 : ", self.item_list[self.status-1][current_point-1])
-                self.is_speaking = True
-                self.speak.speak_text(self.item_list[self.status-1][current_point-1])
-                self.is_speaking = False
+
+                if self.debug_run_speak:
+                    self.is_speaking = True
+                    self.speak.speak_text(self.item_list[self.status-1][current_point-1])
+                    self.is_speaking = False
+
                 self.status = 0
                 self.uncheck_time()
                 self.update()
@@ -188,18 +196,11 @@ class MyMain(QMainWindow):
         # 3초세는_애니메이션
         else:
             time_diff_rate = round(time_diff / self.select_item_sec, 2)
-            # print("rate : ", time_diff_rate)
-
-
-
             x = int((current_point - 1) % 3)
             y = int((current_point - 1) / 3)
 
             # self.drawer.draw_growing_rectangle(painter, x, y, width, height, time_diff_rate) # 보고있는_포인트_표시
             self.drawer.draw_growing_circle(painter, x, y, width, height, time_diff_rate)
-
-
-
 
             # 글자 표시
             self.show_text(painter, x, y, width, height, current_point)
@@ -219,9 +220,6 @@ class MyMain(QMainWindow):
             elif index == 9 :
                 self.drawer.draw_text(painter, x, y, width, height, "돌아가기")
 
-
-
-
     def check_time(self):
         self.is_checked = True
         self.start_time = time.time()
@@ -235,9 +233,7 @@ class MyMain(QMainWindow):
         import xml.etree.ElementTree as ET
 
         doc = ET.parse(self.xml_dir)
-
         root = doc.getroot()
-
 
         for category in root.iter("category"):
             self.category_list.append(category.attrib["name"])
@@ -248,9 +244,7 @@ class MyMain(QMainWindow):
             self.item_list.append(list)
 
 
-
 if __name__ == "__main__":
-
     app = QApplication(sys.argv)
     ex = MyMain()
     sys.exit(app.exec_())
