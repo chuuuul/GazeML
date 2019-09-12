@@ -45,6 +45,8 @@ class MyMain(QMainWindow):
         # display_point_thread.daemon=True
         # display_point_thread.start()
 
+
+
     def setColorRed(self,object):
         object.setStyleSheet("background-color:red")
 
