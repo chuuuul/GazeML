@@ -1,6 +1,6 @@
 import sys
 import threading
-from util.gaze_data_receiver import GazeDataReceiver
+from util.application_util.gaze_data_receiver import GazeDataReceiver
 from PyQt5.QtWidgets import *
 
 from PyQt5.QtWidgets import QApplication, QWidget

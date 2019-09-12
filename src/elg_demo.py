@@ -18,7 +18,7 @@ import util.gaze
 
 from util.calibration import Calibration
 from util.perfomance_test import Performance
-from util.gaze_data_sender import GazeDataSender
+from util.application_util.gaze_data_sender import GazeDataSender
 
 # SMS발송
 #import sys
