@@ -262,17 +262,3 @@ class Calibration:
         self.sequence.put_nowait(12)
         self.sequence.put_nowait(11)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
