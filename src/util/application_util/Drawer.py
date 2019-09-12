@@ -38,7 +38,7 @@ class Drawer:
         radialGradient = QRadialGradient(QPoint(x * width + int(width/2),y * height + int(height/2))
                                          ,int(height / 2) - 20,
                                          QPoint(x * width + int(width/2),y * height + int(height/2))) # center,radius,focalPoint
-        radialGradient.setColorAt(0,QColor("#ffa6a6"))
+        radialGradient.setColorAt(0,QColor("#fccccc"))
         radialGradient.setColorAt(0.7,QColor("#eb9494"))
         radialGradient.setColorAt(1.0,QColor("#ff4d4d"))
         painter.setBrush(QBrush(radialGradient))
