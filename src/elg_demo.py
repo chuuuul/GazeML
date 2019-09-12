@@ -203,16 +203,13 @@ if __name__ == '__main__':
             last_frame_time = time.time()
             fps_history = []
             all_gaze_histories = []
+            all_point_histories = []
 
             # 패턴
             pattern = [1, 3, 9, 7]
             after_history = 0               # 일정시간 응시 후 저장되는 포인트
             pattern_compare = []
             match = 0
-
-            # 눈 크기 평균 (추후)
-            # eye_size_x_average = 0
-            # eye_size_y_average = 0
 
             if args.fullscreen :
                 cali.is_full_screen = True
@@ -393,27 +390,41 @@ if __name__ == '__main__':
                                                     eye_landmarks[17, :])
                     gaze_mean = None
                     point = None
+                    point_count = None
 
                     gaze_mean = 0
                     point = 0
+                    point_count = 0
+
+                    eye_size_x = abs(eye_landmarks[12][0] - eye_landmarks[8][0])
+                    eye_size_y = eye_landmarks[14][1] - eye_landmarks[10][1]
 
                     if eye_side == 'left':
                         cali.left_iris_centre = iris_centre
-
                         left_i_x0, left_i_y0 = cali.left_iris_centre
                         cali.left_eyeball_centre = eyeball_centre
                         left_e_x0, left_e_y0 = cali.left_eyeball_centre
+                        cali.left_eye_size_x = eye_size_x
+                        cali.left_eye_size_y = eye_size_y
                     else:
                         cali.right_iris_centre = iris_centre
                         right_i_x0, right_i_y0 = cali.right_iris_centre
                         cali.right_eyeball_centre = eyeball_centre
                         right_e_x0, right_e_y0 = cali.right_eyeball_centre
+                        cali.right_eye_size_x = eye_size_x
+                        cali.right_eye_size_y = eye_size_y
 
                     # Smooth and visualize gaze direction
                     num_total_eyes_in_frame = len(frame['eyes'])
                     if len(all_gaze_histories) != num_total_eyes_in_frame:
                         all_gaze_histories = [list() for _ in range(num_total_eyes_in_frame)]
                     gaze_history = all_gaze_histories[eye_index]
+
+                    num_total_eyes_in_frame = len(frame['eyes'])
+                    if len(all_point_histories) != num_total_eyes_in_frame:
+                        all_point_histories = [list() for _ in range(num_total_eyes_in_frame)]
+                    point_history = all_point_histories[eye_index]
+
                     if can_use_eye:
                         # Visualize landmarks
 
@@ -433,72 +444,19 @@ if __name__ == '__main__':
                         # current_gaze = estimate_gaze_from_landmarks(
                         #     iris_landmarks, iris_centre, eyeball_centre, eyeball_radius)
 
-                        if cali.is_finish :
+                        if cali.is_finish:
 
                             left_gaze_x = left_i_x0 - left_e_x0
                             right_gaze_x = right_i_x0 - right_e_x0
                             left_gaze_y = left_i_y0 - left_e_y0
                             right_gaze_y = right_i_y0 - right_e_y0
 
-                            def left_calc_middle():
-                                result = []
-
-                                for i in range(2) :
-                                    result.append(cali.right_iris_captured_data[7 * i + 1][0] -
-                                                  cali.right_eyeball_captured_data[7 * i + 1][0])
-
-                                return np.mean(result)
-
-                            def right_calc_middle():
-                                result = []
-
-                                for i in range(2):
-                                    result.append(cali.left_iris_captured_data[7 * i + 2][0] -
-                                                  cali.left_eyeball_captured_data[7 * i + 2][0])
-
-                                return np.mean(result)
-
-                            def top_calc_middle():
-                                result = []
-
-                                for i in range(3):
-                                    result.append(cali.left_iris_captured_data[i + 4][1] -
-                                                  cali.left_eyeball_captured_data[i + 4][1])
-                                    result.append(cali.right_iris_captured_data[i + 4][1] -
-                                                  cali.right_eyeball_captured_data[i + 4][1])
-
-                                result.sort()
-                                result.pop()
-
-                                return np.mean(result)
-
-                            def bottom_calc_middle():
-                                result = []
-
-                                for i in range(4):
-                                    result.append(cali.left_iris_captured_data[i + 7][1] -
-                                                  cali.left_eyeball_captured_data[i + 7][1])
-                                    result.append(cali.right_iris_captured_data[i + 7][1] -
-                                                  cali.right_eyeball_captured_data[i + 7][1])
-
-                                result.sort()
-                                result.reverse()
-
-                                for i in range(2):  # 극단치 제외 비율
-                                    result.pop()
-
-                                return np.mean(result)
-
-                            left_x_middle = left_calc_middle()
-                            right_x_middle = right_calc_middle()
-                            top_y_middle = top_calc_middle()
-                            bottom_y_middle = bottom_calc_middle()
-
                             # 캘리브레이션 가중치 변경
-                            def left_calc_cali(a) :
+                            def left_calc_cali(a):
                                 result = []
+                                box_plot = []
 
-                                for i in range(14) :
+                                for i in range(14):
                                     result.append(abs(cali.Cali_Center_Points[i][a] -
                                                       cali.left_iris_captured_data[i][a]) /
                                                     ((cali.left_iris_captured_data[i][a] -
@@ -508,15 +466,21 @@ if __name__ == '__main__':
 
                                 result.sort()
 
-                                for i in range(5) : # 극단치 제외 비율
-                                    result.pop()
+                                iqr = result[9] - result[4]
+                                box_max = result[9] + 1.5 * iqr
+                                box_min = result[4] - 1.5 * iqr
 
-                                return np.mean(result)
+                                for i in range(14):
+                                    if result[i] > box_min and result[i] < box_max:
+                                        box_plot.append(result[i])
 
-                            def right_calc_cali(a) :
+                                return np.median(box_plot)
+
+                            def right_calc_cali(a):
                                 result = []
+                                box_plot = []
 
-                                for i in range(14)  :
+                                for i in range(14):
                                     result.append(abs(cali.Cali_Center_Points[i][a] -
                                                       cali.right_iris_captured_data[i][a]) /
                                                     ((cali.right_iris_captured_data[i][a] -
@@ -526,42 +490,83 @@ if __name__ == '__main__':
 
                                 result.sort()
 
-                                print(result)
+                                iqr = result[9] - result[4]
+                                box_max = result[9] + 1.5 * iqr
+                                box_min = result[4] - 1.5 * iqr
 
-                                for i in range(5): # 극단치 제외 비율
-                                    result.pop()
+                                for i in range(14):
+                                    if result[i] > box_min and result[i] < box_max :
+                                        box_plot.append(result[i])
 
-                                return np.mean(result)
+                                return np.median(box_plot)
 
-                            left_dx = left_calc_cali(0)
-                            right_dx = right_calc_cali(0)
-                            left_dy = left_calc_cali(1)
-                            right_dy = right_calc_cali(1)
+                            # 눈 크기 가중치
+                            def left_calc_x_size():
+                                result = []
 
-                            if right_gaze_x < left_x_middle :
-                                left_eye_location = 1
-                            elif left_gaze_x > right_x_middle :
-                                left_eye_location = 3
-                            else :
-                                left_eye_location = 2
+                                for i in range(14):
+                                    result.append(cali.left_save_eye_size_x[i])
 
-                            if left_gaze_y < top_y_middle :
-                                top_eye_location = 1
-                            elif left_gaze_y > bottom_y_middle :
-                                top_eye_location = 3
-                            else :
-                                top_eye_location = 2
+                                return np.median(result)
 
-                            # 현재 눈 크기 (추후)
-                            # now_eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
-                            # now_eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
+                            def left_calc_y_size():
+                                result = []
 
-                            point = left_eye_location + (top_eye_location - 1) * 3
+                                for i in range(14):
+                                    result.append(cali.left_save_eye_size_y[i])
+
+                                return np.median(result)
+
+                            def right_calc_x_size():
+                                result = []
+
+                                for i in range(14):
+                                    result.append(cali.right_save_eye_size_x[i])
+
+                                return np.median(result)
+
+                            def right_calc_y_size():
+                                result = []
+
+                                for i in range(14):
+                                    result.append(cali.right_save_eye_size_y[i])
+
+                                return np.median(result)
+
+                            left_dx = left_calc_cali(0) * cali.left_eye_size_x / left_calc_x_size()
+                            right_dx = right_calc_cali(0) * cali.left_eye_size_y / left_calc_y_size()
+                            left_dy = left_calc_cali(1) * cali.right_eye_size_x / right_calc_x_size()
+                            right_dy = right_calc_cali(1) * cali.right_eye_size_y / right_calc_y_size()
 
                             current_gaze = np.array([((left_i_x0 + left_gaze_x * abs(left_gaze_x) * left_dx) +
                                                       (right_i_x0 + right_gaze_x * abs(right_gaze_x) * right_dx)) / 2,
                                                      ((left_i_y0 + left_gaze_y * abs(left_gaze_y) * left_dy) +
                                                       (right_i_y0 + right_gaze_y * abs(right_gaze_y) * right_dy)) / 2])
+
+                            if current_gaze[0] < cali.Const_Display_X / 3 :
+                                left_eye_location = 1
+                            elif current_gaze[0] > cali.Const_Display_X * 2 / 3 :
+                                left_eye_location = 3
+                            else :
+                                left_eye_location = 2
+
+                            if current_gaze[1] < cali.Const_Display_Y / 3 :
+                                top_eye_location = 1
+                            elif current_gaze[1] > cali.Const_Display_Y * 2 / 3 :
+                                top_eye_location = 3
+                            else :
+                                top_eye_location = 2
+
+                            point = left_eye_location + (top_eye_location - 1) * 3
+
+                            point_history.append(point)
+                            point_history_max_len = 10
+                            if len(point_history) > point_history_max_len:
+                                point_history = point_history[-point_history_max_len:]
+
+                            point_count = np.bincount(point_history).argmax()
+
+                            cali.current_point = point_count
 
                             gaze_history.append(current_gaze)
                             gaze_history_max_len = 10
@@ -571,8 +576,6 @@ if __name__ == '__main__':
                             # 시선 좌표 변경
                             # gaze_mean = np.mean(gaze_history, axis=0)
                             # util.gaze.draw_gaze(bgr, iris_centre, gaze_mean,thickness=1)
-
-                            cali.current_point = point
 
                             if eye_side == 'left':
                                 cali.left_gaze_coordinate = np.mean(gaze_history, axis=0)
@@ -735,23 +738,20 @@ if __name__ == '__main__':
                             # 결과값 출력
                             if debug_show_current_info:
                                 print("current gaze : ", gaze_mean)
-                                print("point : ", point)
+                                print("point_history : ", point_history)
+                                print("point_count : ", point_count)
 
                             if debug_show_result_info:
                                 if cali.is_finish:
-                                    print("left_x_middle : ", left_x_middle)
-                                    print("right_x_middle : ", right_x_middle)
-                                    print("top_y_middle : ", top_y_middle)
-                                    print("bottom_y_middle : ", bottom_y_middle)
                                     print("left_dx : ", left_dx)
                                     print("right_dx : ", right_dx)
                                     print("left_dy : ", left_dy)
                                     print("right_dy : ", right_dy)
 
                             before_history = after_history
-                            after_history = point
+                            after_history = point_count
                             match = 0
-                            if point != 0:
+                            if point_count != 0:
                                 if before_history == after_history:
                                     if after_history in pattern_compare:
                                         print("xxxxx", pattern_compare)
