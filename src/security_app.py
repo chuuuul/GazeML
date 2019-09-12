@@ -3,9 +3,9 @@ import threading
 from util.application_util.gaze_data_receiver import GazeDataReceiver
 from PyQt5.QtWidgets import *
 
-from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5.QtGui import QPainter, QBrush, QPen, QPixmap
-from PyQt5.QtCore import Qt, QPointF,QObject,pyqtSignal,QRect
+from PyQt5.QtWidgets import QApplication
+from PyQt5.QtGui import QPainter, QBrush, QPen
+from PyQt5.QtCore import Qt, QPointF, QRect
 
 from random import *
 
