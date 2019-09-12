@@ -203,6 +203,7 @@ if __name__ == '__main__':
             last_frame_time = time.time()
             fps_history = []
             all_gaze_histories = []
+            all_point_histories = []
 
             # 패턴
             pattern = [1, 3, 9, 7]
@@ -389,9 +390,11 @@ if __name__ == '__main__':
                                                     eye_landmarks[17, :])
                     gaze_mean = None
                     point = None
+                    point_count = None
 
                     gaze_mean = 0
                     point = 0
+                    point_count = 0
 
                     eye_size_x = abs(eye_landmarks[12][0] - eye_landmarks[8][0])
                     eye_size_y = eye_landmarks[14][1] - eye_landmarks[10][1]
@@ -416,6 +419,12 @@ if __name__ == '__main__':
                     if len(all_gaze_histories) != num_total_eyes_in_frame:
                         all_gaze_histories = [list() for _ in range(num_total_eyes_in_frame)]
                     gaze_history = all_gaze_histories[eye_index]
+
+                    num_total_eyes_in_frame = len(frame['eyes'])
+                    if len(all_point_histories) != num_total_eyes_in_frame:
+                        all_point_histories = [list() for _ in range(num_total_eyes_in_frame)]
+                    point_history = all_point_histories[eye_index]
+
                     if can_use_eye:
                         # Visualize landmarks
 
@@ -550,6 +559,15 @@ if __name__ == '__main__':
 
                             point = left_eye_location + (top_eye_location - 1) * 3
 
+                            point_history.append(point)
+                            point_history_max_len = 10
+                            if len(point_history) > point_history_max_len:
+                                point_history = point_history[-point_history_max_len:]
+
+                            point_count = np.bincount(point_history).argmax()
+
+                            cali.current_point = point_count
+
                             gaze_history.append(current_gaze)
                             gaze_history_max_len = 10
                             if len(gaze_history) > gaze_history_max_len:
@@ -558,8 +576,6 @@ if __name__ == '__main__':
                             # 시선 좌표 변경
                             # gaze_mean = np.mean(gaze_history, axis=0)
                             # util.gaze.draw_gaze(bgr, iris_centre, gaze_mean,thickness=1)
-
-                            cali.current_point = point
 
                             if eye_side == 'left':
                                 cali.left_gaze_coordinate = np.mean(gaze_history, axis=0)
@@ -722,7 +738,8 @@ if __name__ == '__main__':
                             # 결과값 출력
                             if debug_show_current_info:
                                 print("current gaze : ", gaze_mean)
-                                print("point : ", point)
+                                print("point_history : ", point_history)
+                                print("point_count : ", point_count)
 
                             if debug_show_result_info:
                                 if cali.is_finish:
@@ -732,9 +749,9 @@ if __name__ == '__main__':
                                     print("right_dy : ", right_dy)
 
                             before_history = after_history
-                            after_history = point
+                            after_history = point_count
                             match = 0
-                            if point != 0:
+                            if point_count != 0:
                                 if before_history == after_history:
                                     if after_history in pattern_compare:
                                         print("xxxxx", pattern_compare)
