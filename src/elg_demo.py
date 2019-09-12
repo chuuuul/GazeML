@@ -210,10 +210,6 @@ if __name__ == '__main__':
             pattern_compare = []
             match = 0
 
-            # 눈 크기 평균 (추후)
-            # eye_size_x_average = 0
-            # eye_size_y_average = 0
-
             if args.fullscreen :
                 cali.is_full_screen = True
 
@@ -397,17 +393,23 @@ if __name__ == '__main__':
                     gaze_mean = 0
                     point = 0
 
+                    eye_size_x = abs(eye_landmarks[12][0] - eye_landmarks[8][0])
+                    eye_size_y = eye_landmarks[14][1] - eye_landmarks[10][1]
+
                     if eye_side == 'left':
                         cali.left_iris_centre = iris_centre
-
                         left_i_x0, left_i_y0 = cali.left_iris_centre
                         cali.left_eyeball_centre = eyeball_centre
                         left_e_x0, left_e_y0 = cali.left_eyeball_centre
+                        cali.left_eye_size_x = eye_size_x
+                        cali.left_eye_size_y = eye_size_y
                     else:
                         cali.right_iris_centre = iris_centre
                         right_i_x0, right_i_y0 = cali.right_iris_centre
                         cali.right_eyeball_centre = eyeball_centre
                         right_e_x0, right_e_y0 = cali.right_eyeball_centre
+                        cali.right_eye_size_x = eye_size_x
+                        cali.right_eye_size_y = eye_size_y
 
                     # Smooth and visualize gaze direction
                     num_total_eyes_in_frame = len(frame['eyes'])
@@ -433,7 +435,7 @@ if __name__ == '__main__':
                         # current_gaze = estimate_gaze_from_landmarks(
                         #     iris_landmarks, iris_centre, eyeball_centre, eyeball_radius)
 
-                        if cali.is_finish :
+                        if cali.is_finish:
 
                             left_gaze_x = left_i_x0 - left_e_x0
                             right_gaze_x = right_i_x0 - right_e_x0
@@ -495,11 +497,11 @@ if __name__ == '__main__':
                             bottom_y_middle = bottom_calc_middle()
 
                             # 캘리브레이션 가중치 변경
-                            def left_calc_cali(a) :
+                            def left_calc_cali(a):
                                 result = []
                                 box_plot = []
 
-                                for i in range(14) :
+                                for i in range(14):
                                     result.append(abs(cali.Cali_Center_Points[i][a] -
                                                       cali.left_iris_captured_data[i][a]) /
                                                     ((cali.left_iris_captured_data[i][a] -
@@ -519,11 +521,11 @@ if __name__ == '__main__':
 
                                 return np.median(box_plot)
 
-                            def right_calc_cali(a) :
+                            def right_calc_cali(a):
                                 result = []
                                 box_plot = []
 
-                                for i in range(14) :
+                                for i in range(14):
                                     result.append(abs(cali.Cali_Center_Points[i][a] -
                                                       cali.right_iris_captured_data[i][a]) /
                                                     ((cali.right_iris_captured_data[i][a] -
@@ -537,16 +539,49 @@ if __name__ == '__main__':
                                 box_max = result[9] + 1.5 * iqr
                                 box_min = result[4] - 1.5 * iqr
 
-                                for i in range(14) :
+                                for i in range(14):
                                     if result[i] > box_min and result[i] < box_max :
                                         box_plot.append(result[i])
 
                                 return np.median(box_plot)
 
-                            left_dx = left_calc_cali(0)
-                            right_dx = right_calc_cali(0)
-                            left_dy = left_calc_cali(1)
-                            right_dy = right_calc_cali(1)
+                            # 눈 크기 가중치
+                            def left_calc_x_size():
+                                result = []
+
+                                for i in range(14):
+                                    result.append(cali.left_save_eye_size_x[i])
+
+                                return np.median(result)
+
+                            def left_calc_y_size():
+                                result = []
+
+                                for i in range(14):
+                                    result.append(cali.left_save_eye_size_y[i])
+
+                                return np.median(result)
+
+                            def right_calc_x_size():
+                                result = []
+
+                                for i in range(14):
+                                    result.append(cali.right_save_eye_size_x[i])
+
+                                return np.median(result)
+
+                            def right_calc_y_size():
+                                result = []
+
+                                for i in range(14):
+                                    result.append(cali.right_save_eye_size_y[i])
+
+                                return np.median(result)
+
+                            left_dx = left_calc_cali(0) * cali.left_eye_size_x / left_calc_x_size()
+                            right_dx = right_calc_cali(0) * cali.left_eye_size_y / left_calc_y_size()
+                            left_dy = left_calc_cali(1) * cali.right_eye_size_x / right_calc_x_size()
+                            right_dy = right_calc_cali(1) * cali.right_eye_size_y / right_calc_y_size()
 
                             if right_gaze_x < left_x_middle :
                                 left_eye_location = 1
@@ -561,10 +596,6 @@ if __name__ == '__main__':
                                 top_eye_location = 3
                             else :
                                 top_eye_location = 2
-
-                            # 현재 눈 크기 (추후)
-                            # now_eye_size_x = eye_landmarks[4][0] - eye_landmarks[0][0]
-                            # now_eye_size_y = eye_landmarks[6][1] - eye_landmarks[2][1]
 
                             point = left_eye_location + (top_eye_location - 1) * 3
 
