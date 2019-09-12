@@ -33,6 +33,8 @@ class Drawer:
         painter.drawLine(x1, y1, x2, y2)
         painter.setPen(QPen())
 
+    def draw_text(self, painter, x, y, width, height, text):
+        painter.drawText(QRect(x * width, y * height, width, height), Qt.AlignCenter, text)
 
     def setColorRed(self, object):
         object.setStyleSheet("background-color:red")
@@ -40,5 +42,4 @@ class Drawer:
 
     def setColorWhite(self, object):
         object.setStyleSheet("background-color:white")
-
 
