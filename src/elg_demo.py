@@ -8,7 +8,6 @@ import time
 
 import coloredlogs
 import cv2 as cv
-import cv2
 import numpy as np
 import tensorflow as tf
 
@@ -39,8 +38,9 @@ debug_full_screen_calibration = True
 debug_full_screen_gaze_capture = True
 
 debug_show_visualize_info = False
-debug_show_result_info = True
-debug_show_current_info = True
+debug_show_result_info = False
+debug_show_current_info = False
+
 debug_display_webcam = True
 
 #############################################################################################
@@ -714,7 +714,7 @@ if __name__ == '__main__':
                         #        print("Error Message : %s" % e.msg)
                         #    sys.exit()
 
-                        if (cv.waitKey(1) & 0xFF == ord('q')) or (match == len(pattern)):
+                        if (cv.waitKey(1) & 0xFF == ord('q')): # or (match == len(pattern)):
                             return
 
                         # Print timings
