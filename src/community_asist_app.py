@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QPainter, QFont
 from PyQt5.QtCore import Qt, QRect
+from util.application_util.speak import speak_text
 
 from random import *
 
@@ -30,13 +31,16 @@ class MyMain(QMainWindow):
         gaze_receive_thread.daemon = True
         gaze_receive_thread.start()
 
+
         self.category_list = []
         self.item_list = []
         self.status = 0
 
 
         self.is_start = False
-        self.is_checked = False
+        self.is_speaking = False            # 말하는도중에는 그래픽 업데이트 못하도록
+        self.is_checked = False             # 보고있는곳 시작시작 체크했는지
+
         self.start_time = None
 
         self.buttons = []
@@ -111,6 +115,9 @@ class MyMain(QMainWindow):
             self.is_start = True
             return
 
+        if self.is_speaking == True:
+            return
+
         current_point = self.gazeDataReceiver.current_point
 
         if self.previous_point is None:
@@ -138,7 +145,6 @@ class MyMain(QMainWindow):
             return
 
         time_diff = round(time.time() - self.start_time, 2)
-
 
         #################  Main 카테고리 ##################
         # 3초동안 바라봐서 선택 했을경우.
@@ -168,6 +174,9 @@ class MyMain(QMainWindow):
                     return
 
                 print("항목 선택 : ", self.item_list[self.status-1][current_point-1])
+                self.is_speaking = True
+                speak_text(self.item_list[self.status-1][current_point-1])
+                self.is_speaking = False
                 self.status = 0
                 self.uncheck_time()
                 self.update()
