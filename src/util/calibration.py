@@ -57,11 +57,12 @@ class Calibration:
 
     # 눈 크기 전역 변수
 
-    save_eye_size_x = []
-    save_eye_size_y = []
+    left_save_eye_size_x = []
+    right_save_eye_size_x = []
 
-    iris_centre = 0
-    eyeball_centre = 0
+    left_save_eye_size_y = []
+    right_save_eye_size_y = []
+
     eye_size_x = 0
     eye_size_y = 0
 
@@ -163,7 +164,12 @@ class Calibration:
         self.left_iris_captured_data.append(self.left_iris_centre)
         self.right_iris_captured_data.append(self.right_iris_centre)
 
-        print ("left_iris_captured_data : ",self.left_eyeball_captured_data)
+        self.left_save_eye_size_x.append(self.left_eye_size_x)
+        self.left_save_eye_size_y.append(self.left_eye_size_y)
+        self.right_save_eye_size_x.append(self.right_eye_size_x)
+        self.right_save_eye_size_y.append(self.right_eye_size_y)
+
+        print ("left_eye_size_x : ",self.left_eye_size_x)
         ##########################################
 
 
