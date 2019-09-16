@@ -533,10 +533,10 @@ if __name__ == '__main__':
 
                                 return np.median(result)
 
-                            left_dx = left_calc_cali(0) * cali.left_eye_size_x / left_calc_x_size()
-                            right_dx = right_calc_cali(0) * cali.left_eye_size_y / left_calc_y_size()
-                            left_dy = left_calc_cali(1) * cali.right_eye_size_x / right_calc_x_size()
-                            right_dy = right_calc_cali(1) * cali.right_eye_size_y / right_calc_y_size()
+                            left_dx = left_calc_cali(0) * left_calc_x_size() / cali.left_eye_size_x
+                            right_dx = right_calc_cali(0) * left_calc_y_size() / cali.left_eye_size_y
+                            left_dy = left_calc_cali(1) * right_calc_x_size() / cali.right_eye_size_x
+                            right_dy = right_calc_cali(1) * right_calc_y_size() / cali.right_eye_size_y
 
                             current_gaze = np.array([((left_i_x0 + left_gaze_x * abs(left_gaze_x) * left_dx) +
                                                       (right_i_x0 + right_gaze_x * abs(right_gaze_x) * right_dx)) / 2,
