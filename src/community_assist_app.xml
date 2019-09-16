@@ -1,21 +1,33 @@
 <?xml version="1.0"?>
 <data>
     <category name="인사">
-        <item>hi0</item>
-<!--        <item>한글</item>-->
-<!--        <item>hi2</item>-->
-<!--        <item>hi3</item>-->
-<!--        <item>hi4</item>-->
-<!--        <item>hi5</item>-->
-<!--        <item>hi6</item>-->
+        <item>안녕하세요</item>
+        <item>안녕히가세요</item>
+        <item>안녕히 주무세요</item>
+        <item>안녕히 주무셨어요?</item>
+        <item>반가워요</item>
+        <item>누구세요?item>
+        <item></item>
 <!--        <item>hi7</item>-->
-<!--        <item>hi8</item>-->
     </category>
 
-    <category name="안부">
-        <item>안부 hi0</item>
-        <item>안부 hi1</item>
-<!--        <item>안부 hi2</item>-->
+    <category name="긍정 응답">
+        <item>네</item>
+        <item>좋아요</item>
+        <item>괜찮아요</item>
+        <item>꼭 그렇게 하고 싶어요</item>
+        <item>괜찮네요!</item>
+        
+        
+    </category>
+
+    <category name="부정 응답">
+        <item>아니요</item>
+        <item>싫어요</item>
+        <item>잘 모르겠어요</item>
+        <item>별로에요</item>
+        <item>고민이 필요해요</item>
+        <item>음...</item>
 <!--        <item>안부 hi3</item>-->
 <!--        <item>안부 hi4</item>-->
 <!--        <item>안부 hi5</item>-->
@@ -33,7 +45,6 @@
 <!--        <item>안부 hi5</item>-->
 <!--        <item>안부 hi6</item>-->
 <!--        <item>안부 hi7</item>-->
-<!--        <item>안부 hi8</item>-->
     </category>
 
     <category name="안부">
@@ -45,7 +56,6 @@
 <!--        <item>안부 hi5</item>-->
 <!--        <item>안부 hi6</item>-->
 <!--        <item>안부 hi7</item>-->
-<!--        <item>안부 hi8</item>-->
     </category>
 
     <category name="안부">
@@ -57,7 +67,6 @@
 <!--        <item>안부 hi5</item>-->
 <!--        <item>안부 hi6</item>-->
 <!--        <item>안부 hi7</item>-->
-<!--        <item>안부 hi8</item>-->
     </category>
 
     <category name="안부">
@@ -69,7 +78,6 @@
 <!--        <item>안부 hi5</item>-->
 <!--        <item>안부 hi6</item>-->
 <!--        <item>안부 hi7</item>-->
-<!--        <item>안부 hi8</item>-->
     </category>
 
     <category name="안부">
@@ -81,19 +89,6 @@
 <!--        <item>안부 hi5</item>-->
 <!--        <item>안부 hi6</item>-->
 <!--        <item>안부 hi7</item>-->
-<!--        <item>안부 hi8</item>-->
-    </category>
-
-    <category name="안부">
-        <item>안부 hi0</item>
-        <item>안부 hi1</item>
-<!--        <item>안부 hi2</item>-->
-<!--        <item>안부 hi3</item>-->
-<!--        <item>안부 hi4</item>-->
-<!--        <item>안부 hi5</item>-->
-<!--        <item>안부 hi6</item>-->
-<!--        <item>안부 hi7</item>-->
-<!--        <item>안부 hi8</item>-->
     </category>
 
 
