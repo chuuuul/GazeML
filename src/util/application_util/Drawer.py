@@ -1,5 +1,5 @@
 
-from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QRadialGradient
+from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QRadialGradient, QFont
 from PyQt5.QtCore import Qt, QPointF, QRect, QPoint
 
 
@@ -62,7 +62,37 @@ class Drawer:
         painter.setPen(QPen())
 
     def draw_text(self, painter, x, y, width, height, text):
-        painter.drawText(QRect(x * width, y * height, width, height), Qt.AlignCenter, text)
+        # painter.drawText(QRect(x * width, y * height, width, height), Qt.AlignCenter or Qt.TextWordWrap, text)
+
+        # large size font
+        if len(text) <= 10 :
+            painter.drawText(QRect(x * width + int(width / 2 - height / 2 + 20), y * height + 40,
+                                   height - 40, height - 80), Qt.AlignCenter or Qt.TextWordWrap, text)
+
+        # medium size font
+        elif len(text) > 10 and len(text) < 15:
+            font = QFont ()
+            font.setPixelSize(40)
+            painter.setFont(font)
+
+            painter.drawText(QRect(x * width + int(width / 2 - height / 2 + 20 ), y * height+40,
+                                   height-40, height-80), Qt.AlignCenter, text)
+            font.setPixelSize(50)
+            painter.setFont(font)
+
+        # small size font
+        else:
+            font = QFont()
+            font.setPixelSize(30)
+            painter.setFont(font)
+
+            painter.drawText(QRect(x * width + int(width / 2 - height / 2 + 20), y * height + 40,
+                                   height - 40, height - 80), Qt.AlignCenter or Qt.TextWordWrap, text)
+            font.setPixelSize(50)
+            painter.setFont(font)
+
+        # self.font.setPixelSize(50)
+
 
     def setColorRed(self, object):
         object.setStyleSheet("background-color:red")
