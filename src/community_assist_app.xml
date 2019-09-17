@@ -3,12 +3,12 @@
     <category name="인사">
         <item>안녕하세요</item>
         <item>안녕히가세요</item>
-        <item>안녕히 주무세요</item>
-        <item>안녕히 주무셨어요?</item>
+        <item>안녕히주무세요</item>
+        <item>안녕히주무셨어요?</item>
         <item>반가워요</item>
-        <item>누구세요?item>
-        <item></item>
-<!--        <item>hi7</item>-->
+        <item>실례합니다</item>
+        <item>고생하십니다</item>
+        <item>좋은 하루 되세요</item>
     </category>
 
     <category name="긍정 응답">
@@ -17,80 +17,86 @@
         <item>괜찮아요</item>
         <item>꼭 그렇게 하고 싶어요</item>
         <item>괜찮네요!</item>
-        
-        
+        <item>정말 기대 돼요</item>
     </category>
 
     <category name="부정 응답">
         <item>아니요</item>
         <item>싫어요</item>
+        <item>사양하겠습니다.</item>
         <item>잘 모르겠어요</item>
         <item>별로에요</item>
         <item>고민이 필요해요</item>
         <item>음...</item>
-<!--        <item>안부 hi3</item>-->
-<!--        <item>안부 hi4</item>-->
-<!--        <item>안부 hi5</item>-->
-<!--        <item>안부 hi6</item>-->
-<!--        <item>안부 hi7</item>-->
-<!--        <item>안부 hi8</item>-->
+        <item>기분이 나쁘네요</item>
     </category>
 
     <category name="안부">
-        <item>안부 hi0</item>
-        <item>안부 hi1</item>
-<!--        <item>안부 hi2</item>-->
-<!--        <item>안부 hi3</item>-->
-<!--        <item>안부 hi4</item>-->
-<!--        <item>안부 hi5</item>-->
-<!--        <item>안부 hi6</item>-->
-<!--        <item>안부 hi7</item>-->
+        <item>오랜만이에요</item>
+        <item>잘지내셨어요?</item>
+        <item>보고싶었어요</item>
+        <item>어떻게지내세요?</item>
+        <item>식사는 하셨나요?</item>
+        <item>주말 어떻게 보내셨어요?</item>
+        <item>가족들은 잘 지내시죠?</item>
+        
     </category>
 
-    <category name="안부">
-        <item>안부 hi0</item>
-        <item>안부 hi1</item>
-<!--        <item>안부 hi2</item>-->
-<!--        <item>안부 hi3</item>-->
-<!--        <item>안부 hi4</item>-->
-<!--        <item>안부 hi5</item>-->
-<!--        <item>안부 hi6</item>-->
-<!--        <item>안부 hi7</item>-->
+    <category name="감사">
+        <item>감사합니다</item>
+        <item>고마워요</item>
+        <item>이렇게 시간 내주셔서 감사합니다</item>
+        <item>신경써주셔서 감사합니다</item>
+        <item>덕분에 재밌었어요</item>
+        <item>도와주셔서 감사합니다</item>
+        <item>걱정해 주셔서 감사합니다</item>
+        <item>안부 hi7</item>
     </category>
 
-    <category name="안부">
-        <item>안부 hi0</item>
-        <item>안부 hi1</item>
-<!--        <item>안부 hi2</item>-->
-<!--        <item>안부 hi3</item>-->
-<!--        <item>안부 hi4</item>-->
-<!--        <item>안부 hi5</item>-->
-<!--        <item>안부 hi6</item>-->
-<!--        <item>안부 hi7</item>-->
+    <category name="도움">
+        <item>도와주세요!</item>
+        <item>도움이 필요해요</item>
+        <item>혹시 도와주실분 계신가요?</item>
+        <item>의료인을 불러주세요</item>
+        <item>자세가 불편해요</item>
+        <item>약 챙겨 주세요</item>
+        <item>마실것 주세요</item>
+        <item>119 불러주세요</item>
     </category>
 
-    <category name="안부">
-        <item>안부 hi0</item>
-        <item>안부 hi1</item>
-<!--        <item>안부 hi2</item>-->
-<!--        <item>안부 hi3</item>-->
-<!--        <item>안부 hi4</item>-->
-<!--        <item>안부 hi5</item>-->
-<!--        <item>안부 hi6</item>-->
-<!--        <item>안부 hi7</item>-->
+
+    <category name="상태">
+        <item>컨디션이 좋아요</item>
+        <item>몸이 아파요</item>
+        <item>피곤해요</item>
+        <item>어지러워요</item>
+        <item>우울해요</item>
+        <item>화나요</item>
+        <item>슬퍼요</item>
+        <item>보고싶어요</item>
     </category>
 
-    <category name="안부">
-        <item>안부 hi0</item>
-        <item>안부 hi1</item>
-<!--        <item>안부 hi2</item>-->
-<!--        <item>안부 hi3</item>-->
-<!--        <item>안부 hi4</item>-->
-<!--        <item>안부 hi5</item>-->
-<!--        <item>안부 hi6</item>-->
-<!--        <item>안부 hi7</item>-->
+    <category name="의사표현">
+        <item>바람 쐬러 밖에 나가고 싶어요</item>
+        <item>배고파요</item>
+        <item>씻고 싶어요</item>
+        <item>손 잡아 주세요</item>
+        <itme>눕고 싶어요</itme>
+        <itme>앉고 싶어요</itme>
+        <itme>이제 잘 시간이에요</itme>
+        <itme>잠시만 혼자 있고 싶어요</itme>
     </category>
 
+    <category name="의사표현2">
+        <item>음악을 듣고 싶어요</item>
+        <item>영화가 보고 싶어요</item>
+        <item>TV를 보고 싶어요</item>
+        <item>뉴스를 보고 싶어요</item>
+        <item>드라마를 보고 싶어요</item>
+        <item>맛있는것 먹고 싶어요</item>
+        <item>화장실이 가고 싶어요</item>
+        <item>이제 그만 하고 싶어요</item>
+    </category>
 
 
 </data>
