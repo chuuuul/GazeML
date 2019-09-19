@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5.QtGui import QPainter, QBrush, QPen, QPixmap
-from PyQt5.QtCore import Qt, QPointF,QObject,pyqtSignal,QRect
+
+from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QRadialGradient, QFont
+from PyQt5.QtCore import Qt, QPointF, QRect, QPoint
 
 
 class Drawer:
@@ -8,7 +8,6 @@ class Drawer:
     def draw_normal_rectangle(self,painter, x, y, width, height):
         painter.setBrush(QBrush(Qt.white, Qt.SolidPattern))
         painter.drawRect(QRect(x * width, y * height, width, height))
-
 
     def draw_growing_rectangle(self, painter, x, y, width, height, time_diff_rate):
         current_width = int(width * time_diff_rate)
@@ -18,6 +17,35 @@ class Drawer:
 
         painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
         painter.drawRect(QRect(current_position_x, current_position_y, current_width, current_height))
+
+    def draw_normal_circle(self, painter, x, y, width, height):
+        painter.setBrush(QBrush(QColor("#5c5c5c"), Qt.CrossPattern))
+        painter.drawEllipse(QPoint(x * width + int(width/2), y * height + int(height/2))
+                            ,int(height / 2) - 13, int(height/2) - 33)
+
+        painter.setBrush(QBrush(QColor("#ffffff"), Qt.SolidPattern))
+
+        painter.drawEllipse(QPoint(x * width + int(width/2), y * height + int(height/2))
+                            ,int(height / 2) - 20, int(height/2) - 40)
+
+
+
+    def draw_growing_circle(self, painter, x, y, width, height, time_diff_rate):
+        self.draw_normal_circle(painter, x, y , width, height)
+        # painter.setBrush(QBrush(QColor("#ffa8c5"), Qt.NoBrush))
+
+
+        radialGradient = QRadialGradient(QPoint(x * width + int(width/2),y * height + int(height/2))
+                                         ,int(height / 2) - 20,
+                                         QPoint(x * width + int(width/2),y * height + int(height/2))) # center,radius,focalPoint
+        radialGradient.setColorAt(0,QColor("#fccccc"))
+        radialGradient.setColorAt(0.7,QColor("#eb9494"))
+        radialGradient.setColorAt(1.0,QColor("#ff4d4d"))
+        painter.setBrush(QBrush(radialGradient))
+        painter.setPen(Qt.NoPen)
+        painter.drawEllipse(QPoint(x * width + int(width/2), y * height + int(height/2))
+                            ,(int(height / 2) - 20) * time_diff_rate, (int(height/2) - 40) * time_diff_rate)
+        painter.setPen(QPen())
 
 
     def draw_empty_circle(self, painter, x, y, width):
@@ -34,7 +62,37 @@ class Drawer:
         painter.setPen(QPen())
 
     def draw_text(self, painter, x, y, width, height, text):
-        painter.drawText(QRect(x * width, y * height, width, height), Qt.AlignCenter, text)
+        # painter.drawText(QRect(x * width, y * height, width, height), Qt.AlignCenter or Qt.TextWordWrap, text)
+
+        # large size font
+        if len(text) <= 10 :
+            painter.drawText(QRect(x * width + int(width / 2 - height / 2 + 20), y * height + 40,
+                                   height - 40, height - 80), Qt.AlignCenter or Qt.TextWordWrap, text)
+
+        # medium size font
+        elif len(text) > 10 and len(text) < 15:
+            font = QFont ()
+            font.setPixelSize(40)
+            painter.setFont(font)
+
+            painter.drawText(QRect(x * width + int(width / 2 - height / 2 + 20 ), y * height+40,
+                                   height-40, height-80), Qt.AlignCenter, text)
+            font.setPixelSize(50)
+            painter.setFont(font)
+
+        # small size font
+        else:
+            font = QFont()
+            font.setPixelSize(30)
+            painter.setFont(font)
+
+            painter.drawText(QRect(x * width + int(width / 2 - height / 2 + 20), y * height + 40,
+                                   height - 40, height - 80), Qt.AlignCenter or Qt.TextWordWrap, text)
+            font.setPixelSize(50)
+            painter.setFont(font)
+
+        # self.font.setPixelSize(50)
+
 
     def setColorRed(self, object):
         object.setStyleSheet("background-color:red")

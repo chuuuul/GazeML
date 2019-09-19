@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Main script for gaze direction inference from webcam feed."""
 import argparse
 import os
@@ -51,7 +50,6 @@ if not debug_execute_calibration:
 if debug_full_screen_calibration:
     cali.is_full_screen = True
 
-
 if __name__ == '__main__':
 
     #SMS발송
@@ -81,11 +79,7 @@ if __name__ == '__main__':
     parser.add_argument('--camera_id', type=int, default=0, help='ID of webcam to use')
 
     args = parser.parse_args()
-    coloredlogs.install(
-        datefmt='%d/%m %H:%M',
-        fmt='%(asctime)s %(levelname)s %(message)s',
-        level=args.v.upper(),
-    )
+    coloredlogs.install(datefmt='%d/%m %H:%M', fmt='%(asctime)s %(levelname)s %(message)s', level=args.v.upper(),)
 
     # Check if GPU is available
     from tensorflow.python.client import device_lib
@@ -110,15 +104,12 @@ if __name__ == '__main__':
         # Change data_format='NHWC' if not using CUDA
         if args.from_video:
             assert os.path.isfile(args.from_video)
-            data_source = Video(args.from_video,
-                                tensorflow_session=session, batch_size=batch_size,
-                                data_format='NCHW' if gpu_available else 'NHWC',
-                                eye_image_shape=(108, 180))
+            data_source = Video(args.from_video, tensorflow_session=session, batch_size=batch_size,
+                                data_format='NCHW' if gpu_available else 'NHWC', eye_image_shape=(108, 180))
         else:
             data_source = Webcam(tensorflow_session=session, batch_size=batch_size,
                                  camera_id=args.camera_id, fps=args.fps,
-                                 data_format='NCHW' if gpu_available else 'NHWC',
-                                 eye_image_shape=(36, 60))
+                                 data_format='NCHW' if gpu_available else 'NHWC', eye_image_shape=(36, 60))
 
         # Define model
         if args.from_video:
@@ -153,7 +144,6 @@ if __name__ == '__main__':
             video_out_should_stop = False
             video_out_done = threading.Condition()
 
-
             def _record_frame():
                 global video_out
                 last_frame_time = None
@@ -167,10 +157,7 @@ if __name__ == '__main__':
                     frame = data_source._frames[frame_index]['bgr']
                     h, w, _ = frame.shape
                     if video_out is None:
-                        video_out = cv.VideoWriter(
-                            args.record_video, cv.VideoWriter_fourcc(*'H264'),
-                            out_fps, (w, h),
-                        )
+                        video_out = cv.VideoWriter(args.record_video, cv.VideoWriter_fourcc(*'H264'),out_fps, (w, h),)
                     now_time = time.time()
                     if last_frame_time is not None:
                         time_diff = now_time - last_frame_time
@@ -181,7 +168,6 @@ if __name__ == '__main__':
                 video_out.release()
                 with video_out_done:
                     video_out_done.notify_all()
-
 
             record_thread = threading.Thread(target=_record_frame, name='record')
             record_thread.daemon = True
@@ -228,12 +214,9 @@ if __name__ == '__main__':
                                         if not is_start_visualize:
                                             is_start_visualize = True
 
-                                            # cv.setMouseCallback('vis', perform.mouse_callback,param = cali)
-                                                                # [(cali.left_gaze_coordinate + cali.right_gaze_coordinate) / 2])
                                             if debug_full_screen_gaze_capture or args.fullscreen:
                                                 cv.namedWindow('vis', cv.WND_PROP_FULLSCREEN)
                                                 cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
-
 
                                         img = next_frame['bgr']
 
@@ -248,7 +231,6 @@ if __name__ == '__main__':
                                             cali.current_image = None
                                             cv.destroyWindow('vis')
 
-
                                 else:
                                     if is_set_fullscreen == False:
                                         is_set_fullscreen=True
@@ -256,7 +238,6 @@ if __name__ == '__main__':
                                         cv.setWindowProperty('vis', cv.WND_PROP_FULLSCREEN, cv.WINDOW_FULLSCREEN)
                                     if cali.current_image is not None:
                                         cv.imshow('vis', cali.current_image)
-
 
                             if args.record_video:
                                 video_out_queue.put_nowait(next_frame_index)
@@ -274,7 +255,6 @@ if __name__ == '__main__':
 
                     # /////////////////////////////////////////////////////
                     # 종료 조건
-                    # if cali.is_finish:
                     if cali.is_fail:
                         print("Failed Calibration!")
                         return
@@ -286,7 +266,6 @@ if __name__ == '__main__':
 
                 # Get output from neural network and visualize
                 output = inferred_stuff_queue.get()
-                bgr = None
 
                 for j in range(batch_size):
                     frame_index = output['frame_index'][j]
@@ -320,8 +299,7 @@ if __name__ == '__main__':
                     if can_use_eyelid:
                         cv.polylines(
                             eye_image_annotated,
-                            [np.round(eye_upscale * eye_landmarks[0:8]).astype(np.int32)
-                                 .reshape(-1, 1, 2)],
+                            [np.round(eye_upscale * eye_landmarks[0:8]).astype(np.int32) .reshape(-1, 1, 2)],
                             isClosed=True, color=(255, 255, 0), thickness=1, lineType=cv.LINE_AA,
                         )
                         cali.is_face_detect = True
@@ -330,10 +308,8 @@ if __name__ == '__main__':
                     if can_use_iris:
                         cv.polylines(
                             eye_image_annotated,
-                            [np.round(eye_upscale * eye_landmarks[8:16]).astype(np.int32)
-                                 .reshape(-1, 1, 2)],
+                            [np.round(eye_upscale * eye_landmarks[8:16]).astype(np.int32).reshape(-1, 1, 2)],
                             isClosed=True, color=(0, 255, 255), thickness=1, lineType=cv.LINE_AA,
-
                         )
                         cv.drawMarker(
                             eye_image_annotated,
@@ -372,28 +348,19 @@ if __name__ == '__main__':
                                 color=(0, 255, 255), thickness=1, lineType=cv.LINE_AA,
                             )
 
-                    # Transform predictions
                     # 눈 중심 개선
-                    eye_landmarks = np.concatenate([eye_landmarks,
-                                                    [[eye_landmarks[-1, 0] + eye_radius,
+                    eye_landmarks = np.concatenate([eye_landmarks, [[eye_landmarks[-1, 0] + eye_radius,
                                                       eye_landmarks[-1, 1]]]])
                     eye_landmarks = np.asmatrix(np.pad(eye_landmarks, ((0, 0), (0, 1)),
                                                        'constant', constant_values=1.0))
-                    eye_landmarks = (eye_landmarks *
-                                     eye['inv_landmarks_transform_mat'].T)[:, :2]
+                    eye_landmarks = (eye_landmarks * eye['inv_landmarks_transform_mat'].T)[:, :2]
                     eye_landmarks = np.asarray(eye_landmarks)
                     eyelid_landmarks = eye_landmarks[0:8, :]
                     iris_landmarks = eye_landmarks[8:16, :]
                     iris_centre = sum(iris_landmarks) / len(iris_landmarks)
                     eyeball_centre = sum(eye_landmarks) / len(eye_landmarks)
-                    eyeball_radius = np.linalg.norm(eye_landmarks[18, :] -
-                                                    eye_landmarks[17, :])
-                    gaze_mean = None
-                    point = None
-                    point_count = None
 
                     gaze_mean = 0
-                    point = 0
                     point_count = 0
 
                     eye_size_x = abs(eye_landmarks[12][0] - eye_landmarks[8][0])
@@ -418,31 +385,18 @@ if __name__ == '__main__':
                     num_total_eyes_in_frame = len(frame['eyes'])
                     if len(all_gaze_histories) != num_total_eyes_in_frame:
                         all_gaze_histories = [list() for _ in range(num_total_eyes_in_frame)]
-                    gaze_history = all_gaze_histories[eye_index]
-
-                    num_total_eyes_in_frame = len(frame['eyes'])
-                    if len(all_point_histories) != num_total_eyes_in_frame:
                         all_point_histories = [list() for _ in range(num_total_eyes_in_frame)]
+                    gaze_history = all_gaze_histories[eye_index]
                     point_history = all_point_histories[eye_index]
 
                     if can_use_eye:
                         # Visualize landmarks
-
                         if debug_display_webcam:
                             cv.drawMarker(  # Eyeball centre
                                 bgr, tuple(np.round(eyeball_centre).astype(np.int32)),
                                 color=(0, 255, 0), markerType=cv.MARKER_CROSS, markerSize=4,
                                 thickness=1, line_type=cv.LINE_AA,
                             )
-                        # cv.circle(  # Eyeball outline
-                        #     bgr, tuple(np.round(eyeball_centre).astype(np.int32)),
-                        #     int(np.round(eyeball_radius)), color=(0, 255, 0),
-                        #     thickness=1, lineType=cv.LINE_AA,
-                        # )
-                        # Draw "gaze"
-                        # from models.elg import estimate_gaze_from_landmarks
-                        # current_gaze = estimate_gaze_from_landmarks(
-                        #     iris_landmarks, iris_centre, eyeball_centre, eyeball_radius)
 
                         if cali.is_finish:
 
@@ -452,17 +406,27 @@ if __name__ == '__main__':
                             right_gaze_y = right_i_y0 - right_e_y0
 
                             # 캘리브레이션 가중치 변경
-                            def left_calc_cali(a):
+                            def calc_cali(is_left, a):
                                 result = []
                                 box_plot = []
+                                cali_iris = []
+                                iris_eyeball = []
+
+                                if is_left == 0 :
+                                    for i in range(14):
+                                        cali_iris.append(cali.Cali_Center_Points[i][a] -
+                                                         cali.left_iris_captured_data[i][a])
+                                        iris_eyeball.append(cali.left_iris_captured_data[i][a] -
+                                                            cali.left_eyeball_captured_data[i][a])
+                                else :
+                                    for i in range(14):
+                                        cali_iris.append(cali.Cali_Center_Points[i][a] -
+                                                         cali.right_iris_captured_data[i][a])
+                                        iris_eyeball.append(cali.right_iris_captured_data[i][a] -
+                                                            cali.right_eyeball_captured_data[i][a])
 
                                 for i in range(14):
-                                    result.append(abs(cali.Cali_Center_Points[i][a] -
-                                                      cali.left_iris_captured_data[i][a]) /
-                                                    ((cali.left_iris_captured_data[i][a] -
-                                                      cali.left_eyeball_captured_data[i][a]) *
-                                                     (cali.left_iris_captured_data[i][a] -
-                                                      cali.left_eyeball_captured_data[i][a])))
+                                    result.append(abs(cali_iris[i] / (iris_eyeball[i] * iris_eyeball[i])))
 
                                 result.sort()
 
@@ -476,67 +440,31 @@ if __name__ == '__main__':
 
                                 return np.median(box_plot)
 
-                            def right_calc_cali(a):
-                                result = []
-                                box_plot = []
-
-                                for i in range(14):
-                                    result.append(abs(cali.Cali_Center_Points[i][a] -
-                                                      cali.right_iris_captured_data[i][a]) /
-                                                    ((cali.right_iris_captured_data[i][a] -
-                                                      cali.right_eyeball_captured_data[i][a]) *
-                                                     (cali.right_iris_captured_data[i][a] -
-                                                      cali.right_eyeball_captured_data[i][a])))
-
-                                result.sort()
-
-                                iqr = result[9] - result[4]
-                                box_max = result[9] + 1.5 * iqr
-                                box_min = result[4] - 1.5 * iqr
-
-                                for i in range(14):
-                                    if result[i] > box_min and result[i] < box_max :
-                                        box_plot.append(result[i])
-
-                                return np.median(box_plot)
-
                             # 눈 크기 가중치
-                            def left_calc_x_size():
+                            def calc_size(is_left, a):
                                 result = []
 
-                                for i in range(14):
-                                    result.append(cali.left_save_eye_size_x[i])
+                                if is_left == 0 :
+                                    if a == 0 :
+                                        for i in range(14):
+                                            result.append(cali.left_save_eye_size_x[i])
+                                    else :
+                                        for i in range(14):
+                                            result.append(cali.left_save_eye_size_y[i])
+                                else :
+                                    if a == 0 :
+                                        for i in range(14):
+                                            result.append(cali.right_save_eye_size_x[i])
+                                    else :
+                                        for i in range(14):
+                                            result.append(cali.right_save_eye_size_y[i])
 
                                 return np.median(result)
 
-                            def left_calc_y_size():
-                                result = []
-
-                                for i in range(14):
-                                    result.append(cali.left_save_eye_size_y[i])
-
-                                return np.median(result)
-
-                            def right_calc_x_size():
-                                result = []
-
-                                for i in range(14):
-                                    result.append(cali.right_save_eye_size_x[i])
-
-                                return np.median(result)
-
-                            def right_calc_y_size():
-                                result = []
-
-                                for i in range(14):
-                                    result.append(cali.right_save_eye_size_y[i])
-
-                                return np.median(result)
-
-                            left_dx = left_calc_cali(0) * cali.left_eye_size_x / left_calc_x_size()
-                            right_dx = right_calc_cali(0) * cali.left_eye_size_y / left_calc_y_size()
-                            left_dy = left_calc_cali(1) * cali.right_eye_size_x / right_calc_x_size()
-                            right_dy = right_calc_cali(1) * cali.right_eye_size_y / right_calc_y_size()
+                            left_dx = calc_cali(0, 0) * calc_size(0, 0) / cali.left_eye_size_x
+                            right_dx = calc_cali(1, 0) * calc_size(1, 0) / cali.right_eye_size_x
+                            left_dy = calc_cali(0, 1) * calc_size(0, 1) / cali.left_eye_size_y
+                            right_dy = calc_cali(1, 1) * calc_size(1, 1) / cali.right_eye_size_y
 
                             current_gaze = np.array([((left_i_x0 + left_gaze_x * abs(left_gaze_x) * left_dx) +
                                                       (right_i_x0 + right_gaze_x * abs(right_gaze_x) * right_dx)) / 2,
@@ -551,13 +479,13 @@ if __name__ == '__main__':
                                 left_eye_location = 2
 
                             if current_gaze[1] < cali.Const_Display_Y / 3 :
-                                top_eye_location = 1
+                                top_eye_location = 0
                             elif current_gaze[1] > cali.Const_Display_Y * 2 / 3 :
-                                top_eye_location = 3
-                            else :
                                 top_eye_location = 2
+                            else :
+                                top_eye_location = 1
 
-                            point = left_eye_location + (top_eye_location - 1) * 3
+                            point = left_eye_location + top_eye_location * 3
 
                             point_history.append(point)
                             point_history_max_len = 10
@@ -565,17 +493,12 @@ if __name__ == '__main__':
                                 point_history = point_history[-point_history_max_len:]
 
                             point_count = np.bincount(point_history).argmax()
-
                             cali.current_point = point_count
 
                             gaze_history.append(current_gaze)
                             gaze_history_max_len = 10
                             if len(gaze_history) > gaze_history_max_len:
                                 gaze_history = gaze_history[-gaze_history_max_len:]
-
-                            # 시선 좌표 변경
-                            # gaze_mean = np.mean(gaze_history, axis=0)
-                            # util.gaze.draw_gaze(bgr, iris_centre, gaze_mean,thickness=1)
 
                             if eye_side == 'left':
                                 cali.left_gaze_coordinate = np.mean(gaze_history, axis=0)
@@ -586,8 +509,7 @@ if __name__ == '__main__':
                                 gaze_mean = (cali.left_gaze_coordinate + cali.right_gaze_coordinate) / 2.0
 
                                 # 가운데 원으로 표시
-                                util.gaze.draw_gaze_point(bgr, gaze_mean,
-                                                          thickness=1)
+                                util.gaze.draw_gaze_point(bgr, gaze_mean, thickness=1)
 
                                 if debug_draw_gaze_arrow:
                                     # 왼쪽 화살표로 표시
@@ -664,7 +586,7 @@ if __name__ == '__main__':
                                     util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_Y, True)
                                     util.gaze.draw_monitor_grid(bgr, cali.Const_Display_X, cali.Const_Display_Y, cali.Const_Grid_Count_X, False)
 
-                                    #성능평가에서 찍은점 그리기
+                                    # 성능평가에서 찍은점 그리기
                                     perform.draw_real_coordinate_mark(bgr)
                                     perform.draw_gaze_coordinate_mark(bgr)
 
@@ -692,9 +614,6 @@ if __name__ == '__main__':
                         # Record frame?
                         if args.record_video:
                             video_out_queue.put_nowait(frame_index)
-
-                        # if cali.is_finish:
-                        #     # Quit? # 패턴 매치되면 종료
 
                         if cali.is_fail:
                             print("Failed Calibration! Exit Program.")
@@ -732,8 +651,6 @@ if __name__ == '__main__':
                             if is_start_visualize :
                                 if debug_show_visualize_info:
                                     print('%08d [%s] %s' % (frame_index, fps_str, timing_string))
-
-                            ## End visualize_output ##
 
                             # 결과값 출력
                             if debug_show_current_info:
