@@ -1,11 +1,12 @@
 import sys
 import threading
 from util.application_util.gaze_data_receiver import GazeDataReceiver
+from util.application_util.Drawer import Drawer
 from PyQt5.QtWidgets import *
 
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtGui import QPainter, QBrush, QPen
-from PyQt5.QtCore import Qt, QPointF, QRect
+from PyQt5.QtGui import QPainter, QBrush, QPen, QColor, QRadialGradient
+from PyQt5.QtCore import Qt, QPointF, QRect, QPoint
 
 from random import *
 
@@ -13,10 +14,15 @@ import time
 
 
 class MyMain(QMainWindow):
+
+
+    debug_fullscreen_mode = True
+
     def __init__(self):
         super().__init__()
 
         self.gazeDataReceiver = GazeDataReceiver(self)
+        self.drawer = Drawer()
 
         gaze_receive_thread = threading.Thread(target = self.gazeDataReceiver.receive_gaze , name="gaze_receive_thread")
         gaze_receive_thread.daemon = True
@@ -32,10 +38,15 @@ class MyMain(QMainWindow):
 
         self.setMouseTracking(True)   # True 면, mouse button 안눌러도 , mouse move event 추적함
         self.setGeometry(300, 200, 1280, 720)
+        if self.debug_fullscreen_mode:
+            self.setWindowState(Qt.WindowFullScreen)
+
         self.show()
 
         self.gazeDataReceiver.current_point=9
         self.gazeDataReceiver.correct_point=[2,7,6,1,9]
+
+        ################## Test Code ##################
 
         # random_thread = threading.Thread(target=self.create_random)
         # random_thread.daemon = True
@@ -45,21 +56,17 @@ class MyMain(QMainWindow):
         # display_point_thread.daemon=True
         # display_point_thread.start()
 
+        ###############################################
 
-
-    def setColorRed(self,object):
-        object.setStyleSheet("background-color:red")
-
-    def setColorWhite(self,object):
-        object.setStyleSheet("background-color:white")
 
     def make_buttons(self):
         for i in range(0,9):
             # btn = QPushButton('Button'+str(i), self)
             # self.buttons.append(btn)
             btn = QLabel('Button'+str(i), self)
-
             self.buttons.append(btn)
+
+
     def resizeEvent(self, QResizeEvent):
         self.window_width = QResizeEvent.size().width()
         self.window_height = QResizeEvent.size().height()
@@ -99,10 +106,10 @@ class MyMain(QMainWindow):
 
         while True:
             if self.previous_point is not None:
-                self.setColorWhite (self.buttons[self.previous_point - 1])
+                self.drawer.setColorWhite (self.buttons[self.previous_point - 1])
                 self.buttons[self.previous_point - 1].setPixmap(self.off_pixmap)
 
-            self.setColorRed (self.buttons[self.gazeDataReceiver.current_point - 1])
+            self.drawer.setColorRed (self.buttons[self.gazeDataReceiver.current_point - 1])
             self.buttons[self.gazeDataReceiver.current_point - 1].setPixmap(self.on_pixmap)
             self.previous_point = self.gazeDataReceiver.current_point
 
@@ -125,16 +132,12 @@ class MyMain(QMainWindow):
             # 전체_영역_색칠
             if i != self.gazeDataReceiver.current_point:
                 painter.setBrush(QBrush(Qt.white, Qt.SolidPattern))
-                painter.drawRect(QRect(x * width, y * height, width, height))
+                self.drawer.draw_normal_circle(painter, x, y, width, height)
 
             # 보고있는_포인트_표시
             else :
                 painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
-                painter.drawRect(QRect(x * width, y * height, width, height))
-
-        # if self.gazeDataReceiver.correct_point !=
-        # print (self.gazeDataReceiver.correct_point)
-
+                self.drawer.draw_growing_circle(painter, x, y, width, height, 1)
         # 맞은_영역_표시
         previous_history = None
         for i in self.gazeDataReceiver.correct_point:
@@ -146,58 +149,23 @@ class MyMain(QMainWindow):
             if previous_history is not None:
                 previous_x = int((previous_history - 1) % 3)
                 previous_y = int((previous_history - 1) / 3)
-                self.draw_line_point_to_point(painter,
+                self.drawer.draw_line_point_to_point(painter,
                                          previous_x * width + int(width * 0.5),
                                          previous_y * height + int(height * 0.5),
                                          x * width + int(width * 0.5),
                                          y * height + int(height * 0.5))
 
                 #이어주는_선_때문에_묻힌그림_다시그려주기
-                self.draw_empty_circle(painter, previous_x * width + int(width*0.5),
+                self.drawer.draw_empty_circle(painter, previous_x * width + int(width*0.5),
                                        previous_y * height + int(height*0.5), 20)
 
             previous_history = i
 
-
-
             painter.setBrush(QBrush( Qt.black, Qt.SolidPattern))
-            self.draw_empty_circle(painter, x * width + int(width*0.5), y * height + int(height*0.5), 20)
-
-
-
-
-    def draw_empty_circle(self,painter,x,y,width):
-        painter.setBrush(QBrush(Qt.black, Qt.SolidPattern))
-        painter.drawEllipse(QPointF(x, y), width, width)
-        painter.setBrush(QBrush(Qt.white, Qt.SolidPattern))
-        painter.drawEllipse(QPointF(x, y), width-8, width-8)
-
-    def draw_line_point_to_point(self,painter,x1,y1,x2,y2):
-
-        # painter.setBrush(QBrush(Qt.black, Qt.SolidPattern))
-        painter.setPen(QPen(Qt.black, 4, Qt.DashLine))
-        painter.drawLine(x1,y1,x2,y2)
-        painter.setPen(QPen())
-
-
-
-    #     #  Gaze값을 표현 할 때
-    #     if self.gazeDataReceiver.gaze_x is None or self.gazeDataReceiver.gaze_y is None :
-    #         return
-    #     painter = QPainter(self)
-    #     painter.setBrush(QBrush(Qt.green, Qt.SolidPattern))
-    #     painter.drawEllipse(QPointF( self.mx, self.my), 10, 10)
-    #
-    #
-    #
-    #     if self.once == False:
-    #         self.once = True
-    #         th = threading.Timer(1,self.send_emit)
-    #         th.start()
+            self.drawer.draw_empty_circle(painter, x * width + int(width*0.5), y * height + int(height*0.5), 20)
 
 
 if __name__ == "__main__":
-
     app = QApplication(sys.argv)
     ex = MyMain()
     sys.exit(app.exec_())
